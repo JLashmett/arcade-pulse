@@ -758,7 +758,7 @@ function addGameRow(gd){
   const g=gd||{};
   const div=document.createElement('div');
   div.className='gc';div.id=`row-${id}`;
-  div.dataset.clean=g.clean||'';;div.dataset.activ=g.activ||'';;div.dataset.play=g.play||'';;div.dataset.pres=g.pres||'';
+  div.dataset.clean=g.clean||'';div.dataset.activ=g.activ||'';div.dataset.play=g.play||'';div.dataset.pres=g.pres||'';
   div.innerHTML=`
     <div class="gc-hdr">
       <select onchange="recalc()">${buildGameOpts(g.game||'')} </select>
@@ -858,7 +858,7 @@ function collectGames(){
 
 async function saveSurvey(){
   const cSel=document.getElementById('center-select');
-  const cNum=cSel.value,cName=cSel.options[cSel.selectedIndex]?.text||'';;
+  const cNum=cSel.value,cName=cSel.options[cSel.selectedIndex]?.text||'';
   const date=document.getElementById('survey-date').value;
   const by=document.getElementById('completed-by').value;
   if(!cNum){showToast('Please select a center.');return;}
@@ -870,7 +870,7 @@ async function saveSurvey(){
   const score=document.getElementById('final-score').textContent;
   const tier=document.getElementById('final-tier').textContent;
   const ci=CENTERS_FULL.find(c=>String(c.num)===String(cNum));
-  const survey={centerNum:cNum,centerName:cName.replace(/^\d+\s*—\s*/,''),date,by,empCard:document.getElementById('emp-card').value,stations:document.getElementById('stations-count').value,games,score,tier,techNotes:document.getElementById('tech-notes').value,savedAt:new Date().toISOString(),opsDistrict:ci?.opsDistrict||'',,opsRegion:ci?.opsRegion||'',};
+  const survey={centerNum:cNum,centerName:cName.replace(/^\d+\s*—\s*/,''),date,by,empCard:document.getElementById('emp-card').value,stations:document.getElementById('stations-count').value,games,score,tier,techNotes:document.getElementById('tech-notes').value,savedAt:new Date().toISOString(),opsDistrict:ci?.opsDistrict||'',opsRegion:ci?.opsRegion||''};
   const ok=await sSet(`survey:${cNum}:${date}`,survey);
   if(!ok){showToast('Storage error.');return;}
   await sSet(`center-games:${cNum}`,[...new Set(games.map(g=>g.game))]);
