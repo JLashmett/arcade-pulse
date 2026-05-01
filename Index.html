@@ -972,7 +972,7 @@ function showToast(msg){const t=document.getElementById('toast');t.textContent=m
   document.getElementById('df-center').onchange = renderDash;
 
   const sel=document.getElementById('center-select');
-  CENTERS_FULL.sort((a,b)=>a.name.localeCompare(b.name)).forEach(c=>{
+  CENTERS_FULL.sort((a,b)=>a.num-b.num).forEach(c=>{
     const o=document.createElement('option');o.value=c.num;o.textContent=`${c.num} — ${c.name}`;sel.appendChild(o);
   });
   document.getElementById('survey-date').value=new Date().toISOString().slice(0,10);
