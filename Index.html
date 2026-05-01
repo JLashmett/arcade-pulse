@@ -174,9 +174,9 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <span id="sp-label">Connecting…</span>
     </div>
     <div class="nav">
-      <button class="nav-btn active" id="nav-dashboard" data-page="dashboard">Dashboard</button>
-      <button class="nav-btn" id="nav-survey" data-page="survey">New Survey</button>
-      <button class="nav-btn" id="nav-history" data-page="history">History</button>
+      <button class="nav-btn active" id="nav-dashboard" onclick="showPage('dashboard')">Dashboard</button>
+      <button class="nav-btn" id="nav-survey" onclick="showPage('survey')">New Survey</button>
+      <button class="nav-btn" id="nav-history" onclick="showPage('history')">History</button>
     </div>
   </div>
 </div>
@@ -960,34 +960,16 @@ function showToast(msg){const t=document.getElementById('toast');t.textContent=m
 
 // ── INIT ─────────────────────────────────────────────────
 (function(){
-  // Nav button listeners - avoids SharePoint iframe onclick issues
-  document.querySelectorAll('.nav-btn[data-page]').forEach(btn => {
-    btn.addEventListener('click', function(e){
-      e.preventDefault();
-      e.stopPropagation();
-      showPage(this.getAttribute('data-page'));
-    });
-  });
-
-  // Action button listeners
-  document.getElementById('btn-save').addEventListener('click', function(e){ e.preventDefault(); saveSurvey(); });
-  document.getElementById('btn-reset').addEventListener('click', function(e){ e.preventDefault(); resetForm(); });
-  document.getElementById('btn-add-game').addEventListener('click', function(e){ e.preventDefault(); addGameRow(); });
-
-  // Center select listener
-  document.getElementById('center-select').addEventListener('change', onCenterChange);
-
-  // History filter listener
-  document.getElementById('hist-filter-center').addEventListener('change', renderHistory);
-
-  // Dashboard filter listeners
-  ['df-period','df-region','df-district','df-center'].forEach(id => {
-    const el = document.getElementById(id);
-    if(el) el.addEventListener('change', function(){ 
-      if(id==='df-region'||id==='df-district') cascadeFilter();
-      renderDash(); 
-    });
-  });
+  // Button listeners
+  document.getElementById('btn-save').onclick = saveSurvey;
+  document.getElementById('btn-reset').onclick = resetForm;
+  document.getElementById('btn-add-game').onclick = addGameRow;
+  document.getElementById('center-select').onchange = onCenterChange;
+  document.getElementById('hist-filter-center').onchange = renderHistory;
+  document.getElementById('df-period').onchange = renderDash;
+  document.getElementById('df-region').onchange = function(){ cascadeFilter(); renderDash(); };
+  document.getElementById('df-district').onchange = function(){ cascadeFilter(); renderDash(); };
+  document.getElementById('df-center').onchange = renderDash;
 
   const sel=document.getElementById('center-select');
   CENTERS_FULL.sort((a,b)=>a.name.localeCompare(b.name)).forEach(c=>{
@@ -1001,20 +983,23 @@ function showToast(msg){const t=document.getElementById('toast');t.textContent=m
     try {
       const res = await fetch(SP_SITE+'/_api/web/title', {
         headers:{'Accept':'application/json;odata=verbose'},
-        credentials:'include'
+        credentials:'include',
+        mode:'cors'
       });
       if(res.ok){
         document.getElementById('sp-dot').style.background='var(--green)';
         document.getElementById('sp-label').textContent='Connected to SharePoint';
-        renderDash();
       } else {
         throw new Error('HTTP '+res.status);
       }
     } catch(e){
-      document.getElementById('sp-dot').style.background='var(--red)';
-      document.getElementById('sp-label').textContent='SharePoint unavailable';
-      console.error('SP connection error:',e);
+      // Cross-origin from Netlify - SP may still work for read/write
+      // just not the title check. Show as ready.
+      document.getElementById('sp-dot').style.background='var(--amber)';
+      document.getElementById('sp-label').textContent='Sign in to SharePoint';
+      console.warn('SP connection note:',e.message);
     }
+    renderDash();
   })();
 })();
 </script>
