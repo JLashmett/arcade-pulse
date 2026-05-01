@@ -219,6 +219,9 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
           <option value="">All Centers</option>
         </select>
       </div>
+      <div class="frow" style="display:flex;align-items:flex-end;">
+        <button class="btn btn-ghost" onclick="exportCSV()" style="white-space:nowrap;">⬇ Export CSV</button>
+      </div>
     </div>
   </div>
 
@@ -378,192 +381,64 @@ const GAMES = ["2 Minute Drill","3 Across","60-in-1","After Burner","Air Hockey"
 const W = {clean:.15,activ:.30,play:.30,pres:.25};
 let rowCount=0, currentCenterNum=null;
 
-// ── SHAREPOINT CONFIG ────────────────────────────────────
-const SP_SITE = 'https://3hundred.sharepoint.com';
-const SP_API  = SP_SITE + '/_api/web/lists';
+// ── STORAGE (localStorage) ──────────────────────────────
+// Surveys and game lists are stored in browser localStorage.
+// Use the Export button to download all data as CSV for sharing.
 
-async function spHeaders(extra){
-  // Get request digest for write operations
-  const headers = {'Accept':'application/json;odata=verbose','Content-Type':'application/json;odata=verbose'};
-  if(extra) Object.assign(headers, extra);
-  return headers;
-}
-
-async function getDigest(){
-  const r = await fetch(SP_SITE+'/_api/contextinfo', {
-    method:'POST',
-    headers:{'Accept':'application/json;odata=verbose','Content-Type':'application/json;odata=verbose'},
-    credentials:'include'
-  });
-  const d = await r.json();
-  return d.d.GetContextWebInformation.FormDigestValue;
-}
-
-// ── SURVEY STORAGE (SharePoint) ──────────────────────────
-
-// Save or update a survey row in ArcadeSurveys list
-async function sSet(key, val){
-  try {
-    const digest = await getDigest();
-    // key format: survey:centerNum:date  or  center-games:centerNum
-    const isSurvey = key.startsWith('survey:');
-    const listName = isSurvey ? 'ArcadeSurveys' : 'CenterGameLists';
-
-    // Check if item exists first
-    let filterField, filterVal;
-    if(isSurvey){
-      const parts = key.split(':');
-      filterField = `CenterNum eq '${parts[1]}' and SurveyDate eq '${parts[2]}'`;
-    } else {
-      const cNum = key.split(':')[1];
-      filterField = `CenterNum eq '${cNum}'`;
-    }
-
-    const checkUrl = `${SP_API}/getbytitle('${listName}')/items?$filter=${encodeURIComponent(filterField)}&$select=Id`;
-    const checkRes = await fetch(checkUrl, {headers: await spHeaders(), credentials:'include'});
-    const checkData = await checkRes.json();
-    const existing = checkData.d?.results?.[0];
-
-    let body;
-    if(isSurvey){
-      const parts = key.split(':');
-      body = {
-        '__metadata':{'type':`SP.Data.ArcadeSurveysListItem`},
-        'CenterNum': String(val.centerNum),
-        'CenterName': val.centerName||'',
-        'SurveyDate': val.date||'',
-        'CompletedBy': val.by||'',
-        'EmpCard': val.empCard||'',
-        'Stations': val.stations||'',
-        'Score': isNaN(parseInt(val.score))?null:parseInt(val.score),
-        'Tier': val.tier||'',
-        'Games': JSON.stringify(val.games||[]),
-        'TechNotes': val.techNotes||'',
-        'OpsDistrict': val.opsDistrict||'',
-        'OpsRegion': val.opsRegion||''
-      };
-    } else {
-      const cNum = key.split(':')[1];
-      body = {
-        '__metadata':{'type':'SP.Data.CenterGameListsListItem'},
-        'CenterNum': String(cNum),
-        'Games': JSON.stringify(val)
-      };
-    }
-
-    if(existing){
-      // Update
-      const updateUrl = `${SP_API}/getbytitle('${listName}')/items(${existing.Id})`;
-      await fetch(updateUrl, {
-        method:'POST',
-        headers:{...await spHeaders(),'X-RequestDigest':digest,'X-HTTP-Method':'MERGE','If-Match':'*'},
-        credentials:'include',
-        body: JSON.stringify(body)
-      });
-    } else {
-      // Create
-      const createUrl = `${SP_API}/getbytitle('${listName}')/items`;
-      await fetch(createUrl, {
-        method:'POST',
-        headers:{...await spHeaders(),'X-RequestDigest':digest},
-        credentials:'include',
-        body: JSON.stringify(body)
-      });
-    }
-    return true;
-  } catch(e){ console.error('SP sSet error:',e); return false; }
-}
-
-// Get a single item by key
 async function sGet(key){
-  try {
-    const isSurvey = key.startsWith('survey:');
-    const listName = isSurvey ? 'ArcadeSurveys' : 'CenterGameLists';
-    let filter;
-    if(isSurvey){
-      const parts = key.split(':');
-      filter = `CenterNum eq '${parts[1]}' and SurveyDate eq '${parts[2]}'`;
-    } else {
-      filter = `CenterNum eq '${key.split(':')[1]}'`;
-    }
-    const url = `${SP_API}/getbytitle('${listName}')/items?$filter=${encodeURIComponent(filter)}`;
-    const res = await fetch(url, {headers: await spHeaders(), credentials:'include'});
-    const data = await res.json();
-    const item = data.d?.results?.[0];
-    if(!item) return null;
-    if(isSurvey) return spItemToSurvey(item, key);
-    return JSON.parse(item.Games||'[]');
-  } catch(e){ console.error('SP sGet error:',e); return null; }
+  try{ const v=localStorage.getItem(key); return v?JSON.parse(v):null; }catch{return null;}
 }
-
-// List all survey keys (returns array of survey objects directly)
+async function sSet(key,val){
+  try{ localStorage.setItem(key,JSON.stringify(val)); return true; }catch(e){console.error(e);return false;}
+}
 async function sList(prefix){
-  try {
-    if(prefix === 'survey:'){
-      const url = `${SP_API}/getbytitle('ArcadeSurveys')/items?$orderby=SurveyDate desc&$top=5000`;
-      const res = await fetch(url, {headers: await spHeaders(), credentials:'include'});
-      const data = await res.json();
-      return (data.d?.results||[]).map(item => `survey:${item.CenterNum}:${item.SurveyDate}`);
+  try{
+    const keys=[];
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(k&&k.startsWith(prefix))keys.push(k);
     }
-    return [];
-  } catch(e){ console.error('SP sList error:',e); return []; }
+    return keys;
+  }catch{return[];}
 }
-
-// Delete a survey item
 async function sDel(key){
-  try {
-    const isSurvey = key.startsWith('survey:');
-    const listName = isSurvey ? 'ArcadeSurveys' : 'CenterGameLists';
-    let filter;
-    if(isSurvey){
-      const parts = key.split(':');
-      filter = `CenterNum eq '${parts[1]}' and SurveyDate eq '${parts[2]}'`;
-    } else {
-      filter = `CenterNum eq '${key.split(':')[1]}'`;
-    }
-    const checkUrl = `${SP_API}/getbytitle('${listName}')/items?$filter=${encodeURIComponent(filter)}&$select=Id`;
-    const checkRes = await fetch(checkUrl, {headers: await spHeaders(), credentials:'include'});
-    const checkData = await checkRes.json();
-    const item = checkData.d?.results?.[0];
-    if(!item) return;
-    const digest = await getDigest();
-    await fetch(`${SP_API}/getbytitle('${listName}')/items(${item.Id})`, {
-      method:'POST',
-      headers:{...await spHeaders(),'X-RequestDigest':digest,'X-HTTP-Method':'DELETE','If-Match':'*'},
-      credentials:'include'
-    });
-  } catch(e){ console.error('SP sDel error:',e); }
+  try{ localStorage.removeItem(key); }catch{}
 }
-
-// Convert SP list item to survey object
-function spItemToSurvey(item, key){
-  return {
-    key: key || `survey:${item.CenterNum}:${item.SurveyDate}`,
-    centerNum: item.CenterNum,
-    centerName: item.CenterName||'',
-    date: item.SurveyDate||'',
-    by: item.CompletedBy||'',
-    empCard: item.EmpCard||'',
-    stations: item.Stations||'',
-    score: item.Score!=null?String(item.Score):'',
-    tier: item.Tier||'',
-    games: JSON.parse(item.Games||'[]'),
-    techNotes: item.TechNotes||'',
-    opsDistrict: item.OpsDistrict||'',
-    opsRegion: item.OpsRegion||'',
-    savedAt: item.Modified||''
-  };
-}
-
-// Load all surveys directly from SP (replaces loadAllSurveys pattern)
 async function loadAllSurveys(){
-  try {
-    const url = `${SP_API}/getbytitle('ArcadeSurveys')/items?$orderby=SurveyDate desc&$top=5000`;
-    const res = await fetch(url, {headers: await spHeaders(), credentials:'include'});
-    const data = await res.json();
-    return (data.d?.results||[]).map(item => spItemToSurvey(item));
-  } catch(e){ console.error('SP loadAllSurveys error:',e); return []; }
+  const keys=await sList('survey:');
+  const surveys=[];
+  for(const k of keys){
+    const s=await sGet(k);
+    if(s)surveys.push({key:k,...s});
+  }
+  return surveys.sort((a,b)=>new Date(b.date)-new Date(a.date));
 }
+
+// ── CSV EXPORT ────────────────────────────────────────────
+async function exportCSV(){
+  const all=await loadAllSurveys();
+  if(!all.length){showToast('No surveys to export.');return;}
+  const rows=[['Date','Center','Center#','District','Region','Completed By','EMP Card','Stations','Score','Tier','Games','Tech Notes']];
+  all.forEach(s=>{
+    rows.push([
+      s.date||'', s.centerName||'', s.centerNum||'',
+      s.opsDistrict||'', s.opsRegion||'',
+      s.by||'', s.empCard||'', s.stations||'',
+      s.score||'', s.tier||'',
+      (s.games||[]).map(g=>g.game).join(' | '),
+      s.techNotes||''
+    ]);
+  });
+  const csv=rows.map(r=>r.map(c=>'"'+(String(c).replace(/"/g,'""'))+'"').join(',')).join('\n');
+  const blob=new Blob([csv],{type:'text/csv'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='arcade_pulse_surveys.csv';a.click();
+  URL.revokeObjectURL(url);
+  showToast('Exported '+all.length+' surveys to CSV.');
+}
+
+// ── SP STATUS (informational only) ───────────────────────
 
 // ── PAGE NAV ─────────────────────────────────────────────
 function showPage(name){
@@ -978,27 +853,11 @@ function showToast(msg){const t=document.getElementById('toast');t.textContent=m
   document.getElementById('survey-date').value=new Date().toISOString().slice(0,10);
   cascadeFilter();
 
-  // Test SharePoint connection
+  // Show storage status
   (async()=>{
-    try {
-      const res = await fetch(SP_SITE+'/_api/web/title', {
-        headers:{'Accept':'application/json;odata=verbose'},
-        credentials:'include',
-        mode:'cors'
-      });
-      if(res.ok){
-        document.getElementById('sp-dot').style.background='var(--green)';
-        document.getElementById('sp-label').textContent='Connected to SharePoint';
-      } else {
-        throw new Error('HTTP '+res.status);
-      }
-    } catch(e){
-      // Cross-origin from Netlify - SP may still work for read/write
-      // just not the title check. Show as ready.
-      document.getElementById('sp-dot').style.background='var(--amber)';
-      document.getElementById('sp-label').textContent='Sign in to SharePoint';
-      console.warn('SP connection note:',e.message);
-    }
+    const count = (await sList('survey:')).length;
+    document.getElementById('sp-dot').style.background='var(--green)';
+    document.getElementById('sp-label').textContent = count+' survey'+(count!==1?'s':'')+' saved locally';
     renderDash();
   })();
 })();
