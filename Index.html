@@ -3,162 +3,109 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arcade Pulse</title>
+<title>Arcade Pulse — UPS Arcade Survey</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap');
-:root{
-  --bg:#09101f;--surf:#111827;--surf2:#192033;--surf3:#1e2840;
-  --bdr:rgba(255,255,255,0.07);--bdr2:rgba(255,255,255,0.13);
-  --acc:#5b6ef5;--acc2:#7b8cf7;
-  --tx:#e8eaf0;--mu:#8892a4;
-  --green:#22d3a5;--red:#f56060;--amber:#f59e0b;--blue:#60a5fa;
-}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:"DM Sans",sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;}
-
-/* ── HEADER ── */
-.hdr{background:var(--surf);border-bottom:1px solid var(--bdr2);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:54px;position:sticky;top:0;z-index:100;}
-.logo{display:flex;align-items:center;gap:9px;}
-.logo-box{width:28px;height:28px;background:var(--acc);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:"Space Mono",monospace;font-size:11px;font-weight:700;color:#fff;}
-.logo-txt{font-family:"Space Mono",monospace;font-size:13px;font-weight:700;letter-spacing:.04em;}
-.logo-sub{font-size:10px;color:var(--mu);letter-spacing:.08em;text-transform:uppercase;}
-.nav{display:flex;gap:2px;background:var(--surf2);border-radius:7px;padding:3px;}
-.nav-btn{background:none;border:none;color:var(--mu);font-family:"DM Sans",sans-serif;font-size:12px;font-weight:500;padding:5px 14px;border-radius:5px;cursor:pointer;transition:all .15s;white-space:nowrap;}
-.nav-btn.active{background:var(--acc);color:#fff;}
-
-/* ── PAGES ── */
-.pg{display:none;max-width:1080px;margin:0 auto;padding:1.5rem;}
-.pg.active{display:block;}
-
-/* ── CARDS ── */
-.card{background:var(--surf);border:1px solid var(--bdr);border-radius:12px;padding:1.25rem;margin-bottom:1rem;}
-.card-title{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);margin-bottom:1rem;}
-
-/* ── FORMS ── */
-label{display:block;font-size:12px;color:var(--mu);margin-bottom:5px;letter-spacing:.04em;}
-select,input[type=text],input[type=date],textarea{width:100%;background:var(--surf2);border:1px solid var(--bdr2);border-radius:8px;color:var(--tx);font-family:"DM Sans",sans-serif;font-size:13px;padding:8px 10px;outline:none;transition:border-color .2s;appearance:none;}
-select:focus,input:focus,textarea:focus{border-color:var(--acc);}
-select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath fill='%238892a4' d='M5 6L0 0h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:26px;}
-.frow{margin-bottom:12px;}
-.frow:last-child{margin-bottom:0;}
-.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.fgrid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
-
-/* ── BTNS ── */
-.btn{border:none;border-radius:8px;font-family:"DM Sans",sans-serif;font-size:13px;font-weight:600;padding:8px 18px;cursor:pointer;transition:all .2s;}
-.btn-primary{background:var(--acc);color:#fff;}
-.btn-primary:hover{background:var(--acc2);}
-.btn-ghost{background:var(--surf2);color:var(--tx);border:1px solid var(--bdr2);}
-.btn-ghost:hover{background:rgba(255,255,255,.07);}
-.btn-danger{background:rgba(245,96,96,.12);color:var(--red);border:1px solid rgba(245,96,96,.3);}
-.btn-danger:hover{background:rgba(245,96,96,.22);}
-.btn-sm{padding:4px 11px;font-size:11px;}
-.add-btn{display:flex;align-items:center;gap:6px;background:rgba(91,110,245,.12);border:1px solid rgba(91,110,245,.3);border-radius:8px;color:var(--acc2);font-family:"DM Sans",sans-serif;font-size:12px;font-weight:500;padding:5px 11px;cursor:pointer;transition:background .2s;}
-.add-btn:hover{background:rgba(91,110,245,.22);}
-
-/* ── SEC TITLE ── */
-.sec-title{font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;margin-bottom:12px;}
-.sec-title::before{content:"";display:inline-block;width:3px;height:13px;background:var(--acc);border-radius:2px;}
-
-/* ── SCORE PANEL ── */
-.score-panel{display:grid;grid-template-columns:repeat(4,1fr) auto;gap:.75rem;align-items:center;background:var(--surf);border:1px solid var(--bdr2);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem;}
-.sub-sc{display:flex;flex-direction:column;align-items:center;gap:2px;}
-.sub-sc-lbl{font-size:10px;color:var(--mu);letter-spacing:.06em;text-transform:uppercase;text-align:center;}
-.sub-sc-val{font-family:"Space Mono",monospace;font-size:15px;font-weight:700;}
-.ov-block{display:flex;flex-direction:column;align-items:center;gap:3px;border-left:1px solid var(--bdr2);padding-left:1rem;}
-.ov-num{font-family:"Space Mono",monospace;font-size:28px;font-weight:700;color:var(--green);transition:color .3s;line-height:1;}
-.ov-tier{font-size:11px;padding:2px 9px;border-radius:20px;font-weight:600;}
-.meter{height:5px;background:var(--surf2);border-radius:3px;overflow:hidden;margin-top:3px;width:90px;}
-.meter-fill{height:100%;border-radius:3px;background:var(--green);transition:width .5s ease,background .3s;width:0%;}
-
-/* ── GAME CARDS ── */
-.game-list{display:flex;flex-direction:column;gap:9px;}
-.gc{background:var(--surf2);border:1px solid var(--bdr2);border-radius:10px;overflow:hidden;}
-.gc-hdr{display:flex;align-items:center;gap:9px;padding:9px 12px 7px;border-bottom:1px solid var(--bdr);}
-.gc-hdr select{flex:1;font-size:13px;}
-.gc-score{font-family:"Space Mono",monospace;font-size:12px;font-weight:700;color:var(--mu);min-width:46px;text-align:right;}
-.del-btn{background:none;border:none;color:var(--mu);cursor:pointer;font-size:17px;padding:2px 5px;border-radius:4px;transition:color .2s;line-height:1;}
-.del-btn:hover{color:var(--red);}
-.gc-capp{display:grid;grid-template-columns:repeat(4,1fr);}
-.cc{padding:7px 10px;border-right:1px solid var(--bdr);display:flex;flex-direction:column;gap:3px;}
-.cc:last-child{border-right:none;}
-.cc-lbl{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);}
-.cc-wt{font-size:10px;color:var(--acc2);font-family:"Space Mono",monospace;}
-.yn-tog{display:flex;gap:4px;margin-top:2px;}
-.yn-btn{flex:1;border:1px solid var(--bdr2);border-radius:6px;background:none;color:var(--mu);font-family:"DM Sans",sans-serif;font-size:12px;font-weight:600;padding:4px 0;cursor:pointer;transition:all .15s;text-align:center;}
-.yn-btn.yes-btn.active{background:rgba(34,211,165,.15);border-color:var(--green);color:var(--green);}
-.yn-btn.no-btn.active{background:rgba(245,96,96,.13);border-color:var(--red);color:var(--red);}
-.yn-btn:hover:not(.active){background:rgba(255,255,255,.05);}
-.gc-foot{padding:6px 12px 8px;border-top:1px solid var(--bdr);}
-
-/* ── SPECIFIC TABLE ── */
-.spec-tbl{width:100%;border-collapse:collapse;font-size:13px;}
-.spec-tbl th{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);padding:7px 10px;border-bottom:1px solid var(--bdr2);text-align:left;}
-.spec-tbl td{padding:7px 10px;border-bottom:1px solid var(--bdr);vertical-align:top;font-size:12px;}
-.crit{color:var(--mu);font-size:11px;line-height:1.5;}
-.yn-sel{width:88px;}
-
-/* ── DASH STAT CARDS ── */
-.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:1rem;}
-.stat-card{background:var(--surf2);border:1px solid var(--bdr);border-radius:10px;padding:1rem;}
-.stat-lbl{font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--mu);margin-bottom:6px;}
-.stat-val{font-family:"Space Mono",monospace;font-size:26px;font-weight:700;line-height:1;}
-.stat-sub{font-size:11px;color:var(--mu);margin-top:3px;}
-
-/* ── DASH FILTERS ── */
-.dash-filters{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;margin-bottom:1rem;}
-.dash-filters .frow{margin:0;min-width:160px;}
-.dash-filters label{margin-bottom:4px;}
-
-/* ── DASH TABLE ── */
-.dash-tbl{width:100%;border-collapse:collapse;font-size:13px;}
-.dash-tbl th{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);padding:8px 12px;border-bottom:1px solid var(--bdr2);text-align:left;white-space:nowrap;}
-.dash-tbl td{padding:8px 12px;border-bottom:1px solid var(--bdr);vertical-align:middle;}
-.dash-tbl tr:hover td{background:rgba(255,255,255,.02);}
-.dash-tbl tr:last-child td{border-bottom:none;}
-.score-badge{display:inline-block;font-family:"Space Mono",monospace;font-size:13px;font-weight:700;padding:3px 10px;border-radius:7px;}
-.tier-chip{display:inline-block;font-size:10px;padding:2px 8px;border-radius:20px;font-weight:600;}
-
-/* ── CAPP BAR CHART ── */
-.capp-bars{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
-.capp-bar-item{display:flex;flex-direction:column;align-items:center;gap:6px;}
-.bar-track{width:100%;height:120px;background:var(--surf2);border-radius:6px;position:relative;overflow:hidden;display:flex;align-items:flex-end;}
-.bar-fill{width:100%;border-radius:6px 6px 0 0;transition:height .5s ease,background .3s;}
-.bar-lbl{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--mu);}
-.bar-pct{font-family:"Space Mono",monospace;font-size:14px;font-weight:700;}
-
-/* ── HISTORY ── */
-.hist-list{display:flex;flex-direction:column;gap:8px;}
-.hist-item{background:var(--surf);border:1px solid var(--bdr);border-radius:10px;padding:.9rem 1.2rem;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:border-color .2s;}
-.hist-item:hover{border-color:var(--acc);}
-.hist-name{font-size:14px;font-weight:500;}
-.hist-meta{font-size:11px;color:var(--mu);margin-top:2px;}
-
-/* ── MODAL ── */
-.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem;}
-.modal{background:var(--surf);border:1px solid var(--bdr2);border-radius:14px;max-width:820px;width:100%;max-height:90vh;overflow-y:auto;padding:1.5rem;}
-.modal-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;}
-.modal-ttl{font-size:15px;font-weight:600;}
-.modal-x{background:none;border:none;color:var(--mu);font-size:22px;cursor:pointer;line-height:1;padding:2px 6px;}
-.modal-x:hover{color:var(--tx);}
-
-/* ── EMPTY ── */
-.empty{text-align:center;padding:3rem 1rem;color:var(--mu);}
-.empty-ico{font-size:34px;margin-bottom:12px;opacity:.4;}
-
-/* ── NOTICE ── */
-.notice{font-size:12px;color:var(--green);margin-bottom:10px;padding:7px 12px;background:rgba(34,211,165,.08);border-radius:8px;border:1px solid rgba(34,211,165,.2);}
-
-/* ── TOAST ── */
-#toast{position:fixed;bottom:22px;right:1.5rem;background:var(--surf);border:1px solid var(--acc);border-radius:10px;padding:10px 16px;font-size:13px;color:var(--tx);z-index:999;opacity:0;transform:translateY(8px);transition:all .25s;pointer-events:none;}
+:root{--bg:#080b12;--surf:#0f1420;--surf2:#161d2e;--bdr:rgba(255,255,255,0.07);--acc:#22d3a5;--acc2:#f0c040;--acc3:#3b82f6;--danger:#ef4444;--tx:#e2e8f0;--mu:#64748b;--font-d:'Bebas Neue',sans-serif;--font-b:'DM Sans',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--tx);font-family:var(--font-b);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(34,211,165,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(34,211,165,.02) 1px,transparent 1px);background-size:36px 36px;pointer-events:none;z-index:0;}
+.hdr{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:rgba(8,11,18,.95);border-bottom:1px solid var(--bdr);backdrop-filter:blur(12px);flex-wrap:wrap;gap:10px;}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo-box{width:34px;height:34px;background:var(--acc);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:18px;color:#000;}
+.logo-txt{font-family:var(--font-d);font-size:20px;letter-spacing:3px;}
+.logo-sub{font-size:10px;color:var(--mu);letter-spacing:2px;text-transform:uppercase;margin-top:-2px;}
+.nav{display:flex;gap:4px;flex-wrap:wrap;}
+.nav-btn{background:transparent;border:1px solid transparent;color:var(--mu);padding:6px 14px;border-radius:8px;font-family:var(--font-b);font-size:13px;cursor:pointer;transition:all .2s;}
+.nav-btn:hover{color:var(--tx);border-color:var(--bdr);}
+.nav-btn.active{background:var(--surf2);color:var(--acc);border-color:rgba(34,211,165,.3);}
+.sync-status{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--mu);}
+.sync-dot{width:8px;height:8px;border-radius:50%;background:var(--mu);}
+.sync-dot.on{background:var(--acc);animation:pdot 2s infinite;}
+.sync-dot.err{background:var(--danger);}
+.sync-dot.sync{background:var(--acc2);}
+@keyframes pdot{0%,100%{opacity:1;}50%{opacity:.3;}}
+.pg{display:none;position:relative;z-index:1;padding:20px;max-width:1300px;margin:0 auto;}
+.pg.active{display:block;animation:fi .3s ease;}
+@keyframes fi{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.card{background:var(--surf);border:1px solid var(--bdr);border-radius:14px;padding:18px;}
+.card-title{font-family:var(--font-d);font-size:17px;letter-spacing:2px;margin-bottom:14px;}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;}
+.kpi{background:var(--surf);border:1px solid var(--bdr);border-radius:14px;padding:16px 18px;position:relative;overflow:hidden;}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:14px 14px 0 0;}
+.kpi.g::before{background:var(--acc);}
+.kpi.y::before{background:var(--acc2);}
+.kpi.b::before{background:var(--acc3);}
+.kpi.r::before{background:var(--danger);}
+.kpi-label{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--mu);margin-bottom:6px;}
+.kpi-val{font-family:var(--font-d);font-size:36px;letter-spacing:2px;line-height:1;}
+.kpi.g .kpi-val{color:var(--acc);}
+.kpi.y .kpi-val{color:var(--acc2);}
+.kpi.b .kpi-val{color:var(--acc3);}
+.kpi.r .kpi-val{color:var(--danger);}
+.kpi-sub{font-size:11px;color:var(--mu);margin-top:3px;}
+.dash-filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;align-items:flex-end;}
+.frow{display:flex;flex-direction:column;gap:4px;}
+.frow label{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mu);}
+.frow select,.frow input{background:var(--surf2);border:1px solid var(--bdr);color:var(--tx);padding:7px 11px;border-radius:8px;font-family:var(--font-b);font-size:13px;cursor:pointer;}
+.frow select:focus,.frow input:focus{outline:none;border-color:rgba(34,211,165,.4);}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.bar-chart{display:flex;flex-direction:column;gap:7px;}
+.bar-item{display:flex;align-items:center;gap:8px;font-size:12px;}
+.bar-label{width:110px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bar-track{flex:1;height:20px;background:var(--surf2);border-radius:6px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--acc),rgba(34,211,165,.4));transition:width .6s ease;}
+.bar-val{width:26px;text-align:right;color:var(--tx);font-weight:600;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.form-group{display:flex;flex-direction:column;gap:5px;}
+.form-group.full{grid-column:1/-1;}
+.form-group label{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--mu);}
+.form-group input,.form-group select,.form-group textarea{background:var(--surf2);border:1px solid var(--bdr);color:var(--tx);padding:9px 13px;border-radius:10px;font-family:var(--font-b);font-size:14px;transition:border-color .2s;}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:rgba(34,211,165,.5);box-shadow:0 0 0 3px rgba(34,211,165,.07);}
+.form-group textarea{resize:vertical;min-height:70px;}
+.machines-section{margin-top:18px;}
+.machines-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.mc-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:8px;align-items:center;background:var(--surf2);border:1px solid var(--bdr);border-radius:10px;padding:9px 12px;margin-bottom:7px;}
+.mc-row input,.mc-row select{background:var(--bg);border:1px solid var(--bdr);color:var(--tx);padding:6px 9px;border-radius:7px;font-size:13px;font-family:var(--font-b);}
+.mc-row input:focus,.mc-row select:focus{outline:none;border-color:rgba(34,211,165,.4);}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:10px;font-family:var(--font-b);font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;border:none;}
+.btn-primary{background:var(--acc);color:#000;}
+.btn-primary:hover{background:#1ab892;transform:translateY(-1px);}
+.btn-secondary{background:var(--surf2);color:var(--tx);border:1px solid var(--bdr);}
+.btn-secondary:hover{border-color:rgba(34,211,165,.3);color:var(--acc);}
+.btn-sm{padding:5px 11px;font-size:12px;}
+.add-btn{background:rgba(34,211,165,.08);border:1px dashed rgba(34,211,165,.25);color:var(--acc);width:100%;padding:9px;border-radius:10px;cursor:pointer;font-size:13px;font-family:var(--font-b);transition:all .2s;}
+.add-btn:hover{background:rgba(34,211,165,.14);}
+.del-btn{background:none;border:none;color:var(--mu);cursor:pointer;font-size:15px;padding:3px;transition:color .2s;}
+.del-btn:hover{color:var(--danger);}
+.notice{font-size:12px;padding:8px 13px;border-radius:8px;margin-bottom:12px;}
+.notice.ok{color:var(--acc);background:rgba(34,211,165,.07);border:1px solid rgba(34,211,165,.18);}
+.notice.warn{color:var(--acc2);background:rgba(240,192,64,.07);border:1px solid rgba(240,192,64,.2);}
+.notice.err{color:var(--danger);background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.2);}
+#toast{position:fixed;bottom:20px;right:20px;background:var(--surf);border:1px solid var(--acc);border-radius:10px;padding:11px 16px;font-size:13px;color:var(--tx);z-index:999;opacity:0;transform:translateY(8px);transition:all .3s;pointer-events:none;}
 #toast.show{opacity:1;transform:translateY(0);}
-
-.divider{height:1px;background:var(--bdr);margin:1rem 0;}
-.stations-row{display:flex;align-items:center;gap:10px;padding:10px 0 4px;}
-.stations-row label{margin-bottom:0;white-space:nowrap;}
-.help-txt{font-size:11px;color:var(--mu);font-style:italic;}
-
-@media print{.hdr,.nav,.btn,.add-btn,.del-btn{display:none!important;}.pg{display:block!important;padding:0;}}
+.tbl-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th{text-align:left;padding:9px 12px;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--mu);border-bottom:1px solid var(--bdr);}
+td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.03);}
+tr:hover td{background:rgba(255,255,255,.02);}
+.badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600;}
+.badge-g{background:rgba(34,211,165,.12);color:var(--acc);border:1px solid rgba(34,211,165,.25);}
+.badge-r{background:rgba(239,68,68,.12);color:var(--danger);border:1px solid rgba(239,68,68,.25);}
+.loading{display:flex;align-items:center;justify-content:center;padding:30px;gap:10px;color:var(--mu);font-size:13px;}
+.spinner{width:18px;height:18px;border:2px solid var(--bdr);border-top-color:var(--acc);border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.empty-state{text-align:center;padding:36px;color:var(--mu);}
+.empty-ico{font-size:32px;margin-bottom:8px;opacity:.4;}
+.search-box{background:var(--surf2);border:1px solid var(--bdr);color:var(--tx);padding:8px 13px;border-radius:10px;font-family:var(--font-b);font-size:13px;}
+.search-box:focus{outline:none;border-color:rgba(34,211,165,.4);}
+@media(max-width:680px){
+  .kpi-row{grid-template-columns:1fr 1fr;}
+  .two-col,.form-grid{grid-template-columns:1fr;}
+  .mc-row{grid-template-columns:1fr 1fr;}
+  .nav-btn{padding:5px 8px;font-size:11px;}
+  .hdr{padding:10px 14px;}
+}
 </style>
 </head>
 <body>
@@ -168,699 +115,329 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
     <div class="logo-box">AP</div>
     <div><div class="logo-txt">ARCADE PULSE</div><div class="logo-sub">UPS Arcade Survey</div></div>
   </div>
-  <div style="display:flex;align-items:center;gap:12px;">
-    <div id="sp-status" style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--mu);">
-      <span id="sp-dot" style="width:7px;height:7px;border-radius:50%;background:var(--mu);display:inline-block;"></span>
-      <span id="sp-label">Connecting…</span>
-    </div>
-    <div class="nav">
-      <button class="nav-btn active" id="nav-dashboard" onclick="showPage('dashboard')">Dashboard</button>
-      <button class="nav-btn" id="nav-survey" onclick="showPage('survey')">New Survey</button>
-      <button class="nav-btn" id="nav-history" onclick="showPage('history')">History</button>
-    </div>
+  <div class="nav">
+    <button class="nav-btn active" onclick="showPage('dashboard',this)">Dashboard</button>
+    <button class="nav-btn" onclick="showPage('survey',this)">New Survey</button>
+    <button class="nav-btn" onclick="showPage('history',this)">History</button>
   </div>
-</div>
-
-<!-- ═══════════════════ DASHBOARD ═══════════════════ -->
-<div class="pg active" id="pg-dashboard">
-
-  <!-- FILTERS -->
-  <div class="card" style="margin-bottom:1rem;">
-    <div class="dash-filters">
-      <div class="frow">
-        <label>Time Period</label>
-        <select id="df-period">
-          <option value="week">Current Week</option>
-          <option value="prev-week">Previous Week</option>
-          <option value="month" selected>Current Month</option>
-          <option value="prev-month">Previous Month</option>
-          <option value="quarter">Current Quarter</option>
-          <option value="prev-quarter">Previous Quarter</option>
-          <option value="year">Current Year</option>
-          <option value="all">All Time</option>
-        </select>
-      </div>
-
-      <div class="frow">
-        <label>Region</label>
-        <select id="df-region">
-          <option value="">All Regions</option>
-        </select>
-      </div>
-      <div class="frow">
-        <label>District</label>
-        <select id="df-district">
-          <option value="">All Districts</option>
-        </select>
-      </div>
-      <div class="frow">
-        <label>Center</label>
-        <select id="df-center">
-          <option value="">All Centers</option>
-        </select>
-      </div>
-      <div class="frow" style="display:flex;align-items:flex-end;">
-        <button class="btn btn-ghost" onclick="exportCSV()" style="white-space:nowrap;">⬇ Export CSV</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- STAT CARDS -->
-  <div class="stat-grid" id="dash-stats">
-    <div class="stat-card"><div class="stat-lbl">Surveys Completed</div><div class="stat-val" id="ds-count" style="color:var(--blue);">—</div><div class="stat-sub" id="ds-period"></div></div>
-    <div class="stat-card"><div class="stat-lbl">Company Avg Score</div><div class="stat-val" id="ds-avg" style="color:var(--green);">—</div><div class="stat-sub" id="ds-tier"></div></div>
-    <div class="stat-card"><div class="stat-lbl">Highest Score</div><div class="stat-val" id="ds-high" style="color:var(--green);">—</div><div class="stat-sub" id="ds-high-center"></div></div>
-    <div class="stat-card"><div class="stat-lbl">Lowest Score</div><div class="stat-val" id="ds-low" style="color:var(--red);">—</div><div class="stat-sub" id="ds-low-center"></div></div>
-    <div class="stat-card"><div class="stat-lbl">Centers Surveyed</div><div class="stat-val" id="ds-centers" style="color:var(--acc2);">—</div><div class="stat-sub" id="ds-total-centers"></div></div>
-    <div class="stat-card"><div class="stat-lbl">Passing (≥80)</div><div class="stat-val" id="ds-passing" style="color:var(--amber);">—</div><div class="stat-sub">of surveys scored</div></div>
-  </div>
-
-  <!-- CAPP BREAKDOWN -->
-  <div class="card">
-    <div class="card-title">CAPP Category Averages</div>
-    <div class="capp-bars">
-      <div class="capp-bar-item">
-        <div class="bar-track"><div class="bar-fill" id="bar-clean" style="height:0%;background:var(--green);"></div></div>
-        <div class="bar-lbl">Cleanliness</div>
-        <div class="bar-pct" id="bpct-clean" style="color:var(--mu);">—</div>
-      </div>
-      <div class="capp-bar-item">
-        <div class="bar-track"><div class="bar-fill" id="bar-activ" style="height:0%;background:var(--acc);"></div></div>
-        <div class="bar-lbl">Activation</div>
-        <div class="bar-pct" id="bpct-activ" style="color:var(--mu);">—</div>
-      </div>
-      <div class="capp-bar-item">
-        <div class="bar-track"><div class="bar-fill" id="bar-play" style="height:0%;background:var(--amber);"></div></div>
-        <div class="bar-lbl">Playability</div>
-        <div class="bar-pct" id="bpct-play" style="color:var(--mu);">—</div>
-      </div>
-      <div class="capp-bar-item">
-        <div class="bar-track"><div class="bar-fill" id="bar-pres" style="height:0%;background:var(--blue);"></div></div>
-        <div class="bar-lbl">Presentation</div>
-        <div class="bar-pct" id="bpct-pres" style="color:var(--mu);">—</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SURVEY TABLE -->
-  <div class="card">
-    <div class="card-title" id="dash-tbl-title">All Surveys</div>
-    <div id="dash-tbl-wrap" style="overflow-x:auto;">
-      <div class="empty"><div class="empty-ico">📊</div><div style="font-size:13px;">No surveys found for this period and filter.</div></div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════ SURVEY ═══════════════════ -->
-<div class="pg" id="pg-survey">
-  <div class="card">
-    <div class="fgrid">
-      <div class="frow"><label>Center</label>
-        <select id="center-select"><option value="">— Select Center —</option></select>
-      </div>
-      <div class="frow"><label>Date</label><input type="date" id="survey-date"></div>
-      <div class="frow"><label>Completed By</label><input type="text" id="completed-by" placeholder="Name"></div>
-      <div class="frow"><label>EMP Card #</label><input type="text" id="emp-card" placeholder="Card number"></div>
-    </div>
-    <div style="margin-top:10px;font-size:12px;color:var(--mu);">Day: <strong style="color:var(--tx);">Tuesday</strong></div>
-  </div>
-
-  <div class="score-panel">
-    <div class="sub-sc"><span class="sub-sc-lbl">Cleanliness<br><span style="color:var(--acc2);">15%</span></span><span class="sub-sc-val" id="s-clean" style="color:var(--mu);">—</span></div>
-    <div class="sub-sc"><span class="sub-sc-lbl">Activation<br><span style="color:var(--acc2);">30%</span></span><span class="sub-sc-val" id="s-activ" style="color:var(--mu);">—</span></div>
-    <div class="sub-sc"><span class="sub-sc-lbl">Playability<br><span style="color:var(--acc2);">30%</span></span><span class="sub-sc-val" id="s-play" style="color:var(--mu);">—</span></div>
-    <div class="sub-sc"><span class="sub-sc-lbl">Presentation<br><span style="color:var(--acc2);">25%</span></span><span class="sub-sc-val" id="s-pres" style="color:var(--mu);">—</span></div>
-    <div class="ov-block">
-      <span class="ov-num" id="final-score">—</span>
-      <span class="ov-tier" id="final-tier" style="display:none;"></span>
-      <div class="meter"><div class="meter-fill" id="meter-fill"></div></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-      <div class="sec-title" style="margin-bottom:0;">General Game Room</div>
-      <button class="add-btn" id="btn-add-game">+ Add Game</button>
-    </div>
-    <div id="center-games-notice" class="notice" style="display:none;">✓ Loaded saved game list for this center</div>
-    <div class="game-list" id="game-rows"></div>
-    <div class="divider"></div>
-    <div class="stations-row">
-      <label for="stations-count">Total Player Stations (Readers):</label>
-      <input type="text" id="stations-count" style="width:70px;">
-      <span class="help-txt">Do not include Balance Reader, Card Station or Prize Hub</span>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="sec-title">Game Specific</div>
-    <table class="spec-tbl"><thead><tr><th style="width:210px">Game Title</th><th>Criteria</th><th style="width:130px">Yes/No – Notes</th></tr></thead>
-    <tbody>
-      <tr><td><strong>Basketball</strong><br><span class="crit">NBA Hoops, Hoops FX, Hot Shot, Connect 4 Hoops</span></td><td><span class="crit">5 balls in all games? Balls properly inflated?</span></td><td><select class="yn-sel"><option value="">—</option><option>Yes</option><option>No</option><option>N/A</option></select><input type="text" style="margin-top:4px;font-size:11px;" placeholder="Notes"></td></tr>
-      <tr><td><strong>Alley Rollers</strong><br><span class="crit">ICE Ball, ICE Ball FX, Skee-Ball, Fire Ball Fury, Lane Master</span></td><td><span class="crit">Balls evenly distributed? Max 9 each? Min 7?</span></td><td><select class="yn-sel"><option value="">—</option><option>Yes</option><option>No</option><option>N/A</option></select><input type="text" style="margin-top:4px;font-size:11px;" placeholder="Notes"></td></tr>
-      <tr><td><strong>Ball Based Play</strong><br><span class="crit">Sink It, Milk Jug Toss, Down the Clown, Let's Bounce, Gold Fishin'</span></td><td><span class="crit">Balls evenly distributed? 20–25 in Sink It?</span></td><td><select class="yn-sel"><option value="">—</option><option>Yes</option><option>No</option><option>N/A</option></select><input type="text" style="margin-top:4px;font-size:11px;" placeholder="Notes"></td></tr>
-      <tr><td><strong>Air Hockey</strong><br><span class="crit">Firestorm, Air FX, PacMan Smash</span></td><td><span class="crit">1 puck + 2 mallets ready? Back-ups stored?</span></td><td><select class="yn-sel"><option value="">—</option><option>Yes</option><option>No</option><option>N/A</option></select><div style="display:flex;align-items:center;gap:5px;margin-top:4px;"><span style="font-size:11px;color:var(--mu);">Spare pucks:</span><input type="text" style="width:45px;font-size:11px;" placeholder="0"></div></td></tr>
-      <tr><td><strong>Photo Booth</strong></td><td><span class="crit">Prints remaining on each printer?</span></td><td><div style="display:flex;gap:5px;"><div><span style="font-size:11px;color:var(--mu);">L:</span><input type="text" style="width:50px;font-size:11px;" placeholder="count"></div><div><span style="font-size:11px;color:var(--mu);">R:</span><input type="text" style="width:50px;font-size:11px;" placeholder="count"></div></div></td></tr>
-      <tr><td><strong>Cranes & Merchandisers</strong></td><td><span class="crit">Playfield full? Appropriate claw size? Glass cleaned?</span></td><td><select class="yn-sel"><option value="">—</option><option>Yes</option><option>No</option><option>N/A</option></select><input type="text" style="margin-top:4px;font-size:11px;" placeholder="Notes"></td></tr>
-      <tr><td><strong>Prize Hub</strong></td><td><span class="crit">All bins/pegs/lockers full? Images loaded? 3D Displayers all 18 positions?</span></td><td><div style="display:flex;flex-direction:column;gap:4px;"><div style="display:flex;align-items:center;gap:5px;"><span style="font-size:11px;color:var(--mu);">Images:</span><select class="yn-sel" style="width:65px;"><option value="">—</option><option>Y</option><option>N</option></select></div><div style="display:flex;align-items:center;gap:5px;"><span style="font-size:11px;color:var(--mu);">3D Disp:</span><select class="yn-sel" style="width:65px;"><option value="">—</option><option>Y</option><option>N</option></select></div></div></td></tr>
-    </tbody></table>
-  </div>
-
-  <div class="card">
-    <div class="sec-title">Support Devices</div>
-    <table class="spec-tbl"><thead><tr><th style="width:120px">Device</th><th>Criteria</th><th style="width:130px">Yes/No – Notes</th></tr></thead>
-    <tbody>
-      <tr><td><strong>Redemption</strong></td><td><span class="crit">All pegs, shelves, spindles, cylinders and lockers full. Prizes correct value for level?</span></td><td><select class="yn-sel"><option value="">—</option><option>Yes</option><option>No</option><option>N/A</option></select><input type="text" style="margin-top:4px;font-size:11px;" placeholder="Notes"></td></tr>
-      <tr><td><strong>Tellers</strong></td><td><span class="crit">Card hopper full? Receipt paper full and feeding? Touchscreen functioning?</span></td><td><select class="yn-sel"><option value="">—</option><option>Yes</option><option>No</option><option>N/A</option></select><input type="text" style="margin-top:4px;font-size:11px;" placeholder="Notes"></td></tr>
-    </tbody></table>
-  </div>
-
-  <div class="card">
-    <div class="sec-title">Notes for Area Game Tech</div>
-    <textarea id="tech-notes" style="min-height:80px;resize:vertical;font-size:13px;line-height:1.5;" placeholder="List any issues requiring follow-up by the Area Game Tech..."></textarea>
-  </div>
-
-  <div style="display:flex;gap:10px;justify-content:flex-end;margin-bottom:2rem;">
-    <button class="btn btn-ghost" id="btn-reset">Clear</button>
-    <button class="btn btn-primary" id="btn-save">Save Survey</button>
-  </div>
-</div>
-
-<!-- ═══════════════════ HISTORY ═══════════════════ -->
-<div class="pg" id="pg-history">
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:10px;">
-    <h2 style="font-size:17px;font-weight:600;">Survey History</h2>
-    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-      <select id="hist-filter-center" style="width:220px;"><option value="">All Centers</option></select>
-    </div>
-  </div>
-  <div id="hist-list"></div>
-</div>
-
-<!-- MODAL -->
-<div class="modal-ov" id="modal" style="display:none;" onclick="if(event.target===this)this.style.display='none'">
-  <div class="modal">
-    <div class="modal-hdr">
-      <span class="modal-ttl" id="modal-title">Survey Detail</span>
-      <button class="modal-x" onclick="document.getElementById('modal').style.display='none'">×</button>
-    </div>
-    <div id="modal-body"></div>
+  <div class="sync-status">
+    <div class="sync-dot" id="syncDot"></div>
+    <span id="syncLabel">Connecting...</span>
   </div>
 </div>
 
 <div id="toast"></div>
 
+<!-- DASHBOARD -->
+<div class="pg active" id="pg-dashboard">
+  <div class="dash-filters">
+    <div class="frow"><label>Period</label>
+      <select id="df-period" onchange="renderDash()">
+        <option value="week">This Week</option>
+        <option value="prev-week">Last Week</option>
+        <option value="month" selected>This Month</option>
+        <option value="prev-month">Last Month</option>
+        <option value="quarter">This Quarter</option>
+        <option value="year">This Year</option>
+        <option value="all">All Time</option>
+      </select>
+    </div>
+    <div class="frow"><label>Region</label>
+      <select id="df-region" onchange="renderDash()"><option value="">All Regions</option></select>
+    </div>
+    <div class="frow"><label>Location</label>
+      <select id="df-loc" onchange="renderDash()"><option value="">All Locations</option></select>
+    </div>
+    <button class="btn btn-secondary btn-sm" onclick="loadData()">&#8635; Refresh</button>
+  </div>
+  <div class="kpi-row">
+    <div class="kpi g"><div class="kpi-label">Total Surveys</div><div class="kpi-val" id="kpi-total">&#8212;</div><div class="kpi-sub">in period</div></div>
+    <div class="kpi y"><div class="kpi-label">Machines</div><div class="kpi-val" id="kpi-machines">&#8212;</div><div class="kpi-sub">units surveyed</div></div>
+    <div class="kpi b"><div class="kpi-label">Locations</div><div class="kpi-val" id="kpi-locs">&#8212;</div><div class="kpi-sub">covered</div></div>
+    <div class="kpi r"><div class="kpi-label">Issues</div><div class="kpi-val" id="kpi-issues">&#8212;</div><div class="kpi-sub">flagged</div></div>
+  </div>
+  <div class="two-col">
+    <div class="card">
+      <div class="card-title">Surveys by Location</div>
+      <div class="bar-chart" id="chart-locs"><div class="loading"><div class="spinner"></div>Loading...</div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Recent Surveys</div>
+      <div id="recent-list"><div class="loading"><div class="spinner"></div>Loading...</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SURVEY -->
+<div class="pg" id="pg-survey">
+  <div class="card" style="max-width:780px;margin:0 auto;">
+    <div class="card-title">New Survey</div>
+    <div id="survey-notice"></div>
+    <div class="form-grid">
+      <div class="form-group"><label>Name</label><input type="text" id="f-tech" placeholder="Your name"></div>
+      <div class="form-group"><label>Survey Date</label><input type="date" id="f-date"></div>
+      <div class="form-group"><label>Location</label><input type="text" id="f-location" placeholder="e.g. Boca Raton"></div>
+      <div class="form-group"><label>Sr. Region</label>
+        <select id="f-region">
+          <option value="">Select Region</option>
+          <option>Northeast</option><option>Southeast</option><option>Midwest</option>
+          <option>Southwest</option><option>West</option><option>Northwest</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Total Stations</label><input type="number" id="f-stations" placeholder="0" min="0"></div>
+      <div class="form-group"><label>Period</label><input type="text" id="f-period" placeholder="e.g. Week 05.04.26"></div>
+      <div class="form-group full"><label>Notes</label><textarea id="f-notes" placeholder="General observations..."></textarea></div>
+    </div>
+    <div class="machines-section">
+      <div class="machines-hdr">
+        <div class="card-title" style="margin:0;font-size:15px;">Machine Details</div>
+        <button class="btn btn-secondary btn-sm" onclick="addMachine()">+ Add Machine</button>
+      </div>
+      <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:8px;padding:0 12px 6px;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--mu);">
+        <span>Machine</span><span>Status</span><span>Tickets</span><span>Notes</span><span></span>
+      </div>
+      <div id="machine-list"></div>
+      <button class="add-btn" onclick="addMachine()">+ Add Machine</button>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:18px;justify-content:flex-end;">
+      <button class="btn btn-secondary" onclick="clearForm()">Clear</button>
+      <button class="btn btn-primary" onclick="submitSurvey()">Save Survey</button>
+    </div>
+  </div>
+</div>
+
+<!-- HISTORY -->
+<div class="pg" id="pg-history">
+  <div class="card">
+    <div class="card-title">Survey History</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
+      <input class="search-box" style="flex:1;min-width:150px;" type="text" id="hist-search" placeholder="Search location, name, region..." oninput="renderHistory()">
+      <select class="search-box" style="width:150px;" id="hist-region" onchange="renderHistory()"><option value="">All Regions</option></select>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Date</th><th>Location</th><th>Name</th><th>Region</th><th>Stations</th><th>Period</th><th>Issues</th><th>Notes</th></tr></thead>
+        <tbody id="hist-tbody"></tbody>
+      </table>
+    </div>
+    <div id="hist-empty" class="empty-state" style="display:none;"><div class="empty-ico">&#x1F4CB;</div><div>No surveys found</div></div>
+  </div>
+</div>
+
 <script>
-const CENTERS_FULL = [{"num": 13, "name": "Lucky Strike Cayce", "city": "CAYCE", "state": "SC", "opsDistrict": "Bulldogs", "districtNum": 1628, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Scott Hurley"}, {"num": 20, "name": "AMF Pin Palace Lanes", "city": "HUNTSVILLE", "state": "AL", "opsDistrict": "Deep South", "districtNum": 1670, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Brian Shaw"}, {"num": 21, "name": "Lucky Strike Auburn", "city": "AUBURN", "state": "AL", "opsDistrict": "Deep South", "districtNum": 1670, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Brian Shaw"}, {"num": 23, "name": "Bowlero Greenville", "city": "GREENVILLE", "state": "SC", "opsDistrict": "Bulldogs", "districtNum": 1628, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Scott Hurley"}, {"num": 24, "name": "AMF Star Lanes - Asheville", "city": "ASHEVILLE", "state": "NC", "opsDistrict": "Panthers", "districtNum": 1560, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": "Jerome Lessey"}, {"num": 33, "name": "Bowlero Columbus", "city": "COLUMBUS", "state": "GA", "opsDistrict": "Deep South", "districtNum": 1670, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Brian Shaw"}, {"num": 34, "name": "AMF All Star Lanes-Greensboro", "city": "GREENSBORO", "state": "NC", "opsDistrict": "Tar Heel", "districtNum": 1436, "opsRegion": "AC", "region": "AC", "srRegion": "MN", "rvp": "Matt Rediske", "srVP": "Allen Morrison", "dm": "Mike Ryan"}, {"num": 35, "name": "AMF River City Lanes", "city": "DECATUR", "state": "AL", "opsDistrict": "Deep South", "districtNum": 1670, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Brian Shaw"}, {"num": 44, "name": "Lucky Strike Overland Park", "city": "OVERLAND PARK", "state": "KS", "opsDistrict": "Great Plains", "districtNum": 1693, "opsRegion": "HL", "region": "HL", "srRegion": "CE", "rvp": "Mike Graber", "srVP": "James Sowell", "dm": "Jeremy Lawless"}, {"num": 58, "name": "AMF Town & Country Lanes - MO", "city": "COLUMBIA", "state": "MO", "opsDistrict": "Great Plains", "districtNum": 1693, "opsRegion": "HL", "region": "HL", "srRegion": "CE", "rvp": "Mike Graber", "srVP": "James Sowell", "dm": "Jeremy Lawless"}, {"num": 61, "name": "AMF Arc Lanes", "city": "EVANSVILLE", "state": "IN", "opsDistrict": "Gateway", "districtNum": 1737, "opsRegion": "HL", "region": "HL", "srRegion": "CE", "rvp": "Mike Graber", "srVP": "James Sowell", "dm": ""}, {"num": 64, "name": "Bowlero Durham", "city": "DURHAM", "state": "NC", "opsDistrict": "Tar Heel", "districtNum": 1436, "opsRegion": "AC", "region": "AC", "srRegion": "MN", "rvp": "Matt Rediske", "srVP": "Allen Morrison", "dm": "Mike Ryan"}, {"num": 65, "name": "Bowlero Raleigh", "city": "RALEIGH", "state": "NC", "opsDistrict": "Tar Heel", "districtNum": 1436, "opsRegion": "AC", "region": "AC", "srRegion": "MN", "rvp": "Matt Rediske", "srVP": "Allen Morrison", "dm": "Mike Ryan"}, {"num": 66, "name": "Bowlero Cary", "city": "CARY", "state": "NC", "opsDistrict": "Tar Heel", "districtNum": 1436, "opsRegion": "AC", "region": "AC", "srRegion": "MN", "rvp": "Matt Rediske", "srVP": "Allen Morrison", "dm": "Mike Ryan"}, {"num": 70, "name": "AMF American Lanes", "city": "CONYERS", "state": "GA", "opsDistrict": "Bulldogs", "districtNum": 1628, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Scott Hurley"}, {"num": 76, "name": "Lucky Strike Chelsea Piers", "city": "NEW YORK", "state": "NY", "opsDistrict": "New York", "districtNum": 1681, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": ""}, {"num": 77, "name": "Bowlero South Boulevard", "city": "CHARLOTTE", "state": "NC", "opsDistrict": "Panthers", "districtNum": 1560, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": "Jerome Lessey"}, {"num": 78, "name": "AMF Garden City Lanes", "city": "GARDEN CITY", "state": "NY", "opsDistrict": "Nassau", "districtNum": 1451, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Steve Marino"}, {"num": 89, "name": "AMF Spare Time Lanes", "city": "ARLINGTON", "state": "TX", "opsDistrict": "Red River", "districtNum": 1606, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": ""}, {"num": 90, "name": "AMF Diamond Lanes", "city": "HOUSTON", "state": "TX", "opsDistrict": "Lone Star", "districtNum": 1694, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Gary Chadwick"}, {"num": 91, "name": "Bowlero Edmond", "city": "EDMOND", "state": "OK", "opsDistrict": "Red River", "districtNum": 1606, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": ""}, {"num": 95, "name": "Bowlero Highland Hills", "city": "SAN ANTONIO", "state": "TX", "opsDistrict": "Alamo", "districtNum": 1616, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "David Lingafelter"}, {"num": 102, "name": "Bowlero Williamsburg", "city": "WILLIAMSBURG", "state": "VA", "opsDistrict": "Tides", "districtNum": 1503, "opsRegion": "AC", "region": "AC", "srRegion": "MN", "rvp": "Matt Rediske", "srVP": "Allen Morrison", "dm": ""}, {"num": 104, "name": "AMF Boulevard Lanes", "city": "GOLDSBORO", "state": "NC", "opsDistrict": "Tar Heel", "districtNum": 1436, "opsRegion": "AC", "region": "AC", "srRegion": "MN", "rvp": "Matt Rediske", "srVP": "Allen Morrison", "dm": "Mike Ryan"}, {"num": 108, "name": "Bowlero Mechanicsville", "city": "MECHANICSVILLE", "state": "VA", "opsDistrict": "Richmond", "districtNum": 1458, "opsRegion": "AC", "region": "AC", "srRegion": "MN", "rvp": "Matt Rediske", "srVP": "Allen Morrison", "dm": "Andrew Keys"}, {"num": 113, "name": "Bowlero Savannah", "city": "SAVANNAH", "state": "GA", "opsDistrict": "North Florida", "districtNum": 1623, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Carrie Stahlberg"}, {"num": 115, "name": "Bowlero Richmond", "city": "RICHMOND", "state": "VA", "opsDistrict": "Richmond", "districtNum": 1458, "opsRegion": "AC", "region": "AC", "srRegion": "MN", "rvp": "Matt Rediske", "srVP": "Allen Morrison", "dm": "Andrew Keys"}, {"num": 123, "name": "Bowlero Winston-Salem", "city": "WINSTON SALEM", "state": "NC", "opsDistrict": "Tar Heel", "districtNum": 1436, "opsRegion": "AC", "region": "AC", "srRegion": "MN", "rvp": "Matt Rediske", "srVP": "Allen Morrison", "dm": "Mike Ryan"}, {"num": 124, "name": "Bowlero Tampa Bay", "city": "TAMPA", "state": "FL", "opsDistrict": "Gulf Coast", "districtNum": 1442, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Johnny Parker"}, {"num": 126, "name": "AMF Seven Oaks Lanes", "city": "COLUMBIA", "state": "SC", "opsDistrict": "Bulldogs", "districtNum": 1628, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Scott Hurley"}, {"num": 128, "name": "Bowlero West End", "city": "RICHMOND", "state": "VA", "opsDistrict": "Richmond", "districtNum": 1458, "opsRegion": "AC", "region": "AC", "srRegion": "MN", "rvp": "Matt Rediske", "srVP": "Allen Morrison", "dm": "Andrew Keys"}, {"num": 142, "name": "Bowlero Fredericksburg", "city": "FREDERICKSBURG", "state": "VA", "opsDistrict": "NoVA", "districtNum": 1759, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": ""}, {"num": 143, "name": "Lucky Strike Corpus Christi", "city": "CORPUS CHRISTI", "state": "TX", "opsDistrict": "Alamo", "districtNum": 1616, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "David Lingafelter"}, {"num": 144, "name": "AMF Lynchburg Lanes", "city": "LYNCHBURG", "state": "VA", "opsDistrict": "Potomac", "districtNum": 1584, "opsRegion": "AC", "region": "AC", "srRegion": "MN", "rvp": "Matt Rediske", "srVP": "Allen Morrison", "dm": "Mike Dutcher"}, {"num": 145, "name": "Bowlero East Carolina", "city": "GREENVILLE", "state": "NC", "opsDistrict": "Tar Heel", "districtNum": 1436, "opsRegion": "AC", "region": "AC", "srRegion": "MN", "rvp": "Matt Rediske", "srVP": "Allen Morrison", "dm": "Mike Ryan"}, {"num": 148, "name": "Lucky Strike San Marcos", "city": "SAN MARCOS", "state": "CA", "opsDistrict": "San Diego", "districtNum": 1696, "opsRegion": "XP", "region": "XP", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": "Luz Barragan-Valencia"}, {"num": 154, "name": "Bowlero Bristol", "city": "CROYDON", "state": "PA", "opsDistrict": "Eagle Nation", "districtNum": 1682, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Mark Phillipine"}, {"num": 155, "name": "Lucky Strike San Antonio", "city": "SAN ANTONIO", "state": "TX", "opsDistrict": "Alamo", "districtNum": 1616, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "David Lingafelter"}, {"num": 163, "name": "Bowlero East Meadow", "city": "EAST MEADOW", "state": "NY", "opsDistrict": "Nassau", "districtNum": 1451, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Steve Marino"}, {"num": 164, "name": "AMF Firebird Lanes", "city": "SALEM", "state": "OR", "opsDistrict": "Seahawk", "districtNum": 1504, "opsRegion": "PN", "region": "PN", "srRegion": "PN", "rvp": "Kyle Welcher", "srVP": "Kyle Welcher", "dm": ""}, {"num": 165, "name": "Bowlero Lyons", "city": "LYONS", "state": "IL", "opsDistrict": "EXP Chicago", "districtNum": 1709, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": ""}, {"num": 173, "name": "Bowlero Norwalk", "city": "NORWALK", "state": "CT", "opsDistrict": "New York", "districtNum": 1681, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": ""}, {"num": 189, "name": "Lucky Strike Wallington", "city": "WALLINGTON", "state": "NJ", "opsDistrict": "North Jersey", "districtNum": 1621, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": "Bernard Brito"}, {"num": 202, "name": "Lucky Strike Mineola", "city": "MINEOLA", "state": "NY", "opsDistrict": "Nassau", "districtNum": 1451, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Steve Marino"}, {"num": 203, "name": "Bowlero Bradenton", "city": "BRADENTON", "state": "FL", "opsDistrict": "Gulf Coast", "districtNum": 1442, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Johnny Parker"}, {"num": 204, "name": "Bowlero Gulf Gate", "city": "SARASOTA", "state": "FL", "opsDistrict": "Gulf Coast", "districtNum": 1442, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Johnny Parker"}, {"num": 206, "name": "Bowlero East Ocala", "city": "OCALA", "state": "FL", "opsDistrict": "Alligator", "districtNum": 1688, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": ""}, {"num": 207, "name": "Bowlero West Ocala", "city": "OCALA", "state": "FL", "opsDistrict": "Alligator", "districtNum": 1688, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": ""}, {"num": 208, "name": "AMF Babylon Lanes", "city": "WEST BABYLON", "state": "NY", "opsDistrict": "Long Island", "districtNum": 1613, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": ""}, {"num": 210, "name": "Lucky Strike Queens", "city": "WOODSIDE", "state": "NY", "opsDistrict": "North Jersey", "districtNum": 1621, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": "Bernard Brito"}, {"num": 211, "name": "AMF Mt. Lebanon Lanes", "city": "PITTSBURGH", "state": "PA", "opsDistrict": "Cleveland", "districtNum": 1431, "opsRegion": "HL", "region": "HL", "srRegion": "CE", "rvp": "Mike Graber", "srVP": "James Sowell", "dm": "Dan Gallaher"}, {"num": 212, "name": "Bowlero Pittsburgh", "city": "PITTSBURGH", "state": "PA", "opsDistrict": "Cleveland", "districtNum": 1431, "opsRegion": "HL", "region": "HL", "srRegion": "CE", "rvp": "Mike Graber", "srVP": "James Sowell", "dm": "Dan Gallaher"}, {"num": 213, "name": "Lucky Strike Annandale", "city": "ANNANDALE", "state": "VA", "opsDistrict": "NoVA", "districtNum": 1759, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": ""}, {"num": 215, "name": "Lucky Strike Manteca", "city": "MANTECA", "state": "CA", "opsDistrict": "Sacramento", "districtNum": 1700, "opsRegion": "PN", "region": "PN", "srRegion": "PN", "rvp": "Kyle Welcher", "srVP": "Kyle Welcher", "dm": ""}, {"num": 218, "name": "Lucky Strike Fresno", "city": "FRESNO", "state": "CA", "opsDistrict": "Central Valley", "districtNum": 1695, "opsRegion": "PN", "region": "PN", "srRegion": "PN", "rvp": "Kyle Welcher", "srVP": "Kyle Welcher", "dm": ""}, {"num": 220, "name": "AMF Airport Lanes", "city": "CHEEKTOWAGA", "state": "NY", "opsDistrict": "Central New York", "districtNum": 1563, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Meghan O'Brien"}, {"num": 223, "name": "AMF Brookgate Lanes", "city": "BROOKPARK", "state": "OH", "opsDistrict": "Cleveland", "districtNum": 1431, "opsRegion": "HL", "region": "HL", "srRegion": "CE", "rvp": "Mike Graber", "srVP": "James Sowell", "dm": "Dan Gallaher"}, {"num": 226, "name": "AMF Somerset Lanes", "city": "SOMERSET", "state": "MA", "opsDistrict": "Founders", "districtNum": 1444, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Frank Giuffrida"}, {"num": 227, "name": "AMF Lancaster Lanes", "city": "DEPEW", "state": "NY", "opsDistrict": "Central New York", "districtNum": 1563, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Meghan O'Brien"}, {"num": 229, "name": "Bowlero Cherry Creek", "city": "DENVER", "state": "CO", "opsDistrict": "The Rockies", "districtNum": 1569, "opsRegion": "PN", "region": "MH", "srRegion": "PN", "rvp": "Aaron Briscoe", "srVP": "Kyle Welcher", "dm": "Hector Castillo"}, {"num": 230, "name": "Bowlero Wilmington", "city": "WILMINGTON", "state": "DE", "opsDistrict": "Eagle Nation", "districtNum": 1682, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Mark Phillipine"}, {"num": 231, "name": "AMF Rose Bowl Lanes - MI", "city": "ROSEVILLE", "state": "MI", "opsDistrict": "Lion's Den", "districtNum": 1717, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Chris Cachia"}, {"num": 238, "name": "AMF Centereach Lanes", "city": "CENTEREACH", "state": "NY", "opsDistrict": "Long Island", "districtNum": 1613, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": ""}, {"num": 239, "name": "Lucky Strike Melville", "city": "MELVILLE", "state": "NY", "opsDistrict": "Long Island", "districtNum": 1613, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": ""}, {"num": 240, "name": "Lucky Strike Sayville", "city": "SAYVILLE", "state": "NY", "opsDistrict": "Long Island", "districtNum": 1613, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": ""}, {"num": 242, "name": "AMF Syosset Lanes", "city": "SYOSSET", "state": "NY", "opsDistrict": "Long Island", "districtNum": 1613, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": ""}, {"num": 243, "name": "AMF Indian River Lanes", "city": "VIRGINIA BEACH", "state": "VA", "opsDistrict": "VA Beach", "districtNum": 1615, "opsRegion": "AC", "region": "AC", "srRegion": "MN", "rvp": "Matt Rediske", "srVP": "Allen Morrison", "dm": "Matt Liss"}, {"num": 244, "name": "AMF Norfolk Lanes", "city": "NORFOLK", "state": "VA", "opsDistrict": "VA Beach", "districtNum": 1615, "opsRegion": "AC", "region": "AC", "srRegion": "MN", "rvp": "Matt Rediske", "srVP": "Allen Morrison", "dm": "Matt Liss"}, {"num": 245, "name": "Bowlero Lynnhaven", "city": "VIRGINIA BEACH", "state": "VA", "opsDistrict": "VA Beach", "districtNum": 1615, "opsRegion": "AC", "region": "AC", "srRegion": "MN", "rvp": "Matt Rediske", "srVP": "Allen Morrison", "dm": "Matt Liss"}, {"num": 248, "name": "Lucky Strike Chesapeake", "city": "CHESAPEAKE", "state": "VA", "opsDistrict": "VA Beach", "districtNum": 1615, "opsRegion": "AC", "region": "AC", "srRegion": "MN", "rvp": "Matt Rediske", "srVP": "Allen Morrison", "dm": "Matt Liss"}, {"num": 249, "name": "Lucky Strike Western Branch", "city": "CHESAPEAKE", "state": "VA", "opsDistrict": "Tides", "districtNum": 1503, "opsRegion": "AC", "region": "AC", "srRegion": "MN", "rvp": "Matt Rediske", "srVP": "Allen Morrison", "dm": ""}, {"num": 250, "name": "Bowlero Yorktown", "city": "YORKTOWN", "state": "VA", "opsDistrict": "Tides", "districtNum": 1503, "opsRegion": "AC", "region": "AC", "srRegion": "MN", "rvp": "Matt Rediske", "srVP": "Allen Morrison", "dm": ""}, {"num": 256, "name": "Bowlero San Bernardino", "city": "SAN BERNARDINO", "state": "CA", "opsDistrict": "Southern California", "districtNum": 1550, "opsRegion": "XP", "region": "XP", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": "Dave Peltier"}, {"num": 257, "name": "Lucky Strike Pasadena", "city": "PASADENA", "state": "CA", "opsDistrict": "The Valley", "districtNum": 1692, "opsRegion": "XP", "region": "XP", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": ""}, {"num": 259, "name": "Lucky Strike Montebello", "city": "MONTEBELLO", "state": "CA", "opsDistrict": "East LA", "districtNum": 1404, "opsRegion": "XP", "region": "XP", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": "Candis Murphy"}, {"num": 261, "name": "Lucky Strike Torrance", "city": "TORRANCE", "state": "CA", "opsDistrict": "East LA", "districtNum": 1404, "opsRegion": "XP", "region": "XP", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": "Candis Murphy"}, {"num": 262, "name": "Lucky Strike Fullerton", "city": "FULLERTON", "state": "CA", "opsDistrict": "East LA", "districtNum": 1404, "opsRegion": "XP", "region": "XP", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": "Candis Murphy"}, {"num": 263, "name": "Lucky Strike Los Angeles", "city": "WESTCHESTER", "state": "CA", "opsDistrict": "Hollywood", "districtNum": 1562, "opsRegion": "XP", "region": "XP", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": ""}, {"num": 264, "name": "Lucky Strike Mar Vista", "city": "LOS ANGELES", "state": "CA", "opsDistrict": "Hollywood", "districtNum": 1562, "opsRegion": "XP", "region": "XP", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": ""}, {"num": 267, "name": "Lucky Strike Riverside", "city": "RIVERSIDE", "state": "CA", "opsDistrict": "LA Burbs", "districtNum": 1554, "opsRegion": "XP", "region": "XP", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": ""}, {"num": 270, "name": "Lucky Strike Woodland Hills", "city": "WOODLAND HILLS", "state": "CA", "opsDistrict": "Hollywood", "districtNum": 1562, "opsRegion": "XP", "region": "XP", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": ""}, {"num": 276, "name": "AMF Sheridan Lanes - OK", "city": "TULSA", "state": "OK", "opsDistrict": "Red River", "districtNum": 1606, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": ""}, {"num": 277, "name": "Bowlero Boothwyn", "city": "BOOTHWYN", "state": "PA", "opsDistrict": "Eagle Nation", "districtNum": 1682, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Mark Phillipine"}, {"num": 280, "name": "Lucky Strike Hemet", "city": "HEMET", "state": "CA", "opsDistrict": "Southern California", "districtNum": 1550, "opsRegion": "XP", "region": "XP", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": "Dave Peltier"}, {"num": 282, "name": "Bowlero Chico", "city": "CHICO", "state": "CA", "opsDistrict": "East Bay", "districtNum": 1549, "opsRegion": "PN", "region": "PN", "srRegion": "PN", "rvp": "Kyle Welcher", "srVP": "Kyle Welcher", "dm": ""}, {"num": 287, "name": "AMF Fairview Lanes", "city": "FAIRPORT", "state": "NY", "opsDistrict": "Central New York", "districtNum": 1563, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Meghan O'Brien"}, {"num": 291, "name": "AMF Southtown Lanes", "city": "BLOOMINGTON", "state": "MN", "opsDistrict": "Midwest XL's", "districtNum": 1566, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Tony Luna"}, {"num": 292, "name": "AMF Saxon Lanes", "city": "SAINT PAUL", "state": "MN", "opsDistrict": "Midwest XL's", "districtNum": 1566, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Tony Luna"}, {"num": 295, "name": "AMF Sonesta Lanes", "city": "THORNTON", "state": "CO", "opsDistrict": "The Rockies", "districtNum": 1569, "opsRegion": "PN", "region": "MH", "srRegion": "PN", "rvp": "Aaron Briscoe", "srVP": "Kyle Welcher", "dm": "Hector Castillo"}, {"num": 297, "name": "Bowlero Charlottesville", "city": "CHARLOTTESVILLE", "state": "VA", "opsDistrict": "Richmond", "districtNum": 1458, "opsRegion": "AC", "region": "AC", "srRegion": "MN", "rvp": "Matt Rediske", "srVP": "Allen Morrison", "dm": "Andrew Keys"}, {"num": 304, "name": "Bowlero Englewood", "city": "ENGLEWOOD", "state": "CO", "opsDistrict": "Red Rocks", "districtNum": 1446, "opsRegion": "PN", "region": "MH", "srRegion": "PN", "rvp": "Aaron Briscoe", "srVP": "Kyle Welcher", "dm": "Dahlia Casillas"}, {"num": 305, "name": "AMF Bolera Paradise Lanes", "city": "SAN JUAN", "state": "PR", "opsDistrict": "Gold Coast", "districtNum": 1686, "opsRegion": "SF", "region": "SF", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": "RVP - Andrew Hirsch"}, {"num": 306, "name": "AMF Sky Lanes", "city": "ORLANDO", "state": "FL", "opsDistrict": "Central Florida", "districtNum": 1441, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Shannon Martorelli"}, {"num": 307, "name": "Lucky Strike Davie", "city": "DAVIE", "state": "FL", "opsDistrict": "Palm Trees", "districtNum": 1422, "opsRegion": "SF", "region": "SF", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": "Paolo Bazzani"}, {"num": 311, "name": "AMF Pembroke Pines Lanes", "city": "PEMBROKE PINES", "state": "FL", "opsDistrict": "Palm Trees", "districtNum": 1422, "opsRegion": "SF", "region": "SF", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": "Paolo Bazzani"}, {"num": 312, "name": "AMF Boynton Beach Lanes", "city": "BOYNTON BEACH", "state": "FL", "opsDistrict": "Emerald Isle", "districtNum": 1580, "opsRegion": "SF", "region": "SF", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": "John Walsh"}, {"num": 314, "name": "Bowlero Chicopee", "city": "CHICOPEE", "state": "MA", "opsDistrict": "Founders", "districtNum": 1444, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Frank Giuffrida"}, {"num": 319, "name": "Lucky Strike Chamblee", "city": "ATLANTA", "state": "GA", "opsDistrict": "Atlanta", "districtNum": 1625, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Steve Bunnell"}, {"num": 322, "name": "Lucky Strike Atlantic Station", "city": "ATLANTA", "state": "GA", "opsDistrict": "Atlanta", "districtNum": 1625, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Steve Bunnell"}, {"num": 326, "name": "Lucky Strike Milford", "city": "MILFORD", "state": "CT", "opsDistrict": "New York", "districtNum": 1681, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": ""}, {"num": 328, "name": "Lucky Strike North Scottsdale", "city": "PHOENIX", "state": "AZ", "opsDistrict": "Cactus", "districtNum": 1427, "opsRegion": "SU", "region": "SU", "srRegion": "CE", "rvp": "Joe Regilio", "srVP": "James Sowell", "dm": "Jennifer Hoverson"}, {"num": 330, "name": "Bowlero Aurora", "city": "AURORA", "state": "CO", "opsDistrict": "The Rockies", "districtNum": 1569, "opsRegion": "PN", "region": "MH", "srRegion": "PN", "rvp": "Aaron Briscoe", "srVP": "Kyle Welcher", "dm": "Hector Castillo"}, {"num": 336, "name": "Lucky Strike Timonium", "city": "TIMONIUM", "state": "MD", "opsDistrict": "Old Bay", "districtNum": 1702, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": ""}, {"num": 339, "name": "AMF Southwest Lanes - MD", "city": "LINTHICUM HEIGHTS", "state": "MD", "opsDistrict": "Raven Nation", "districtNum": 1578, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Mike Bixler"}, {"num": 340, "name": "Bowlero Pikesville", "city": "PIKESVILLE", "state": "MD", "opsDistrict": "Raven Nation", "districtNum": 1578, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Mike Bixler"}, {"num": 341, "name": "AMF Dundalk Lanes", "city": "BALTIMORE", "state": "MD", "opsDistrict": "Raven Nation", "districtNum": 1578, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Mike Bixler"}, {"num": 342, "name": "AMF Towson Lanes", "city": "TOWSON", "state": "MD", "opsDistrict": "Raven Nation", "districtNum": 1578, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Mike Bixler"}, {"num": 343, "name": "AMF Woodlawn Lanes", "city": "BALTIMORE", "state": "MD", "opsDistrict": "Raven Nation", "districtNum": 1578, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Mike Bixler"}, {"num": 349, "name": "AMF Southdale Lanes", "city": "PASADENA", "state": "MD", "opsDistrict": "Capitol", "districtNum": 1673, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Shirley Pierpont"}, {"num": 353, "name": "AMF Tempe Village Lanes", "city": "TEMPE", "state": "AZ", "opsDistrict": "Sun Devil", "districtNum": 1607, "opsRegion": "SU", "region": "SU", "srRegion": "CE", "rvp": "Joe Regilio", "srVP": "James Sowell", "dm": "Mark Nelsen"}, {"num": 354, "name": "AMF Chandler Lanes", "city": "CHANDLER", "state": "AZ", "opsDistrict": "Coyote", "districtNum": 1443, "opsRegion": "SU", "region": "SU", "srRegion": "CE", "rvp": "Joe Regilio", "srVP": "James Sowell", "dm": ""}, {"num": 357, "name": "AMF Marlow Heights Lanes", "city": "TEMPLE HILLS", "state": "MD", "opsDistrict": "Capitol", "districtNum": 1673, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Shirley Pierpont"}, {"num": 358, "name": "AMF Northglenn Lanes", "city": "NORTHGLENN", "state": "CO", "opsDistrict": "The Rockies", "districtNum": 1569, "opsRegion": "PN", "region": "MH", "srRegion": "PN", "rvp": "Aaron Briscoe", "srVP": "Kyle Welcher", "dm": "Hector Castillo"}, {"num": 361, "name": "Lucky Strike College Park", "city": "COLLEGE PARK", "state": "MD", "opsDistrict": "Old Bay", "districtNum": 1702, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": ""}, {"num": 362, "name": "AMF Capital Plaza Lanes", "city": "HYATTSVILLE", "state": "MD", "opsDistrict": "Capitol", "districtNum": 1673, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Shirley Pierpont"}, {"num": 368, "name": "Lucky Strike Rockville", "city": "GAITHERSBURG", "state": "MD", "opsDistrict": "Embassy", "districtNum": 1757, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": "Andrew Humphreys"}, {"num": 370, "name": "Lucky Strike Tuscaloosa", "city": "TUSCALOOSA", "state": "AL", "opsDistrict": "Atlanta", "districtNum": 1625, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Steve Bunnell"}, {"num": 372, "name": "Bowlero Dale City", "city": "WOODBRIDGE", "state": "VA", "opsDistrict": "Embassy", "districtNum": 1757, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": "Andrew Humphreys"}, {"num": 373, "name": "AMF Waldorf Lanes", "city": "WALDORF", "state": "MD", "opsDistrict": "Old Bay", "districtNum": 1702, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": ""}, {"num": 374, "name": "Bowlero Union Hills", "city": "PHOENIX", "state": "AZ", "opsDistrict": "Sun Devil", "districtNum": 1607, "opsRegion": "SU", "region": "SU", "srRegion": "CE", "rvp": "Joe Regilio", "srVP": "James Sowell", "dm": "Mark Nelsen"}, {"num": 375, "name": "Lucky Strike Leesburg", "city": "LEESBURG", "state": "VA", "opsDistrict": "NoVA", "districtNum": 1759, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": ""}, {"num": 384, "name": "AMF Mesa Lanes", "city": "MESA", "state": "AZ", "opsDistrict": "Sun Devil", "districtNum": 1607, "opsRegion": "SU", "region": "SU", "srRegion": "CE", "rvp": "Joe Regilio", "srVP": "James Sowell", "dm": "Mark Nelsen"}, {"num": 388, "name": "Lucky Strike Centreville", "city": "CENTREVILLE", "state": "VA", "opsDistrict": "NoVA", "districtNum": 1759, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": ""}, {"num": 391, "name": "Lucky Strike Houston", "city": "HOUSTON", "state": "TX", "opsDistrict": "Space City", "districtNum": 1440, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Danielle Lajeunesse"}, {"num": 394, "name": "Lucky Strike Willowbrook", "city": "HOUSTON", "state": "TX", "opsDistrict": "Space City", "districtNum": 1440, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Danielle Lajeunesse"}, {"num": 397, "name": "AMF Windfern Lanes", "city": "HOUSTON", "state": "TX", "opsDistrict": "Space City", "districtNum": 1440, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Danielle Lajeunesse"}, {"num": 398, "name": "Bowlero Stafford", "city": "STAFFORD", "state": "TX", "opsDistrict": "Space City", "districtNum": 1440, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Danielle Lajeunesse"}, {"num": 400, "name": "Bowlero Altamonte", "city": "ALTAMONTE SPRINGS", "state": "FL", "opsDistrict": "Central Florida", "districtNum": 1441, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Shannon Martorelli"}, {"num": 401, "name": "AMF Leesburg Lanes", "city": "LEESBURG", "state": "FL", "opsDistrict": "Alligator", "districtNum": 1688, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": ""}, {"num": 402, "name": "AMF Deltona Lanes", "city": "ORANGE CITY", "state": "FL", "opsDistrict": "Central Florida", "districtNum": 1441, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Shannon Martorelli"}, {"num": 403, "name": "Bowlero Lakeland", "city": "LAKELAND", "state": "FL", "opsDistrict": "Gulf Coast", "districtNum": 1442, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Johnny Parker"}, {"num": 407, "name": "AMF Kissimmee Lanes", "city": "KISSIMMEE", "state": "FL", "opsDistrict": "Central Florida", "districtNum": 1441, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Shannon Martorelli"}, {"num": 408, "name": "AMF Woodstock Lanes", "city": "WOODSTOCK", "state": "GA", "opsDistrict": "Bulldogs", "districtNum": 1628, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Scott Hurley"}, {"num": 410, "name": "Lucky Strike Dania Beach", "city": "DANIA BEACH", "state": "FL", "opsDistrict": "Palm Trees", "districtNum": 1422, "opsRegion": "SF", "region": "SF", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": "Paolo Bazzani"}, {"num": 412, "name": "Bowlero Waco", "city": "WACO", "state": "TX", "opsDistrict": "Alamo", "districtNum": 1616, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "David Lingafelter"}, {"num": 413, "name": "Lucky Strike Woodlands", "city": "CONROE", "state": "TX", "opsDistrict": "Lone Star", "districtNum": 1694, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Gary Chadwick"}, {"num": 414, "name": "Bowlero Texas City", "city": "TEXAS CITY", "state": "TX", "opsDistrict": "Lone Star", "districtNum": 1694, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Gary Chadwick"}, {"num": 415, "name": "Lucky Strike Webster", "city": "WEBSTER", "state": "TX", "opsDistrict": "Lone Star", "districtNum": 1694, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Gary Chadwick"}, {"num": 423, "name": "Bowlero Christown", "city": "PHOENIX", "state": "AZ", "opsDistrict": "Coyote", "districtNum": 1443, "opsRegion": "SU", "region": "SU", "srRegion": "CE", "rvp": "Joe Regilio", "srVP": "James Sowell", "dm": ""}, {"num": 425, "name": "AMF Desert Hills Lanes", "city": "PHOENIX", "state": "AZ", "opsDistrict": "Sun Devil", "districtNum": 1607, "opsRegion": "SU", "region": "SU", "srRegion": "CE", "rvp": "Joe Regilio", "srVP": "James Sowell", "dm": "Mark Nelsen"}, {"num": 426, "name": "Lucky Strike Old Town", "city": "SCOTTSDALE", "state": "AZ", "opsDistrict": "Cactus", "districtNum": 1427, "opsRegion": "SU", "region": "SU", "srRegion": "CE", "rvp": "Joe Regilio", "srVP": "James Sowell", "dm": "Jennifer Hoverson"}, {"num": 427, "name": "AMF Peoria Lanes", "city": "PEORIA", "state": "AZ", "opsDistrict": "Coyote", "districtNum": 1443, "opsRegion": "SU", "region": "SU", "srRegion": "CE", "rvp": "Joe Regilio", "srVP": "James Sowell", "dm": ""}, {"num": 428, "name": "AMF McRay Plaza Lanes", "city": "CHANDLER", "state": "AZ", "opsDistrict": "Coyote", "districtNum": 1443, "opsRegion": "SU", "region": "SU", "srRegion": "CE", "rvp": "Joe Regilio", "srVP": "James Sowell", "dm": ""}, {"num": 430, "name": "Bowlero Littleton", "city": "LITTLETON", "state": "CO", "opsDistrict": "Red Rocks", "districtNum": 1446, "opsRegion": "PN", "region": "MH", "srRegion": "PN", "rvp": "Aaron Briscoe", "srVP": "Kyle Welcher", "dm": "Dahlia Casillas"}, {"num": 447, "name": "Bowlero Shrewsbury", "city": "SHREWSBURY", "state": "MA", "opsDistrict": "Boston", "districtNum": 1434, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": "Colleen O'Neill"}, {"num": 504, "name": "Bowlero Worcester", "city": "AUBURN", "state": "MA", "opsDistrict": "Founders", "districtNum": 1444, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Frank Giuffrida"}, {"num": 508, "name": "Lucky Strike Matthews", "city": "MATTHEWS", "state": "NC", "opsDistrict": "Panthers", "districtNum": 1560, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": "Jerome Lessey"}, {"num": 509, "name": "AMF Circle Lanes - East Haven", "city": "EAST HAVEN", "state": "CT", "opsDistrict": "Founders", "districtNum": 1444, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Frank Giuffrida"}, {"num": 512, "name": "Lucky Strike Commack", "city": "COMMACK", "state": "NY", "opsDistrict": "Long Island", "districtNum": 1613, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": ""}, {"num": 513, "name": "Bowlero Cranston", "city": "CRANSTON", "state": "RI", "opsDistrict": "Founders", "districtNum": 1444, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Frank Giuffrida"}, {"num": 514, "name": "AMF Dewey Garden Lanes", "city": "ROCHESTER", "state": "NY", "opsDistrict": "Central New York", "districtNum": 1563, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Meghan O'Brien"}, {"num": 515, "name": "AMF Eastbrook Lanes", "city": "GRAND RAPIDS", "state": "MI", "opsDistrict": "Lion's Den", "districtNum": 1717, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Chris Cachia"}, {"num": 516, "name": "Bowlero Rochester", "city": "WEBSTER", "state": "NY", "opsDistrict": "Central New York", "districtNum": 1563, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Meghan O'Brien"}, {"num": 517, "name": "AMF Hall of Fame Lanes", "city": "CANTON", "state": "OH", "opsDistrict": "Cleveland", "districtNum": 1431, "opsRegion": "HL", "region": "HL", "srRegion": "CE", "rvp": "Mike Graber", "srVP": "James Sowell", "dm": "Dan Gallaher"}, {"num": 519, "name": "AMF Hilltop Lanes", "city": "ROANOKE", "state": "VA", "opsDistrict": "Potomac", "districtNum": 1584, "opsRegion": "AC", "region": "AC", "srRegion": "MN", "rvp": "Matt Rediske", "srVP": "Allen Morrison", "dm": "Mike Dutcher"}, {"num": 523, "name": "AMF Medina Lanes", "city": "MEDINA", "state": "OH", "opsDistrict": "Cleveland", "districtNum": 1431, "opsRegion": "HL", "region": "HL", "srRegion": "CE", "rvp": "Mike Graber", "srVP": "James Sowell", "dm": "Dan Gallaher"}, {"num": 529, "name": "AMF Riviera Lanes", "city": "FAIRLAWN", "state": "OH", "opsDistrict": "Cleveland", "districtNum": 1431, "opsRegion": "HL", "region": "HL", "srRegion": "CE", "rvp": "Mike Graber", "srVP": "James Sowell", "dm": "Dan Gallaher"}, {"num": 530, "name": "Bowlero Sawmill", "city": "COLUMBUS", "state": "OH", "opsDistrict": "Gateway", "districtNum": 1737, "opsRegion": "HL", "region": "HL", "srRegion": "CE", "rvp": "Mike Graber", "srVP": "James Sowell", "dm": ""}, {"num": 533, "name": "AMF Sportsman Lanes", "city": "FINDLAY", "state": "OH", "opsDistrict": "Lion's Den", "districtNum": 1717, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Chris Cachia"}, {"num": 534, "name": "AMF Stardust Lanes", "city": "GROVE CITY", "state": "OH", "opsDistrict": "Gateway", "districtNum": 1737, "opsRegion": "HL", "region": "HL", "srRegion": "CE", "rvp": "Mike Graber", "srVP": "James Sowell", "dm": ""}, {"num": 535, "name": "AMF Strathmore Lanes", "city": "ABERDEEN TOWNSHIP", "state": "NJ", "opsDistrict": "Central Jersey", "districtNum": 1445, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Daniel Flannelly"}, {"num": 536, "name": "Lucky Strike Green Brook", "city": "GREEN BROOK", "state": "NJ", "opsDistrict": "Central Jersey", "districtNum": 1445, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Daniel Flannelly"}, {"num": 538, "name": "AMF Springfield Lanes", "city": "SPRINGFIELD", "state": "IL", "opsDistrict": "Gateway", "districtNum": 1737, "opsRegion": "HL", "region": "HL", "srRegion": "CE", "rvp": "Mike Graber", "srVP": "James Sowell", "dm": ""}, {"num": 540, "name": "AMF Syracuse Lanes", "city": "SYRACUSE", "state": "NY", "opsDistrict": "Central New York", "districtNum": 1563, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Meghan O'Brien"}, {"num": 546, "name": "AMF University Lanes - NC", "city": "CHARLOTTE", "state": "NC", "opsDistrict": "Panthers", "districtNum": 1560, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": "Jerome Lessey"}, {"num": 548, "name": "AMF Wantagh Lanes", "city": "WANTAGH", "state": "NY", "opsDistrict": "Long Island", "districtNum": 1613, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": ""}, {"num": 551, "name": "Bowlero White Plains", "city": "WHITE PLAINS", "state": "NY", "opsDistrict": "New York", "districtNum": 1681, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": ""}, {"num": 557, "name": "Bowlero Euless", "city": "EULESS", "state": "TX", "opsDistrict": "DFW", "districtNum": 1608, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Spencer McCurley"}, {"num": 559, "name": "Lucky Strike Garland", "city": "GARLAND", "state": "TX", "opsDistrict": "DFW", "districtNum": 1608, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Spencer McCurley"}, {"num": 564, "name": "Bowlero Wauwatosa", "city": "WAUWATOSA", "state": "WI", "opsDistrict": "Lombardi", "districtNum": 1618, "opsRegion": "HL", "region": "HL", "srRegion": "CE", "rvp": "Mike Graber", "srVP": "James Sowell", "dm": "Aaron Gruis"}, {"num": 567, "name": "Lucky Strike Cerritos", "city": "CERRITOS", "state": "CA", "opsDistrict": "East LA", "districtNum": 1404, "opsRegion": "XP", "region": "XP", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": "Candis Murphy"}, {"num": 571, "name": "Bowlero Dallas", "city": "ADDISON", "state": "TX", "opsDistrict": "DFW", "districtNum": 1608, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Spencer McCurley"}, {"num": 573, "name": "Bowlero North Sacramento", "city": "SACRAMENTO", "state": "CA", "opsDistrict": "Sacramento", "districtNum": 1700, "opsRegion": "PN", "region": "PN", "srRegion": "PN", "rvp": "Kyle Welcher", "srVP": "Kyle Welcher", "dm": ""}, {"num": 575, "name": "Lucky Strike Alameda", "city": "ALAMEDA", "state": "CA", "opsDistrict": "East Bay", "districtNum": 1549, "opsRegion": "PN", "region": "PN", "srRegion": "PN", "rvp": "Kyle Welcher", "srVP": "Kyle Welcher", "dm": ""}, {"num": 576, "name": "Lucky Strike Midland", "city": "MIDLAND", "state": "TX", "opsDistrict": "Red River", "districtNum": 1606, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": ""}, {"num": 577, "name": "Lucky Strike Milpitas", "city": "MILPITAS", "state": "CA", "opsDistrict": "Silicon Valley", "districtNum": 1698, "opsRegion": "PN", "region": "PN", "srRegion": "PN", "rvp": "Kyle Welcher", "srVP": "Kyle Welcher", "dm": ""}, {"num": 580, "name": "Lucky Strike San Jose", "city": "SAN JOSE", "state": "CA", "opsDistrict": "Silicon Valley", "districtNum": 1698, "opsRegion": "PN", "region": "PN", "srRegion": "PN", "rvp": "Kyle Welcher", "srVP": "Kyle Welcher", "dm": ""}, {"num": 581, "name": "AMF Pinole Valley Lanes", "city": "PINOLE", "state": "CA", "opsDistrict": "Sacramento", "districtNum": 1700, "opsRegion": "PN", "region": "PN", "srRegion": "PN", "rvp": "Kyle Welcher", "srVP": "Kyle Welcher", "dm": ""}, {"num": 583, "name": "AMF Rocklin Lanes", "city": "ROCKLIN", "state": "CA", "opsDistrict": "Sacramento", "districtNum": 1700, "opsRegion": "PN", "region": "PN", "srRegion": "PN", "rvp": "Kyle Welcher", "srVP": "Kyle Welcher", "dm": ""}, {"num": 584, "name": "Lucky Strike Clovis", "city": "CLOVIS", "state": "CA", "opsDistrict": "Central Valley", "districtNum": 1695, "opsRegion": "PN", "region": "PN", "srRegion": "PN", "rvp": "Kyle Welcher", "srVP": "Kyle Welcher", "dm": ""}, {"num": 585, "name": "Bowlero Charlotte", "city": "CHARLOTTE", "state": "NC", "opsDistrict": "Panthers", "districtNum": 1560, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": "Jerome Lessey"}, {"num": 590, "name": "Lucky Strike Arcadia", "city": "ARCADIA", "state": "CA", "opsDistrict": "The Valley", "districtNum": 1692, "opsRegion": "XP", "region": "XP", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": ""}, {"num": 595, "name": "AMF Lewisville Lanes", "city": "LEWISVILLE", "state": "TX", "opsDistrict": "DFW", "districtNum": 1608, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Spencer McCurley"}, {"num": 596, "name": "AMF Richardson Lanes", "city": "RICHARDSON", "state": "TX", "opsDistrict": "DFW", "districtNum": 1608, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Spencer McCurley"}, {"num": 598, "name": "Lucky Strike Visalia", "city": "VISALIA", "state": "CA", "opsDistrict": "Central Valley", "districtNum": 1695, "opsRegion": "PN", "region": "PN", "srRegion": "PN", "rvp": "Kyle Welcher", "srVP": "Kyle Welcher", "dm": ""}, {"num": 601, "name": "AMF West Lanes", "city": "MILWAUKEE", "state": "WI", "opsDistrict": "Lombardi", "districtNum": 1618, "opsRegion": "HL", "region": "HL", "srRegion": "CE", "rvp": "Mike Graber", "srVP": "James Sowell", "dm": "Aaron Gruis"}, {"num": 602, "name": "AMF Windsor Lanes", "city": "OKLAHOMA CITY", "state": "OK", "opsDistrict": "Red River", "districtNum": 1606, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": ""}, {"num": 603, "name": "AMF DeSoto Lanes", "city": "DESOTO", "state": "TX", "opsDistrict": "Red River", "districtNum": 1606, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": ""}, {"num": 605, "name": "Bowlero South Seattle", "city": "TUKWILA", "state": "WA", "opsDistrict": "Seahawk", "districtNum": 1504, "opsRegion": "PN", "region": "PN", "srRegion": "PN", "rvp": "Kyle Welcher", "srVP": "Kyle Welcher", "dm": ""}, {"num": 606, "name": "Bowlero Wallingford", "city": "WALLINGFORD", "state": "CT", "opsDistrict": "Founders", "districtNum": 1444, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Frank Giuffrida"}, {"num": 608, "name": "Bowlero Bakersfield", "city": "BAKERSFIELD", "state": "CA", "opsDistrict": "Central Valley", "districtNum": 1695, "opsRegion": "PN", "region": "PN", "srRegion": "PN", "rvp": "Kyle Welcher", "srVP": "Kyle Welcher", "dm": ""}, {"num": 610, "name": "AMF Petaluma Lanes", "city": "PETALUMA", "state": "CA", "opsDistrict": "East Bay", "districtNum": 1549, "opsRegion": "PN", "region": "PN", "srRegion": "PN", "rvp": "Kyle Welcher", "srVP": "Kyle Welcher", "dm": ""}, {"num": 615, "name": "Bowlero Mobile", "city": "MOBILE", "state": "AL", "opsDistrict": "Deep South", "districtNum": 1670, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Brian Shaw"}, {"num": 621, "name": "Bowlero Kenner", "city": "KENNER", "state": "LA", "opsDistrict": "Deep South", "districtNum": 1670, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Brian Shaw"}, {"num": 638, "name": "Bowlero Anaheim", "city": "ANAHEIM", "state": "CA", "opsDistrict": "The OC", "districtNum": 1439, "opsRegion": "XP", "region": "XP", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": "Robert Jacklin"}, {"num": 639, "name": "Lucky Strike Jupiter", "city": "JUPITER", "state": "FL", "opsDistrict": "Emerald Isle", "districtNum": 1580, "opsRegion": "SF", "region": "SF", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": "John Walsh"}, {"num": 682, "name": "Raging Waves Yorkville", "city": "YORKVILLE", "state": "IL", "opsDistrict": "Water Park", "districtNum": 1203, "opsRegion": "WP", "region": "WP", "srRegion": "WP", "rvp": "Chris Baker", "srVP": "Sam Khazary", "dm": ""}, {"num": 683, "name": "Raging Waters LA", "city": "SAN DIMAS", "state": "CA", "opsDistrict": "Water Park", "districtNum": 1203, "opsRegion": "WP", "region": "WP", "srRegion": "WP", "rvp": "Chris Baker", "srVP": "Sam Khazary", "dm": ""}, {"num": 684, "name": "Wet 'n Wild Emerald Pointe", "city": "GREENSBORO", "state": "NC", "opsDistrict": "Water Park", "districtNum": 1203, "opsRegion": "WP", "region": "WP", "srRegion": "WP", "rvp": "Chris Baker", "srVP": "Sam Khazary", "dm": ""}, {"num": 685, "name": "Castle Park", "city": "RIVERSIDE", "state": "CA", "opsDistrict": "Water Park", "districtNum": 1203, "opsRegion": "WP", "region": "WP", "srRegion": "WP", "rvp": "Chris Baker", "srVP": "Sam Khazary", "dm": ""}, {"num": 686, "name": "Boomers Vista", "city": "VISTA", "state": "CA", "opsDistrict": "Water Park", "districtNum": 1203, "opsRegion": "WP", "region": "WP", "srRegion": "WP", "rvp": "Chris Baker", "srVP": "Sam Khazary", "dm": ""}, {"num": 687, "name": "Boomers Palm Springs", "city": "CATHEDRAL CITY", "state": "CA", "opsDistrict": "Water Park", "districtNum": 1203, "opsRegion": "WP", "region": "WP", "srRegion": "WP", "rvp": "Chris Baker", "srVP": "Sam Khazary", "dm": ""}, {"num": 688, "name": "Shipwreck Island", "city": "PANAMA CITY BEACH", "state": "FL", "opsDistrict": "Sunshine Waterpark", "districtNum": 1207, "opsRegion": "WP", "region": "WP", "srRegion": "WP", "rvp": "Chris Baker", "srVP": "Sam Khazary", "dm": "Kaitlin Smith"}, {"num": 689, "name": "Boomers Visalia", "city": "VISALIA", "state": "CA", "opsDistrict": "Central Valley", "districtNum": 1695, "opsRegion": "PN", "region": "PN", "srRegion": "PN", "rvp": "Kyle Welcher", "srVP": "Kyle Welcher", "dm": ""}, {"num": 691, "name": "Big Kahuna\u2019s Destin", "city": "DESTIN", "state": "FL", "opsDistrict": "Sunshine Waterpark", "districtNum": 1207, "opsRegion": "WP", "region": "WP", "srRegion": "WP", "rvp": "Chris Baker", "srVP": "Sam Khazary", "dm": "Kaitlin Smith"}, {"num": 692, "name": "Boomers Boca Raton", "city": "BOCA RATON", "state": "FL", "opsDistrict": "Gold Coast", "districtNum": 1686, "opsRegion": "SF", "region": "SF", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": "RVP - Andrew Hirsch"}, {"num": 693, "name": "Boomers Irvine", "city": "IRVINE", "state": "CA", "opsDistrict": "Water Park", "districtNum": 1203, "opsRegion": "WP", "region": "WP", "srRegion": "WP", "rvp": "Chris Baker", "srVP": "Sam Khazary", "dm": ""}, {"num": 694, "name": "Boomers Livermore", "city": "LIVERMORE", "state": "CA", "opsDistrict": "Boomers Golden State", "districtNum": 1752, "opsRegion": "WP", "region": "WP", "srRegion": "WP", "rvp": "Chris Baker", "srVP": "Sam Khazary", "dm": "Chris Beason"}, {"num": 696, "name": "Boomers Modesto", "city": "MODESTO", "state": "CA", "opsDistrict": "Boomers Golden State", "districtNum": 1752, "opsRegion": "WP", "region": "WP", "srRegion": "WP", "rvp": "Chris Baker", "srVP": "Sam Khazary", "dm": "Chris Beason"}, {"num": 697, "name": "Boomers Santa Maria", "city": "SANTA MARIA", "state": "CA", "opsDistrict": "Boomers Golden State", "districtNum": 1752, "opsRegion": "WP", "region": "WP", "srRegion": "WP", "rvp": "Chris Baker", "srVP": "Sam Khazary", "dm": "Chris Beason"}, {"num": 699, "name": "Ten Pin Alley", "city": "HILLARD", "state": "OH", "opsDistrict": "Gateway", "districtNum": 1737, "opsRegion": "HL", "region": "HL", "srRegion": "CE", "rvp": "Mike Graber", "srVP": "James Sowell", "dm": ""}, {"num": 700, "name": "Lucky Strike Grand Rapids", "city": "WYOMING", "state": "MI", "opsDistrict": "Lion's Den", "districtNum": 1717, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Chris Cachia"}, {"num": 702, "name": "Lucky Strike Bethesda", "city": "BETHESDA", "state": "MD", "opsDistrict": "Embassy", "districtNum": 1757, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": "Andrew Humphreys"}, {"num": 704, "name": "Bowlero Doral", "city": "MIAMI", "state": "FL", "opsDistrict": "Gold Coast", "districtNum": 1686, "opsRegion": "SF", "region": "SF", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": "RVP - Andrew Hirsch"}, {"num": 705, "name": "Bowlmor Cupertino", "city": "CUPERTINO", "state": "CA", "opsDistrict": "Silicon Valley", "districtNum": 1698, "opsRegion": "PN", "region": "PN", "srRegion": "PN", "rvp": "Kyle Welcher", "srVP": "Kyle Welcher", "dm": ""}, {"num": 706, "name": "Bowlero Orange County", "city": "TUSTIN", "state": "CA", "opsDistrict": "The OC", "districtNum": 1439, "opsRegion": "XP", "region": "XP", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": "Robert Jacklin"}, {"num": 707, "name": "Lucky Strike Times Square", "city": "NEW YORK", "state": "NY", "opsDistrict": "New York", "districtNum": 1681, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": ""}, {"num": 708, "name": "Lucky Strike Arlington", "city": "ARLINGTON", "state": "VA", "opsDistrict": "Beltway", "districtNum": 1629, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": "Betty Ramet"}, {"num": 709, "name": "Bowlero Tamarac", "city": "TAMARAC", "state": "FL", "opsDistrict": "Emerald Isle", "districtNum": 1580, "opsRegion": "SF", "region": "SF", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": "John Walsh"}, {"num": 710, "name": "Bowlero Spring Hill", "city": "SPRING HILL", "state": "FL", "opsDistrict": "Gulf Coast", "districtNum": 1442, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Johnny Parker"}, {"num": 711, "name": "Hall of Fame - Silver Lanes", "city": "E. HARTFORD", "state": "CT", "opsDistrict": "Founders", "districtNum": 1444, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Frank Giuffrida"}, {"num": 712, "name": "Garage", "city": "SEATTLE", "state": "WA", "opsDistrict": "Seahawk", "districtNum": 1504, "opsRegion": "PN", "region": "PN", "srRegion": "PN", "rvp": "Kyle Welcher", "srVP": "Kyle Welcher", "dm": ""}, {"num": 713, "name": "Lucky Strike Tysons Corner", "city": "MCLEAN", "state": "VA", "opsDistrict": "Beltway", "districtNum": 1629, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": "Betty Ramet"}, {"num": 714, "name": "Lucky Strike Ann Arbor", "city": "ANN ARBOR", "state": "MI", "opsDistrict": "Lion's Den", "districtNum": 1717, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Chris Cachia"}, {"num": 715, "name": "Bowlero Oxnard", "city": "OXNARD", "state": "CA", "opsDistrict": "The Valley", "districtNum": 1692, "opsRegion": "XP", "region": "XP", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": ""}, {"num": 716, "name": "Lucky Strike Boca Raton", "city": "BOCA RATON", "state": "FL", "opsDistrict": "Emerald Isle", "districtNum": 1580, "opsRegion": "SF", "region": "SF", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": "John Walsh"}, {"num": 717, "name": "Bowlero Santa Barbara", "city": "GOLETA", "state": "CA", "opsDistrict": "The Valley", "districtNum": 1692, "opsRegion": "XP", "region": "XP", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": ""}, {"num": 718, "name": "Lucky Strike Brentwood", "city": "BRENTWOOD", "state": "CA", "opsDistrict": "Sacramento", "districtNum": 1700, "opsRegion": "PN", "region": "PN", "srRegion": "PN", "rvp": "Kyle Welcher", "srVP": "Kyle Welcher", "dm": ""}, {"num": 719, "name": "Berks Lanes", "city": "SINKING SPRING", "state": "PA", "opsDistrict": "Eagle Nation", "districtNum": 1682, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Mark Phillipine"}, {"num": 720, "name": "Bowlero Limerick", "city": "LIMERICK", "state": "PA", "opsDistrict": "Eagle Nation", "districtNum": 1682, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Mark Phillipine"}, {"num": 721, "name": "Hiester Lanes", "city": "READING", "state": "PA", "opsDistrict": "Eagle Nation", "districtNum": 1682, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Mark Phillipine"}, {"num": 722, "name": "Bowlero Port St. Lucie", "city": "PORT ST LUCIE", "state": "FL", "opsDistrict": "Emerald Isle", "districtNum": 1580, "opsRegion": "SF", "region": "SF", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": "John Walsh"}, {"num": 723, "name": "Lucky Strike Cherry Hill", "city": "CHERRY HILL", "state": "NJ", "opsDistrict": "South Jersey", "districtNum": 1556, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Ben Duppel"}, {"num": 724, "name": "Lucky Strike South Charlotte", "city": "CHARLOTTE", "state": "NC", "opsDistrict": "Panthers", "districtNum": 1560, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": "Jerome Lessey"}, {"num": 725, "name": "Lucky Strike Vacaville", "city": "VACAVILLE", "state": "CA", "opsDistrict": "East Bay", "districtNum": 1549, "opsRegion": "PN", "region": "PN", "srRegion": "PN", "rvp": "Kyle Welcher", "srVP": "Kyle Welcher", "dm": ""}, {"num": 727, "name": "Bowl America Shirley", "city": "ALEXANDRIA", "state": "VA", "opsDistrict": "Old Bay", "districtNum": 1702, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": ""}, {"num": 728, "name": "Bowl America Falls Church", "city": "FALLS CHURCH", "state": "VA", "opsDistrict": "NoVA", "districtNum": 1759, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": ""}, {"num": 729, "name": "Bowl America Fairfax", "city": "FAIRFAX", "state": "VA", "opsDistrict": "Potomac", "districtNum": 1584, "opsRegion": "AC", "region": "AC", "srRegion": "MN", "rvp": "Matt Rediske", "srVP": "Allen Morrison", "dm": "Mike Dutcher"}, {"num": 731, "name": "Bowl America Woodbridge", "city": "WOODBRIDGE", "state": "VA", "opsDistrict": "Potomac", "districtNum": 1584, "opsRegion": "AC", "region": "AC", "srRegion": "MN", "rvp": "Matt Rediske", "srVP": "Allen Morrison", "dm": "Mike Dutcher"}, {"num": 732, "name": "Lucky Strike Sterling", "city": "STERLING", "state": "VA", "opsDistrict": "NoVA", "districtNum": 1759, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": ""}, {"num": 733, "name": "Bowl America Short Pump", "city": "GLEN ALLEN", "state": "VA", "opsDistrict": "Richmond", "districtNum": 1458, "opsRegion": "AC", "region": "AC", "srRegion": "MN", "rvp": "Matt Rediske", "srVP": "Allen Morrison", "dm": "Andrew Keys"}, {"num": 734, "name": "Bowl America Burke", "city": "FAIRFAX", "state": "VA", "opsDistrict": "Potomac", "districtNum": 1584, "opsRegion": "AC", "region": "AC", "srRegion": "MN", "rvp": "Matt Rediske", "srVP": "Allen Morrison", "dm": "Mike Dutcher"}, {"num": 735, "name": "Bowl America Southwest", "city": "MIDLOTHIAN", "state": "VA", "opsDistrict": "Tides", "districtNum": 1503, "opsRegion": "AC", "region": "AC", "srRegion": "MN", "rvp": "Matt Rediske", "srVP": "Allen Morrison", "dm": ""}, {"num": 736, "name": "Lucky Strike Gaithersburg", "city": "GAITHERSBURG", "state": "MD", "opsDistrict": "Embassy", "districtNum": 1757, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": "Andrew Humphreys"}, {"num": 737, "name": "Bowl America Bull Run", "city": "MANASSAS", "state": "VA", "opsDistrict": "Potomac", "districtNum": 1584, "opsRegion": "AC", "region": "AC", "srRegion": "MN", "rvp": "Matt Rediske", "srVP": "Allen Morrison", "dm": "Mike Dutcher"}, {"num": 738, "name": "Bowlero Mandarin", "city": "JACKSONVILLE", "state": "FL", "opsDistrict": "North Florida", "districtNum": 1623, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Carrie Stahlberg"}, {"num": 739, "name": "Bowlero Southside", "city": "JACKSONVILLE", "state": "FL", "opsDistrict": "North Florida", "districtNum": 1623, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Carrie Stahlberg"}, {"num": 744, "name": "Bowlero Valley Fair", "city": "SANTA CLARA", "state": "CA", "opsDistrict": "Silicon Valley", "districtNum": 1698, "opsRegion": "PN", "region": "PN", "srRegion": "PN", "rvp": "Kyle Welcher", "srVP": "Kyle Welcher", "dm": ""}, {"num": 745, "name": "Lucky Strike Miami", "city": "MIAMI", "state": "FL", "opsDistrict": "Gold Coast", "districtNum": 1686, "opsRegion": "SF", "region": "SF", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": "RVP - Andrew Hirsch"}, {"num": 746, "name": "Bowlero Promenade", "city": "WESTMINSTER", "state": "CO", "opsDistrict": "Denver South", "districtNum": 1690, "opsRegion": "PN", "region": "MH", "srRegion": "PN", "rvp": "Aaron Briscoe", "srVP": "Kyle Welcher", "dm": "Sean Finney"}, {"num": 748, "name": "Bowlero Crystal River", "city": "CRYSTAL RIVER", "state": "FL", "opsDistrict": "Gulf Coast", "districtNum": 1442, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Johnny Parker"}, {"num": 750, "name": "Bowlero Northrock", "city": "WICHITA", "state": "KS", "opsDistrict": "Great Plains", "districtNum": 1693, "opsRegion": "HL", "region": "HL", "srRegion": "CE", "rvp": "Mike Graber", "srVP": "James Sowell", "dm": "Jeremy Lawless"}, {"num": 751, "name": "Bowlero Northridge", "city": "WICHITA", "state": "KS", "opsDistrict": "Great Plains", "districtNum": 1693, "opsRegion": "HL", "region": "HL", "srRegion": "CE", "rvp": "Mike Graber", "srVP": "James Sowell", "dm": "Jeremy Lawless"}, {"num": 752, "name": "Lucky Strike Wichita", "city": "WICHITA", "state": "KS", "opsDistrict": "Great Plains", "districtNum": 1693, "opsRegion": "HL", "region": "HL", "srRegion": "CE", "rvp": "Mike Graber", "srVP": "James Sowell", "dm": "Jeremy Lawless"}, {"num": 754, "name": "Super Bowl Family Entmt Center", "city": "APPLETON", "state": "WI", "opsDistrict": "Lombardi", "districtNum": 1618, "opsRegion": "HL", "region": "HL", "srRegion": "CE", "rvp": "Mike Graber", "srVP": "James Sowell", "dm": "Aaron Gruis"}, {"num": 755, "name": "JB'S ON 41", "city": "MILWAUKEE", "state": "WI", "opsDistrict": "Lombardi", "districtNum": 1618, "opsRegion": "HL", "region": "HL", "srRegion": "CE", "rvp": "Mike Graber", "srVP": "James Sowell", "dm": "Aaron Gruis"}, {"num": 756, "name": "Fiesta Bowl", "city": "LADY LAKE", "state": "FL", "opsDistrict": "Alligator", "districtNum": 1688, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": ""}, {"num": 757, "name": "Spanish Springs Lanes", "city": "THE VILLAGES", "state": "FL", "opsDistrict": "Alligator", "districtNum": 1688, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": ""}, {"num": 758, "name": "Lucky Strike Moorpark", "city": "MOORPARK", "state": "CA", "opsDistrict": "The Valley", "districtNum": 1692, "opsRegion": "XP", "region": "XP", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": ""}, {"num": 759, "name": "Lucky Strike Georgetown", "city": "GEORGETOWN", "state": "TX", "opsDistrict": "Alamo", "districtNum": 1616, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "David Lingafelter"}, {"num": 760, "name": "Lucky Strike Northfield", "city": "DENVER", "state": "CO", "opsDistrict": "The Rockies", "districtNum": 1569, "opsRegion": "PN", "region": "MH", "srRegion": "PN", "rvp": "Aaron Briscoe", "srVP": "Kyle Welcher", "dm": "Hector Castillo"}, {"num": 761, "name": "Lucky Strike Beverly Hills", "city": "LOS ANGELES", "state": "CA", "opsDistrict": "Hollywood", "districtNum": 1562, "opsRegion": "XP", "region": "XP", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": ""}, {"num": 762, "name": "Sabre Lanes", "city": "MENASHA", "state": "WI", "opsDistrict": "Lombardi", "districtNum": 1618, "opsRegion": "HL", "region": "HL", "srRegion": "CE", "rvp": "Mike Graber", "srVP": "James Sowell", "dm": "Aaron Gruis"}, {"num": 763, "name": "Bowlero Council Bluffs", "city": "COUNCIL BLUFFS", "state": "IA", "opsDistrict": "Homestead", "districtNum": 1435, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": ""}, {"num": 764, "name": "Lucky Strike Rocklin", "city": "ROCKLIN", "state": "CA", "opsDistrict": "Sacramento", "districtNum": 1700, "opsRegion": "PN", "region": "PN", "srRegion": "PN", "rvp": "Kyle Welcher", "srVP": "Kyle Welcher", "dm": ""}, {"num": 765, "name": "Lucky Strike Elkhorn", "city": "ELKHORN", "state": "NE", "opsDistrict": "Homestead", "districtNum": 1435, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": ""}, {"num": 766, "name": "Double Decker Lanes", "city": "ROHNERT PARK", "state": "CA", "opsDistrict": "East Bay", "districtNum": 1549, "opsRegion": "PN", "region": "PN", "srRegion": "PN", "rvp": "Kyle Welcher", "srVP": "Kyle Welcher", "dm": ""}, {"num": 767, "name": "Great Escape", "city": "DES MOINES", "state": "IA", "opsDistrict": "Homestead", "districtNum": 1435, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": ""}, {"num": 768, "name": "Paradise Lanes Entertainment", "city": "TACOMA", "state": "WA", "opsDistrict": "Seahawk", "districtNum": 1504, "opsRegion": "PN", "region": "PN", "srRegion": "PN", "rvp": "Kyle Welcher", "srVP": "Kyle Welcher", "dm": ""}, {"num": 769, "name": "Lucky Strike Ladera Ranch", "city": "LADERA RANCH", "state": "CA", "opsDistrict": "The OC", "districtNum": 1439, "opsRegion": "XP", "region": "XP", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": "Robert Jacklin"}, {"num": 770, "name": "Lucky Strike Southlands", "city": "AURORA", "state": "CO", "opsDistrict": "The Rockies", "districtNum": 1569, "opsRegion": "PN", "region": "MH", "srRegion": "PN", "rvp": "Aaron Briscoe", "srVP": "Kyle Welcher", "dm": "Hector Castillo"}, {"num": 771, "name": "Bowlero Coral", "city": "CAPE CORAL", "state": "FL", "opsDistrict": "Gold Coast", "districtNum": 1686, "opsRegion": "SF", "region": "SF", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": "RVP - Andrew Hirsch"}, {"num": 772, "name": "Bowlero Midpoint", "city": "SOUTH CAPE CORAL", "state": "FL", "opsDistrict": "Gold Coast", "districtNum": 1686, "opsRegion": "SF", "region": "SF", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": "RVP - Andrew Hirsch"}, {"num": 773, "name": "Lucky Strike Bartlett", "city": "BARTLETT", "state": "TN", "opsDistrict": "Gateway", "districtNum": 1737, "opsRegion": "HL", "region": "HL", "srRegion": "CE", "rvp": "Mike Graber", "srVP": "James Sowell", "dm": ""}, {"num": 774, "name": "Lucky Strike Aliso Viejo", "city": "ALISO VIEJO", "state": "CA", "opsDistrict": "The OC", "districtNum": 1439, "opsRegion": "XP", "region": "XP", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": "Robert Jacklin"}, {"num": 776, "name": "Lucky Strike Hollywood", "city": "LOS ANGELES", "state": "CA", "opsDistrict": "Hollywood", "districtNum": 1562, "opsRegion": "XP", "region": "XP", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": ""}, {"num": 777, "name": "Lucky Strike Orange", "city": "ORANGE", "state": "CA", "opsDistrict": "The OC", "districtNum": 1439, "opsRegion": "XP", "region": "XP", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": "Robert Jacklin"}, {"num": 778, "name": "Lucky Strike at L.A. Live", "city": "LOS ANGELES", "state": "CA", "opsDistrict": "Hollywood", "districtNum": 1562, "opsRegion": "XP", "region": "XP", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": ""}, {"num": 779, "name": "Lucky Strike San Francisco", "city": "SAN FRANCISCO", "state": "CA", "opsDistrict": "East Bay", "districtNum": 1549, "opsRegion": "PN", "region": "PN", "srRegion": "PN", "rvp": "Kyle Welcher", "srVP": "Kyle Welcher", "dm": ""}, {"num": 780, "name": "Lucky Strike Bellevue", "city": "BELLEVUE", "state": "WA", "opsDistrict": "Seahawk", "districtNum": 1504, "opsRegion": "PN", "region": "PN", "srRegion": "PN", "rvp": "Kyle Welcher", "srVP": "Kyle Welcher", "dm": ""}, {"num": 781, "name": "Lucky Strike Denver", "city": "DENVER", "state": "CO", "opsDistrict": "Denver South", "districtNum": 1690, "opsRegion": "PN", "region": "MH", "srRegion": "PN", "rvp": "Aaron Briscoe", "srVP": "Kyle Welcher", "dm": "Sean Finney"}, {"num": 782, "name": "Lucky Strike Chicago", "city": "CHICAGO", "state": "IL", "opsDistrict": "EXP Chicago", "districtNum": 1709, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": ""}, {"num": 783, "name": "Lucky Strike Philadelphia", "city": "PHILADELPHIA", "state": "PA", "opsDistrict": "South Jersey", "districtNum": 1556, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Ben Duppel"}, {"num": 785, "name": "Lucky Strike Fenway", "city": "BOSTON", "state": "MA", "opsDistrict": "Boston", "districtNum": 1434, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": "Colleen O'Neill"}, {"num": 786, "name": "Cheeky Monkey Brewing Company", "city": "BOSTON", "state": "MA", "opsDistrict": "Boston", "districtNum": 1434, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": "Colleen O'Neill"}, {"num": 788, "name": "Lucky Strike Honolulu", "city": "HONOLULU", "state": "HI", "opsDistrict": "East Bay", "districtNum": 1549, "opsRegion": "PN", "region": "PN", "srRegion": "PN", "rvp": "Kyle Welcher", "srVP": "Kyle Welcher", "dm": ""}, {"num": 789, "name": "Lucky Strike Somerville", "city": "SOMERVILLE", "state": "MA", "opsDistrict": "Boston", "districtNum": 1434, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": "Colleen O'Neill"}, {"num": 790, "name": "Lucky Strike Wrigleyville", "city": "CHICAGO", "state": "IL", "opsDistrict": "EXP Chicago", "districtNum": 1709, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": ""}, {"num": 791, "name": "Mavrix", "city": "SCOTTSDALE", "state": "AZ", "opsDistrict": "Cactus", "districtNum": 1427, "opsRegion": "SU", "region": "SU", "srRegion": "CE", "rvp": "Joe Regilio", "srVP": "James Sowell", "dm": "Jennifer Hoverson"}, {"num": 792, "name": "Octane Raceway", "city": "SCOTTSDALE", "state": "AZ", "opsDistrict": "Cactus", "districtNum": 1427, "opsRegion": "SU", "region": "SU", "srRegion": "CE", "rvp": "Joe Regilio", "srVP": "James Sowell", "dm": "Jennifer Hoverson"}, {"num": 793, "name": "Merri Bowl", "city": "LIVONIA", "state": "MI", "opsDistrict": "Lion's Den", "districtNum": 1717, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Chris Cachia"}, {"num": 794, "name": "Lucky Strike Holland", "city": "HOLLAND", "state": "MI", "opsDistrict": "Lion's Den", "districtNum": 1717, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Chris Cachia"}, {"num": 795, "name": "Thunderbowl Lanes", "city": "ALLEN PARK", "state": "MI", "opsDistrict": "Lion's Den", "districtNum": 1717, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Chris Cachia"}, {"num": 801, "name": "Lucky Strike Marietta", "city": "MARIETTA", "state": "GA", "opsDistrict": "Atlanta", "districtNum": 1625, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Steve Bunnell"}, {"num": 802, "name": "Bowlero Buffalo Grove", "city": "BUFFALO GROVE", "state": "IL", "opsDistrict": "EXP Chicago", "districtNum": 1709, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": ""}, {"num": 803, "name": "Bowlero Norcross", "city": "NORCROSS", "state": "GA", "opsDistrict": "Bulldogs", "districtNum": 1628, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Scott Hurley"}, {"num": 806, "name": "Lucky Strike Gilbert", "city": "GILBERT", "state": "AZ", "opsDistrict": "Coyote", "districtNum": 1443, "opsRegion": "SU", "region": "SU", "srRegion": "CE", "rvp": "Joe Regilio", "srVP": "James Sowell", "dm": ""}, {"num": 809, "name": "Lucky Strike Lone Tree", "city": "LONE TREE", "state": "CO", "opsDistrict": "Red Rocks", "districtNum": 1446, "opsRegion": "PN", "region": "MH", "srRegion": "PN", "rvp": "Aaron Briscoe", "srVP": "Kyle Welcher", "dm": "Dahlia Casillas"}, {"num": 810, "name": "Lucky Strike Kennesaw", "city": "KENNESAW", "state": "GA", "opsDistrict": "Atlanta", "districtNum": 1625, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Steve Bunnell"}, {"num": 811, "name": "Lucky Strike Naperville", "city": "NAPERVILLE", "state": "IL", "opsDistrict": "EXP Chicago", "districtNum": 1709, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": ""}, {"num": 813, "name": "Lucky Strike Romeoville", "city": "ROMEOVILLE", "state": "IL", "opsDistrict": "EXP Chicago", "districtNum": 1709, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": ""}, {"num": 814, "name": "Lucky Strike Algonquin", "city": "ALGONQUIN", "state": "IL", "opsDistrict": "Chi-Town", "districtNum": 1555, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Mike Crawford"}, {"num": 815, "name": "Bowlero Brooklyn Park", "city": "BROOKLYN PARK", "state": "MN", "opsDistrict": "Midwest XL's", "districtNum": 1566, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Tony Luna"}, {"num": 816, "name": "Lucky Strike Blaine", "city": "BLAINE", "state": "MN", "opsDistrict": "Midwest XL's", "districtNum": 1566, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Tony Luna"}, {"num": 817, "name": "Lucky Strike Lakeville", "city": "LAKEVILLE", "state": "MN", "opsDistrict": "Midwest XL's", "districtNum": 1566, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Tony Luna"}, {"num": 819, "name": "Bowlero Eden Prairie", "city": "EDEN PRAIRIE", "state": "MN", "opsDistrict": "Midwest XL's", "districtNum": 1566, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Tony Luna"}, {"num": 820, "name": "Lucky Strike St. Peters", "city": "ST. PETERS", "state": "MO", "opsDistrict": "Gateway", "districtNum": 1737, "opsRegion": "HL", "region": "HL", "srRegion": "CE", "rvp": "Mike Graber", "srVP": "James Sowell", "dm": ""}, {"num": 821, "name": "Lucky Strike Feasterville", "city": "FEASTERVILLE", "state": "PA", "opsDistrict": "South Jersey", "districtNum": 1556, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Ben Duppel"}, {"num": 824, "name": "Bowlero Montgomery", "city": "MONTGOMERY", "state": "AL", "opsDistrict": "Deep South", "districtNum": 1670, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Brian Shaw"}, {"num": 825, "name": "Bowlero Glendale", "city": "GLENDALE", "state": "AZ", "opsDistrict": "Coyote", "districtNum": 1443, "opsRegion": "SU", "region": "SU", "srRegion": "CE", "rvp": "Joe Regilio", "srVP": "James Sowell", "dm": ""}, {"num": 826, "name": "Lucky Strike Mesa", "city": "MESA", "state": "AZ", "opsDistrict": "Sun Devil", "districtNum": 1607, "opsRegion": "SU", "region": "SU", "srRegion": "CE", "rvp": "Joe Regilio", "srVP": "James Sowell", "dm": "Mark Nelsen"}, {"num": 827, "name": "Lucky Strike Upland", "city": "UPLAND", "state": "CA", "opsDistrict": "LA Burbs", "districtNum": 1554, "opsRegion": "XP", "region": "XP", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": ""}, {"num": 829, "name": "Bowlero Heather Ridge", "city": "AURORA", "state": "CO", "opsDistrict": "Denver South", "districtNum": 1690, "opsRegion": "PN", "region": "MH", "srRegion": "PN", "rvp": "Aaron Briscoe", "srVP": "Kyle Welcher", "dm": "Sean Finney"}, {"num": 830, "name": "Bowlero Westminster", "city": "WESTMINSTER", "state": "CO", "opsDistrict": "Denver South", "districtNum": 1690, "opsRegion": "PN", "region": "MH", "srRegion": "PN", "rvp": "Aaron Briscoe", "srVP": "Kyle Welcher", "dm": "Sean Finney"}, {"num": 831, "name": "Lucky Strike Wheat Ridge", "city": "WHEAT RIDGE", "state": "CO", "opsDistrict": "Red Rocks", "districtNum": 1446, "opsRegion": "PN", "region": "MH", "srRegion": "PN", "rvp": "Aaron Briscoe", "srVP": "Kyle Welcher", "dm": "Dahlia Casillas"}, {"num": 832, "name": "AMF Colorado Springs", "city": "COLORADO SPRINGS", "state": "CO", "opsDistrict": "Red Rocks", "districtNum": 1446, "opsRegion": "PN", "region": "MH", "srRegion": "PN", "rvp": "Aaron Briscoe", "srVP": "Kyle Welcher", "dm": "Dahlia Casillas"}, {"num": 833, "name": "Bowlero Lakewood", "city": "LAKEWOOD", "state": "CO", "opsDistrict": "Red Rocks", "districtNum": 1446, "opsRegion": "PN", "region": "MH", "srRegion": "PN", "rvp": "Aaron Briscoe", "srVP": "Kyle Welcher", "dm": "Dahlia Casillas"}, {"num": 834, "name": "Bowlero Roswell", "city": "ROSWELL", "state": "GA", "opsDistrict": "Bulldogs", "districtNum": 1628, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Scott Hurley"}, {"num": 835, "name": "Bowlero Lilburn", "city": "LAWRENCEVILLE", "state": "GA", "opsDistrict": "Bulldogs", "districtNum": 1628, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Scott Hurley"}, {"num": 836, "name": "Bowlero Austell", "city": "MARIETTA", "state": "GA", "opsDistrict": "Bulldogs", "districtNum": 1628, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Scott Hurley"}, {"num": 838, "name": "Bowlero Niles", "city": "NILES", "state": "IL", "opsDistrict": "EXP Chicago", "districtNum": 1709, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": ""}, {"num": 839, "name": "Bowlero Waukegan", "city": "WAUKEGAN", "state": "IL", "opsDistrict": "Chi-Town", "districtNum": 1555, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Mike Crawford"}, {"num": 840, "name": "Bowlero Deer Park", "city": "LAKE ZURICH", "state": "IL", "opsDistrict": "Chi-Town", "districtNum": 1555, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Mike Crawford"}, {"num": 841, "name": "Bowlero Roselle", "city": "ROSELLE", "state": "IL", "opsDistrict": "Chi-Town", "districtNum": 1555, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Mike Crawford"}, {"num": 842, "name": "Bowlero Woodridge", "city": "WOODRIDGE", "state": "IL", "opsDistrict": "EXP Chicago", "districtNum": 1709, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": ""}, {"num": 843, "name": "Bowlero River Grove", "city": "RIVER GROVE", "state": "IL", "opsDistrict": "Chi-Town", "districtNum": 1555, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Mike Crawford"}, {"num": 844, "name": "Bowlero Mount Prospect", "city": "MOUNT PROSPECT", "state": "IL", "opsDistrict": "Chi-Town", "districtNum": 1555, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Mike Crawford"}, {"num": 845, "name": "Bowlero Vernon Hills", "city": "VERNON HILLS", "state": "IL", "opsDistrict": "Chi-Town", "districtNum": 1555, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Mike Crawford"}, {"num": 846, "name": "Bowlero Glendale Heights", "city": "GLENDALE HEIGHTS", "state": "IL", "opsDistrict": "Chi-Town", "districtNum": 1555, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Mike Crawford"}, {"num": 847, "name": "Bowlero Lowell", "city": "LOWELL", "state": "MA", "opsDistrict": "Founders", "districtNum": 1444, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Frank Giuffrida"}, {"num": 848, "name": "Bowlero Normandy", "city": "ELLICOTT CITY", "state": "MD", "opsDistrict": "Raven Nation", "districtNum": 1578, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Mike Bixler"}, {"num": 849, "name": "Bowlero Chesterfield", "city": "CHESTERFIELD", "state": "MO", "opsDistrict": "Gateway", "districtNum": 1737, "opsRegion": "HL", "region": "HL", "srRegion": "CE", "rvp": "Mike Graber", "srVP": "James Sowell", "dm": ""}, {"num": 850, "name": "Bowlero Lakeside", "city": "VALLEY PARK", "state": "MO", "opsDistrict": "Gateway", "districtNum": 1737, "opsRegion": "HL", "region": "HL", "srRegion": "CE", "rvp": "Mike Graber", "srVP": "James Sowell", "dm": ""}, {"num": 851, "name": "Bowlero Deptford", "city": "DEPTFORD", "state": "NJ", "opsDistrict": "South Jersey", "districtNum": 1556, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Ben Duppel"}, {"num": 852, "name": "Lucky Strike North Brunswick", "city": "N. BRUNSWICK", "state": "NJ", "opsDistrict": "Central Jersey", "districtNum": 1445, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Daniel Flannelly"}, {"num": 854, "name": "Bowlero Belleville", "city": "BELLEVILLE", "state": "NJ", "opsDistrict": "North Jersey", "districtNum": 1621, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": "Bernard Brito"}, {"num": 855, "name": "Bowlero Turnersville", "city": "TURNERSVILLE", "state": "NJ", "opsDistrict": "South Jersey", "districtNum": 1556, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Ben Duppel"}, {"num": 856, "name": "AMF North Ridgeville", "city": "N. RIDGEVILLE", "state": "OH", "opsDistrict": "Cleveland", "districtNum": 1431, "opsRegion": "HL", "region": "HL", "srRegion": "CE", "rvp": "Mike Graber", "srVP": "James Sowell", "dm": "Dan Gallaher"}, {"num": 857, "name": "AMF Belle Vernon Lanes", "city": "BELLE VERNON", "state": "PA", "opsDistrict": "Cleveland", "districtNum": 1431, "opsRegion": "HL", "region": "HL", "srRegion": "CE", "rvp": "Mike Graber", "srVP": "James Sowell", "dm": "Dan Gallaher"}, {"num": 858, "name": "Bowlero Denton", "city": "DENTON", "state": "TX", "opsDistrict": "DFW", "districtNum": 1608, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Spencer McCurley"}, {"num": 859, "name": "Bowlero Watauga", "city": "WATAUGA", "state": "TX", "opsDistrict": "DFW", "districtNum": 1608, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "Spencer McCurley"}, {"num": 863, "name": "Lucky Strike Birmingham", "city": "BIRMINGHAM", "state": "AL", "opsDistrict": "Deep South", "districtNum": 1670, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Brian Shaw"}, {"num": 864, "name": "Bowlero Avondale", "city": "AVONDALE", "state": "AZ", "opsDistrict": "Coyote", "districtNum": 1443, "opsRegion": "SU", "region": "SU", "srRegion": "CE", "rvp": "Joe Regilio", "srVP": "James Sowell", "dm": ""}, {"num": 865, "name": "Bowlero Kyrene", "city": "CHANDLER", "state": "AZ", "opsDistrict": "Coyote", "districtNum": 1443, "opsRegion": "SU", "region": "SU", "srRegion": "CE", "rvp": "Joe Regilio", "srVP": "James Sowell", "dm": ""}, {"num": 866, "name": "Bowlero Via Linda", "city": "SCOTTSDALE", "state": "AZ", "opsDistrict": "Cactus", "districtNum": 1427, "opsRegion": "SU", "region": "SU", "srRegion": "CE", "rvp": "Joe Regilio", "srVP": "James Sowell", "dm": "Jennifer Hoverson"}, {"num": 868, "name": "Bowlero Tucson", "city": "TUCSON", "state": "AZ", "opsDistrict": "Coyote", "districtNum": 1443, "opsRegion": "SU", "region": "SU", "srRegion": "CE", "rvp": "Joe Regilio", "srVP": "James Sowell", "dm": ""}, {"num": 869, "name": "Lucky Strike Murrieta", "city": "MURRIETA", "state": "CA", "opsDistrict": "San Diego", "districtNum": 1696, "opsRegion": "XP", "region": "XP", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": "Luz Barragan-Valencia"}, {"num": 870, "name": "Lucky Strike Rancho Cucamonga", "city": "RANCHO CUCAMONGA", "state": "CA", "opsDistrict": "LA Burbs", "districtNum": 1554, "opsRegion": "XP", "region": "XP", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": ""}, {"num": 871, "name": "Bowlero Moreno Valley", "city": "MORENO VALLEY", "state": "CA", "opsDistrict": "LA Burbs", "districtNum": 1554, "opsRegion": "XP", "region": "XP", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": ""}, {"num": 872, "name": "Bowlero Palmdale", "city": "PALMDALE", "state": "CA", "opsDistrict": "Central Valley", "districtNum": 1695, "opsRegion": "PN", "region": "PN", "srRegion": "PN", "rvp": "Kyle Welcher", "srVP": "Kyle Welcher", "dm": ""}, {"num": 873, "name": "Bowlero Fontana", "city": "FONTANA", "state": "CA", "opsDistrict": "LA Burbs", "districtNum": 1554, "opsRegion": "XP", "region": "XP", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": ""}, {"num": 874, "name": "Lucky Strike Chula Vista", "city": "CHULA VISTA", "state": "CA", "opsDistrict": "San Diego", "districtNum": 1696, "opsRegion": "XP", "region": "XP", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": "Luz Barragan-Valencia"}, {"num": 876, "name": "Bowlero West Covina", "city": "WEST COVINA", "state": "CA", "opsDistrict": "East LA", "districtNum": 1404, "opsRegion": "XP", "region": "XP", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": "Candis Murphy"}, {"num": 878, "name": "Lucky Strike Norco", "city": "NORCO", "state": "CA", "opsDistrict": "LA Burbs", "districtNum": 1554, "opsRegion": "XP", "region": "XP", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": ""}, {"num": 879, "name": "Bowlero Lancaster", "city": "LANCASTER", "state": "CA", "opsDistrict": "Central Valley", "districtNum": 1695, "opsRegion": "PN", "region": "PN", "srRegion": "PN", "rvp": "Kyle Welcher", "srVP": "Kyle Welcher", "dm": ""}, {"num": 880, "name": "AMF Frederick Lanes", "city": "KITCHENER", "state": "ON", "opsDistrict": "Canada", "districtNum": 1620, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Danita MacNeil"}, {"num": 881, "name": "Bowlero Brampton", "city": "BRAMPTON", "state": "ON", "opsDistrict": "Canada", "districtNum": 1620, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Danita MacNeil"}, {"num": 884, "name": "AMF Margate Lanes", "city": "MARGATE", "state": "FL", "opsDistrict": "Palm Trees", "districtNum": 1422, "opsRegion": "SF", "region": "SF", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": "Paolo Bazzani"}, {"num": 885, "name": "Bowlero Melbourne", "city": "MELBOURNE", "state": "FL", "opsDistrict": "Emerald Isle", "districtNum": 1580, "opsRegion": "SF", "region": "SF", "srRegion": "MN", "rvp": "Andrew Hirsch", "srVP": "Allen Morrison", "dm": "John Walsh"}, {"num": 886, "name": "Bowlero Apopka", "city": "APOPKA", "state": "FL", "opsDistrict": "Central Florida", "districtNum": 1441, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Shannon Martorelli"}, {"num": 887, "name": "Lucky Strike Augusta", "city": "AUGUSTA", "state": "GA", "opsDistrict": "North Florida", "districtNum": 1623, "opsRegion": "SE", "region": "SE", "srRegion": "MN", "rvp": "Kevin Gordon", "srVP": "Allen Morrison", "dm": "Carrie Stahlberg"}, {"num": 888, "name": "AMF Perry Hall Lanes", "city": "BALTIMORE", "state": "MD", "opsDistrict": "Raven Nation", "districtNum": 1578, "opsRegion": "ES", "region": "ES", "srRegion": "MN", "rvp": "Michael Britt", "srVP": "Allen Morrison", "dm": "Mike Bixler"}, {"num": 889, "name": "Lucky Strike Columbia", "city": "COLUMBIA", "state": "MD", "opsDistrict": "Old Bay", "districtNum": 1702, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": ""}, {"num": 890, "name": "Bowlero Fair Lawn Lanes", "city": "FAIRLAWN", "state": "NJ", "opsDistrict": "North Jersey", "districtNum": 1621, "opsRegion": "MN", "region": "MN", "srRegion": "MN", "rvp": "Allen Morrison", "srVP": "Allen Morrison", "dm": "Bernard Brito"}, {"num": 892, "name": "Bowlero Thousand Oaks", "city": "SAN ANTONIO", "state": "TX", "opsDistrict": "Alamo", "districtNum": 1616, "opsRegion": "CE", "region": "CE", "srRegion": "CE", "rvp": "James Sowell", "srVP": "James Sowell", "dm": "David Lingafelter"}, {"num": 894, "name": "Lucky Strike Lynnwood", "city": "LYNNWOOD", "state": "WA", "opsDistrict": "Seahawk", "districtNum": 1504, "opsRegion": "PN", "region": "PN", "srRegion": "PN", "rvp": "Kyle Welcher", "srVP": "Kyle Welcher", "dm": ""}];
-const DISTRICTS = ["Alamo", "Alligator", "Atlanta", "Beltway", "Boomers Golden State", "Boston", "Bulldogs", "Cactus", "Canada", "Capitol", "Central Florida", "Central Jersey", "Central New York", "Central Valley", "Chi-Town", "Cleveland", "Coyote", "DFW", "Deep South", "Denver South", "EXP Chicago", "Eagle Nation", "East Bay", "East LA", "Embassy", "Emerald Isle", "Founders", "Gateway", "Gold Coast", "Great Plains", "Gulf Coast", "Hollywood", "Homestead", "LA Burbs", "Lion's Den", "Lombardi", "Lone Star", "Long Island", "Midwest XL's", "Nassau", "New York", "NoVA", "North Florida", "North Jersey", "Old Bay", "Palm Trees", "Panthers", "Potomac", "Raven Nation", "Red River", "Red Rocks", "Richmond", "Sacramento", "San Diego", "Seahawk", "Silicon Valley", "South Jersey", "Southern California", "Space City", "Sun Devil", "Sunshine Waterpark", "Tar Heel", "The OC", "The Rockies", "The Valley", "Tides", "VA Beach", "Water Park"];
-const REGION_NAMES = {"AC": "Atlantic Coast", "CE": "Central", "ES": "East", "HL": "Heartland", "MN": "Mountain/North", "PN": "Pacific Northwest", "SE": "Southeast", "SF": "San Francisco", "SU": "Southwest", "WP": "West Pacific", "XP": "Express/Partner"};
-const SR_REGION_NAMES = {"MN": "Mountain/North Sr.", "CE": "Central Sr.", "PN": "Pacific Northwest Sr.", "WP": "West Pacific Sr."};
-const GAMES = ["2 Minute Drill","3 Across","60-in-1","After Burner","Air Hockey","Air Slide","Air Strike (Left)","Air Strike (Right)","AirFX","Aliens Armageddon","All Aboard","All In","All Star VR (Left)","All Star VR (Right)","Angry Birds","Angry Birds: Boom! (Red)","Angry Birds: Boom! (Yellow)","Angry Birds: Coin Crash (1)","Angry Birds: Coin Crash (2)","Angry Birds: Coin Crash (3)","Angry Birds: Coin Crash (L)","Angry Birds: Coin Crash (R)","Arcade Classics","Arctic Thunder (Left)","Arctic Thunder (Right)","Area 51","Asphalt 9: Legends DX (1)","Asphalt 9: Legends DX (2)","Asphalt 9: Legends DX (3)","Asphalt 9: Legends DX (4)","Asphalt 9: Legends DX (Left)","Asphalt 9: Legends DX (Right)","Asphalt 9: Legends VR (Left)","Asphalt 9: Legends VR (Right)","Asphalt Moto Blitz DX (Left)","Asphalt Moto Blitz DX (Right)","Asteroids Recharged (L)","Asteroids Recharged (R)","ATV Slam (Left)","ATV Slam (Right)","Avengers","Avengers (Left)","Avengers (Right)","Axe Master (Left)","Axe Master (Right)","Back to the Future!","Balance Reader","Ball Madness! (Left)","Ball Madness! (Right)","Ball Runner","Balloon Buster","Balloon Carnival","Barber Cut","Barney","Barrel of Monkeys","Baseball Pro Challenge","Basketball Pro","Basketball Pro (Left)","Basketball Pro (Right)","Batman","Batman (Left)","Batman (Right)","Bean Bag Toss","Beer Pong","Big Bass Wheel","Big Bass Wheel Pro","Big Buck HD","Big Choice Crane","Big Sea Fishing (1)","Big Sea Fishing (2)","Big Sea Fishing (3)","Big Sea Fishing (4)","Big Ticket Drop","Bigfoot Crush (Blue)","Bigfoot Crush (Red)","Bigfoot Smash (Blue)","Bigfoot Smash (Red)","Bigfoot Smash (Yellow)","Black Hole","Black Out","Blackbeard's Bounty (1)","Blackbeard's Bounty (2)","Blackbeard's Bounty (3)","Blackbeard's Bounty (4)","Blackbeard's Bounty (5)","Blackbeard's Bounty (6)","Blackbeard's Treasure (1)","Blackbeard's Treasure (2)","Blackbeard's Treasure (3)","Bling King","Blox Breaker (Left)","Blox Breaker (Right)","Bobblehead Baseball","Bobblehead Baseball (Left)","Bobblehead Baseball (Right)","Bop It","Bowlero Strike Zone (Left)","Bowlero Strike Zone (Right)","Bowl-O-Rama","Boxer","Break the Plate (Left)","Break the Plate (Right)","Breakout (Left)","Breakout (Right)","Bug Blaster","Bull Shooter (1)","Bull Shooter (2)","Bust-a-Move Frenzy (Left)","Bust-a-Move Frenzy (Right)","Candy Bar Craze","Candy Crane","Candy Factory","Candy Forge (1)","Candy Forge (2)","Candy Forge (3)","Candy Forge (4)","Candy House","Capto Crane (1)","Capto Crane (2)","Card Redemption Station","Carnival Crane (Left)","Carnival Crane (Right)","Carnival Wheel","Casino Lights (1)","Casino Lights (2)","Casino Lights (3)","Casino Lights (4)","Casino Lights (5)","Casino Lights (6)","Centipede Chaos (1)","Centipede Chaos (2)","Centipede Chaos (3)","Chocolate Factory","Circus Ball Drop","Claw Frenzy","Color Match","Color Match Club","Colour Star","Combo Boxer","Commando Sniper (1)","Commando Sniper (2)","Commando Sniper (3)","Commando Sniper (4)","Connect 4 Hoops (Red)","Connect 4 Hoops (Yellow)","Connect 4 Hoops HD (Red)","Connect 4 Hoops HD (Yellow)","Connect Four (Blue)","Connect Four (Red)","Connect Four Deluxe (Blue)","Connect Four Deluxe (Red)","Cosmic Tower (Left)","Cosmic Tower (Right)","Crank It","Crank It Revolution (Left)","Crank It Revolution (Right)","Crater Raiders","Crazy Curves","Crazy Curves (1)","Crazy Curves (2)","Crazy Prize (1)","Crazy Prize (2)","Crazy Prize (3)","Crazy Prize (4)","Crazy Tower (1)","Crazy Tower (2)","Crazy Tower (3)","Crazy Tower (4)","Crazy Toy","Crossy Roads (Left)","Crossy Roads (Right)","Crossy Roads Mini (Left)","Crossy Roads Mini (Right)","Cruis'n Blast (1)","Cruis'n Blast (2)","Cruis'n Blast (3)","Cruis'n Blast (4)","Cruis'n Blast (Left)","Cruis'n Blast (Right)","Cube Factory (1)","Cube Factory (2)","Cube Factory (3)","Cube Factory (4)","Cut 2 Win","Cut 2 Win Mini","Cut 2 Win Mini (Left)","Cut 2 Win Mini (Right)","Cut One (1)","Cut One (2)","Cut One (3)","Cut One (4)","Cut One (5)","Cyclone (Blue)","Cyclone (Green)","Cyclone (Pink)","Dance Dance Revolution Extreme","Dark Escape 4D","Dart Board","Daytona Championship USA (1)","Daytona Championship USA (2)","Daytona Championship USA (3)","Daytona Championship USA (4)","Daytona Championship USA (5)","Daytona Championship USA (6)","Daytona Championship USA (7)","Daytona Championship USA (8)","Daytona Championship USA (L)","Daytona Championship USA (R)","DC Comics (Batman)","DC Comics (Flash)","DC Comics (Heroes)","DC Comics (Superman)","DC Comics (Villians)","DC Comics (Wonder Woman)","Dead Heat (Left)","Dead Heat (Right)","Dead Heat Riders (Left)","Dead Heat Riders (Right)","Dead Heat Unleashed (Left)","Dead Heat Unleashed (Right)","Dead Storm Pirates","Deal or No Deal","Derby Day (1)","Derby Day (2)","Derby Day (3)","Derby Day (4)","Dirty Drivin' (Left)","Dirty Drivin' (Right)","Disney Crossy Roads","Disney Crossy Roads (Left)","Disney Crossy Roads (Right)","Dodgeball (Blue)","Dodgeball (Red)","Doodle Jump","Double Dribble (Blue)","Double Dribble (Pink)","Double E-Claw (Left)","Double E-Claw (Right)","Down the Clown","Dragon's Bane (Blue)","Dragon's Bane (Red)","Dragon's Bane (Yellow)","Drakons: Realm Keepers","Dream Raiders","Drop It Drop It","Drop the Beat (Left)","Drop the Beat (Right)","Duck Catcher","Duck Crane","Duck Derby (1)","Duck Derby (2)","Duck Derby (3)","Duck Derby (4)","Duck Derby (Left)","Duck Derby (Right)","Dunk Tank","Dynamo Air Hockey","E-Claw","Elevator Action DLX (Left)","Elevator Action DLX (Right)","Emoji Frenzy (1)","Emoji Frenzy (2)","Emoji Frenzy (3)","Emoji Frenzy (4)","Emoji Roller (Left)","Emoji Roller (Right)","Explosive (Left)","Explosive (Right)","Face Place Photo Booth","Family Guy Bowling","Fantastic Prize","Fast & Furious Arcade (Green)","Fast & Furious Arcade (Orange)","Fast & Furious Arcade (Red)","Fast & Furious Arcade (Yellow)","Fast & Furious Motion (Green)","Fast & Furious Motion (Orange)","Fast & Furious Motion (Red)","Fast & Furious Motion (Yellow)","Fast 'n Furious (Left)","Fast 'n Furious (Right)","Ferris Fantasy","Find-a-Key","Fire Ball Fury (Left)","Fire Ball Fury (Right)","Fire Truck Crane (1)","Fire Truck Crane (2)","Firestorm Air Hockey","Fish Bowl Frenzy","Fish Farm","Flamethrower","Flappy Birds","Flappy Birds Merchandiser","Flintstones Quarry (1)","Flintstones Quarry (2)","Flintstones Quarry (3)","Flintstones Quarry (4)","Flintstones Quarry (5)","Flintstones Quarry (6)","Flintstones Quarry (Left)","Flintstones Quarry (Right)","Flying Tickets (Left)","Flying Tickets (Right)","Foosball World Tour","Frog Around","Frogger (Left)","Frogger (Right)","Fruit Ninja (1)","Fruit Ninja (2)","Fruit Ninja (3)","Full Tilt","Fun Stop Photos","Fun Zone","Fun Zone II","Funko Funcade","Funko Funcade (Left)","Funko Funcade (Right)","Galaga Assault","Galaxy Rangers (Blue)","Galaxy Rangers (Red)","Gear It Up","Ghost Squad","Goal Line Rush","Goatz 'n Ropes","Goatz 'n Ropes (Left)","Goatz 'n Ropes (Right)","Godzilla Kaiju Wars","Godzilla Kaiju Wars VR (Left)","Godzilla Kaiju Wars VR (Right)","Godzilla vs. Kong (1)","Godzilla vs. Kong (2)","Godzilla vs. Kong (3)","Godzilla vs. Kong (4)","Godzilla vs. Kong (Left)","Godzilla vs. Kong (Right)","Gold Fishin'","Golden Tee: PGA Tour","GoldStorm Pirates","Grab 'n Go","Grab 'n Win (Left)","Grab 'n Win (Right)","Grab 'n Win 42\"","Grand Piano Keys (Left)","Grand Piano Keys (Right)","Grand Prize XL Crane","Gridiron Blitz","Guardians of the Galaxy (L)","Guardians of the Galaxy (R)","Guitar Hero","H2Overdrive (Left)","H2Overdrive (Right)","Halo Arcade","Halo Arcade (Left)","Halo Arcade (Right)","Halo Arcade Upright","Halo Arcade Upright (Left)","Halo Arcade Upright (Right)","Happy Mania","Harpoon Lagoon (1)","Harpoon Lagoon (2)","Harpoon Lagoon (3)","Harpoon Lagoon (4)","High Five Crane","Highway 66","Hologate VR","Hoop It Up","Hoopla","Hot Shot","Hot Wheels: Arcade Racer (1)","Hot Wheels: Arcade Racer (2)","Hot Wheels: Arcade Racer (3)","Hot Wheels: Arcade Racer (4)","Hot Wheels: Arcade Racer (L)","Hot Wheels: Arcade Racer (R)","Hot Wheels: King of Road (1)","Hot Wheels: King of Road (2)","Hot Wheels: King of Road (3)","Hot Wheels: King of Road (4)","Hot Wheels: King of Road (5)","Hot Wheels: King of Road (6)","Hot Wheels: Ultimate Speedway","House of the Dead:Scarlet Dawn","Hungry Hungry Hippos (Blue)","Hungry Hungry Hippos (Green)","Hungry Hungry Hippos (Orange)","Hungry Hungry Hippos (Yellow)","Hydro Thunder (Left)","Hydro Thunder (Right)","Hyper Pitch (Blue)","Hyper Pitch (Red)","HyperNova","Hypershoot (Left)","Hypershoot (Right)","ICE Ball FX (1)","ICE Ball FX (2)","ICE Ball FX (3)","ICE Ball FX (4)","ICE Ball FX (Left)","ICE Ball FX (Right)","ICE Box","Ice Cube","ICEE Slush Rush","ICEE Slush Rush (Left)","ICEE Slush Rush (Right)","Injustice Arcade","Jackpot Racer (Orange)","Jackpot Racer (Yellow)","Jackpot Xtreme","Jack's Hi (1)","Jack's Hi (2)","Jack's Hi (3)","Jack's Hi (4)","Jack's Hi (5)","Jack's Hi (6)","Jersey Wheels","Jet Pong (Left)","Jet Pong (Right)","Jewel Mine","Jewelry Box","Jumbo Jumpin'","Jumpin' Jackpot","Jumpin' Jupiter","Jurassic Park","Jurassic World (Left)","Jurassic World (Right)","Kahuna's Big Wave (Left)","Kahuna's Big Wave (Right)","KC Cobra","Key Master","Key Master Mini","King Kong:Skull Island (Left)","King Kong:Skull Island (Right)","King of Rings","Knock 'Em Blocks (Blue)","Knock 'Em Blocks (Yellow)","Kung Fu Panda","Lane Master (Left)","Lane Master (Right)","Laser Tag","Launch Code","Let's Bounce (Left)","Let's Bounce (Right)","Let's Go Island","Lets Go Jungle","Lil Thunder Rookie Go Karts","Lil Ticket Monsters","Looney Tunes Pusher (1)","Looney Tunes Pusher (2)","Looney Tunes Pusher (3)","Looney Tunes Pusher (4)","Looney Tunes Pusher (5)","Looney Tunes Pusher (6)","Lost Pirate (Left)","Lost Pirate (Right)","Lucky Duck","Luigi's Mansion Arcade","Mad Wave Motion Theater","Magic Coin","Magic Drop","Magic Key","Magic Tea Cups","MaiMai DX (Left)","MaiMai DX (Right)","Mario Kart GP DX (1)","Mario Kart GP DX (2)","Mario Kart GP DX (3)","Mario Kart GP DX (4)","Mario Kart GP DX (Left)","Mario Kart GP DX (Right)","Marksman (Left)","Marksman (Right)","Marvel: Contest of Champions","Maximum Tune 5 (1)","Maximum Tune 5 (2)","Maximum Tune 5 (3)","Maximum Tune 5 (4)","Maximum Tune 5 (Card Station)","Maze Escape","Mega Stacker","Mega Stacker Lite","MIB: Men In Black (Left)","MIB: Men In Black (Right)","Mighty Mini","Milk Jug Toss","Minecraft Dungeons (Left)","Minecraft Dungeons (Right)","Miniature Golf","Mission: Impossible Arcade","Monopoly","Monopoly Roll-n-Go","Monopoly Roll-n-Go (Left)","Monopoly Roll-n-Go (Right)","Monster Crane","Monster Drop","Monster Drop (Left)","Monster Drop (Right)","Monster Drop Extreme (Left)","Monster Drop Extreme (Right)","Monster Kart (Left)","Monster Kart (Right)","MotoGP DX (Blue)","MotoGP DX (Green)","MotoGP DX (Red)","MotoGP DX (Yellow)","MotoGP VR (Blue)","MotoGP VR (Red)","Movie Stop","Ms PacMan/Galaga","Nailed It! (Blue)","Nailed It! (Green)","Nailed It! (Purple)","Nailed It! (Yellow)","NBA Baller","NBA Hoop Troop","NBA Hoops (76ers)","NBA Hoops (Bucks)","NBA Hoops (Bulls)","NBA Hoops (Cavaliers)","NBA Hoops (Celtics)","NBA Hoops (Clippers)","NBA Hoops (Grizzlies)","NBA Hoops (Hawks)","NBA Hoops (Heat)","NBA Hoops (Hornets)","NBA Hoops (Jazz)","NBA Hoops (Kings)","NBA Hoops (Knicks)","NBA Hoops (Lakers)","NBA Hoops (Left)","NBA Hoops (Magic)","NBA Hoops (Mavericks)","NBA Hoops (Nets)","NBA Hoops (Nuggets)","NBA Hoops (Pacers)","NBA Hoops (Pelicans)","NBA Hoops (Pistons)","NBA Hoops (Raptors)","NBA Hoops (Right)","NBA Hoops (Rockets)","NBA Hoops (Spurs)","NBA Hoops (Suns)","NBA Hoops (Thunder)","NBA Hoops (Trailblazers)","NBA Hoops (Twolves)","NBA Hoops (Warriors)","NBA Hoops (Wizards)","NBA Superstars (Left)","NBA Superstars (Right)","Need for Speed Carbon","Need for Speed Underground","Neon FM","NERF Arcade (Left)","NERF Arcade (Right)","NFS Heat Takedown (1)","NFS Heat Takedown (2)","NFS Heat Takedown (3)","NFS Heat Takedown (4)","NFS Heat Takedown (Left)","NFS Heat Takedown (Right)","Nitro Trucks (1)","Nitro Trucks (2)","Nitro Trucks (3)","Nitro Trucks (4)","Nitro Trucks (Left)","Nitro Trucks (Right)","Nothin' But Net (Left)","Nothin' But Net (Right)","One Shot Wonder","Operation Ghost","Over the Edge","Over the Edge (Left)","Over the Edge (Right)","PacMan Air Hockey","PacMan Arcade Party","PacMan Baller (Left)","PacMan Baller (Right)","PacMan Battle Royale","PacMan Battle Royale (Blue)","PacMan Battle Royale (Pink)","PacMan Battle Royale (Red)","PacMan Battle Royale (Yellow)","PacMan Chompmania","PacMan Panic","PacMan Pixel Bash","PacMan Power Pellets","PacMan Roller (1)","PacMan Roller (2)","PacMan Roller (3)","PacMan Roller (Left)","PacMan Roller (Right)","PacMan Smash","PacMan Smash Mini","Panda Cut","Paw Patrol","Pearl Fishery","Pearl Fishery (1)","Pearl Fishery (2)","Pearl Fishery (3)","Pearl Fishery (Left)","Pearl Fishery (Right)","Perfect Pump (Left)","Perfect Pump (Right)","Perfection","Phone Booth Crane","Photo Motion","Photo Studio Deluxe","Photo Studio Prism","Piano Keys","Pink Panther","Pinnacle","Pirate's Chest","Pirate's Hook (1)","Pirate's Hook (2)","Pirate's Hook (3)","Pirate's Hook (4)","Pirate's Hook (Left)","Pirate's Hook (Right)","Pixel Chase","Plants vs. Zombies","Plinko!","Plucky Ducky","Plush Palace (Balls)","Plush Palace (Plush)","Police Crane (1)","Police Crane (2)","Police Crane (3)","Police Crane (4)","Police Crane (5)","Police Crane (6)","Polycade","Pong (Left)","Pong (Right)","Pop the Lock","Power Drop Xtreme","Power Roll","Price is Right Pusher (1)","Price is Right Pusher (2)","Price is Right Pusher (3)","Price is Right Pusher (4)","Price is Right Pusher (5)","Price is Right Pusher (6)","Prize Aquarium","Prize Box","Prize Cube","Prize Cube (1)","Prize Cube (2)","Prize Cube (3)","Prize Cube (4)","Prize Cube (5)","Prize Cube (6)","Prize Factory","Prize Hub","Prize Hub XL","Prize Locker","Prize Party (1)","Prize Party (2)","Prize Party (3)","Prize Quest (Left)","Prize Quest (Right)","Prize Time","Pull My Finger","Pump It Up","Pump It Up LX","Pump It Up LX 20th Anniversary","Pump It Up NX","Pump It Up Phoenix","Pump It Up Prime","Pump It Up Prime 2","Pushing Points","Quad Air Hockey (1)","Quad Air Hockey (2)","Quad Air Hockey (3)","Quad Air Hockey (4)","Quarterback Pro","Quick Shot","Quik Drop","Rabbids & Ladders (1)","Rabbids & Ladders (2)","Rabbids & Ladders (3)","Rabbids & Ladders (4)","Rabbids: Hollywood (1)","Rabbids: Hollywood (2)","Rabbids: Hollywood (3)","Rabbids: Hollywood (4)","Rabbids: Hollywood (Left)","Rabbids: Hollywood (Right)","Raptor Captor","Razing Storm","Red Cup Challange","Red Hot (Left)","Red Hot (Right)","Red Zone Rush (1)","Red Zone Rush (2)","Red Zone Rush (3)","Red Zone Rush (4)","Rick and Morty (Left)","Rick and Morty (Right)","Rilix VR Coaster (Left)","Rilix VR Coaster (Right)","Ring Toss","Road Trip","Rock the Rim (1)","Rock the Rim (2)","Rock the Rim (3)","Rock the Rim (4)","Rock the Rim (Left)","Rock the Rim (Right)","Rooster N' Bro 2 DX (1)","Rooster N' Bro 2 DX (2)","Rooster N' Bro 2 DX (3)","Safe Cracker","Sailor's Quest VR (Left)","Sailor's Quest VR (Right)","SB Bikini Bottom (Left)","SB Bikini Bottom (Right)","SB Ticket Coaster (Left)","SB Ticket Coaster (Right)","Scooby-Doo","Screwball","Sea Wolf","Shell Game","Ship Wreck","Ship Wreck (1)","Ship Wreck (2)","Ship Wreck (3)","Showtime Console (A)","Showtime Console (B)","Showtime Console (C)","Showtime Console (D)","Showtime Crane","Showtime Stacked (Bottom)","Showtime Stacked (Top)","Sink It","Sink It Shootout (Left)","Sink It Shootout (Right)","Skee-Ball Classic (1)","Skee-Ball Classic (2)","Skee-Ball Classic (3)","Skee-Ball Classic (4)","Skee-Ball Classic (Left)","Skee-Ball Classic (Right)","Skee-Ball Glow (1)","Skee-Ball Glow (2)","Skee-Ball Glow (3)","Skee-Ball Glow (4)","Skee-Ball Glow (Left)","Skee-Ball Glow (Right)","Skill Fall Revolution","Skill Fall Revolution (Left)","Skill Fall Revolution (Purple)","Skill Fall Revolution (Red)","Skill Fall Revolution (Right)","Skill Fall Revolution (Teal)","Skill Fall Revolution (Yellow)","Skull of Shadow (1)","Skull of Shadow (2)","Skull of Shadow (3)","Skull of Shadow (4)","Slam-a-Winner","Slam-a-Winner Extreme","Slugger's Alley (Cage 1)","Slugger's Alley (Cage 2)","Slugger's Alley (Cage 3)","Slugger's Alley (Cage 4)","Slugger's Alley (Cage 5)","Slugger's Alley (Cage 6)","Slugger's Alley (Cage 7)","Slugger's Alley (Cage 8)","Slugger's Alley (Cage 9)","Slugger's Alley (Cage 10)","Smart Cube","Smart Ticket Ring Crane","Smash DX (Blue)","Smash DX (Green)","Smash DX (Left)","Smash DX (Purple)","Smash DX (Red)","Smash DX (Right)","Smash 'n Win (Monster)","Smash 'n Win (NBA)","Snaky Tickets (Blue)","Snaky Tickets (Red)","SnoCross (Left)","SnoCross (Right)","Snowball Toss","Snowboarder (Left)","Snowboarder (Right)","Sonic Blast Ball","Sonic Dash","Space Ballz","Space Invaders Frenzy","Space Invaders Frenzy (Left)","Space Invaders Frenzy (Right)","Space Raider","Space Raider (Left)","Space Raider (Right)","Speed Demon","Speed of Light","Speed Rider 3DX (Left)","Speed Rider 3DX (Right)","Speed Rider 4DX (Left)","Speed Rider 4DX (Right)","Spider-Man","Spider-Man (Left)","Spider-Man (Right)","Spin 'n Win","Spin 'n Win Deluxe","Spin Zone Bumper Cars","Spinner Frenzy","Splash Island Bumper Boats","SpongeBob BikiniBottom (Left)","SpongeBob BikiniBottom (Right)","SpongeBob Dynamic Duo VR (1)","SpongeBob Dynamic Duo VR (2)","SpongeBob Pineapple (Left)","SpongeBob Pineapple (Right)","SpongeBob Soccer Stars","SpongeBob VR Coaster (1)","SpongeBob VR Coaster (2)","SpongeBob Wacky Racer (Blue)","SpongeBob Wacky Racer (Red)","Stack 'n Grab","Stacker","Star Wars Battle Pod","Star Wars Battle Pod 42\"","Star Wars Pusher (Left)","Star Wars Pusher (Right)","Starship Ride","Stop the Drop","Strike Hook (1)","Strike Hook (2)","Strike Hook (3)","Strike Hook (4)","Subway Surfer","Super Air Blaster (Left)","Super Air Blaster (Right)","Super Alpine Racer","Super Bikes 2 (Left)","Super Bikes 2 (Right)","Super Bikes 3 (Green)","Super Bikes 3 (Left)","Super Bikes 3 (Orange)","Super Bikes 3 (Pink)","Super Bikes 3 (Right)","Super Bikes 3 (Yellow)","Super Blaster!","Super Blaster! (Left)","Super Blaster! (Right)","Super Cars (Left)","Super Cars (Right)","Super Chexx","Super Drill (1)","Super Drill (2)","Super Drill (3)","Super Kixx","Super Rider (Left)","Super Rider (Right)","Super Shot (1)","Super Shot (2)","Super Shot (3)","Super Shot (4)","Super Shot (Left)","Super Shot (Right)","Sweet Shoppe","Sweet Stuff","Swing & Smash","Taj Mahal Giant Crane","Taj Mahal Ticket Ring Crane","Target Bravo","Temple Run","Terminator Salvation","The Big One Crane","The Big One X-Treme","The Giant Crane","The Really Big Crane","The Vault","The Wizard of Oz","Thunder Road Go Karts","Thunder Road Go Karts (Double)","Thunder Road Go Karts (Single)","Tic Shaq Toe (Left)","Tic Shaq Toe (Right)","Ticket Champ","Ticket Dome (Blue)","Ticket Dome (Purple)","Ticket Dome (Red)","Ticket Dome (Yellow)","Ticket Monster","Ticket Time","Ticket Time (Left)","Ticket Time (Right)","Ticket World","Tight Rope","Tilt 'n Shout","Timberman","Time 4 Tickets","Time Crisis 4 (Left)","Time Crisis 4 (Right)","Time Crisis 5 (Left)","Time Crisis 5 (Right)","Time Out","TMNT Arcade","To Tha Net (Left)","To Tha Net (Right)","To The Net Jr.","Tomb Raider (Left)","Tomb Raider (Right)","Tons of Tickets","Tons of Tickets (Left)","Tons of Tickets (Right)","Top Gun: Maverick (Left)","Top Gun: Maverick (Right)","Tornado (Left)","Tornado (Right)","Tower Island (Left)","Tower Island (Right)","Tower of Tickets (Blue)","Tower of Tickets (Green)","Tower of Tickets (Red)","Tower of Tickets (Yellow)","Toy Box","Toy Soldier","Transformers Arcade","Transformers DLX","Treasure Quest","Trolls Tower of Tickets (Blue)","Trolls Tower of Tickets (Pink)","Trolls Tower of Tickets (Teal)","Trolls Tower of Tickets (Ylw)","Tundra Toss (Left)","Tundra Toss (Right)","Tutti Fruitti","Twister (Blue)","Twister (Green)","Twister (Red)","Twister (Yellow)","Typhoon","UFO Catcher (Left)","UFO Catcher (Right)","Ultimate Shot","Virtual Rabbids (Left)","Virtual Rabbids (Right)","VR Agent (Left)","VR Agent (Right)","VW Bus Crane (1)","VW Bus Crane (2)","VW Bus Crane (3)","VW Bus Crane (4)","VW Bus Crane (5)","Walking Dead","Whack 'n Win","Whack-a-Clown","Whack-a-Clown (1)","Whack-a-Clown (2)","Whack-a-Clown (3)","Whack-a-Clown (Left)","Whack-a-Clown (Right)","Wheel of Fortune","Wheel of Fortune (Left)","Wheel of Fortune (Right)","Wheel of Fortune (Video)","Wicked Tuna (Left)","Wicked Tuna (Right)","Wild West Shootout (Left)","Wild West Shootout (Right)","Willy Crash","Willy Wonka (1)","Willy Wonka (2)","Willy Wonka (3)","Willy Wonka (4)","Willy Wonka (5)","Willy Wonka (6)","Willy Wonka (Left)","Willy Wonka (Right)","Winner's Cube","Wizard of Oz (1)","Wizard of Oz (2)","Wizard of Oz (3)","Wizard of Oz (4)","Wizard of Oz (5)","Wizard of Oz (6)","Wizard of Oz (Left)","Wizard of Oz (Right)","Wizard of Oz: Emerald City (1)","Wizard of Oz: Emerald City (2)","Wizard of Oz: Emerald City (3)","Wizard of Oz: Emerald City (4)","Wizard of Oz: Emerald City (5)","Wizard of Oz: Emerald City (6)","Wizard of Oz: Emerald City (L)","Wizard of Oz: Emerald City (R)","Wonder Claw 31\"","Wonder Claw 49\"","Wonder Claw Mini (Bottom-L)","Wonder Claw Mini (Bottom-R)","Wonder Claw Mini (Top-L)","Wonder Claw Mini (Top-R)","World Football Pro","World's Largest PacMan/Galaga","X-Prize (Left)","X-Prize (Right)","Yahtzee","Ye Rockin' Tug","Yeti Go!","Zany Zoo","Zoltar","Zombie Land VR (Left)","Zombie Land VR (Right)","Zombie Snatcher (1)","Zombie Snatcher (2)","Zombie Snatcher (3)","Zombie Snatcher (4)","Zombie Snatcher (5)","Zombie Snatcher (6)","Zoo Catcher"];
+const SHEET_ID = '170WtK41dYuLevbLOJfBGibb2qfOmmXOVcTU_V8DNmKA';
+const API_KEY  = 'AIzaSyD5-qDsDD6WN9J7mWQPDPYzU61osY9Y91s';
+const SHEET_NAME = 'Sheet1';
+let surveys = [];
+let mcCount = 0;
 
-
-const W = {clean:.15,activ:.30,play:.30,pres:.25};
-let rowCount=0, currentCenterNum=null;
-
-// ── STORAGE (localStorage) ──────────────────────────────
-// Surveys and game lists are stored in browser localStorage.
-// Use the Export button to download all data as CSV for sharing.
-
-async function sGet(key){
-  try{ const v=localStorage.getItem(key); return v?JSON.parse(v):null; }catch{return null;}
-}
-async function sSet(key,val){
-  try{ localStorage.setItem(key,JSON.stringify(val)); return true; }catch(e){console.error(e);return false;}
-}
-async function sList(prefix){
-  try{
-    const keys=[];
-    for(let i=0;i<localStorage.length;i++){
-      const k=localStorage.key(i);
-      if(k&&k.startsWith(prefix))keys.push(k);
-    }
-    return keys;
-  }catch{return[];}
-}
-async function sDel(key){
-  try{ localStorage.removeItem(key); }catch{}
-}
-async function loadAllSurveys(){
-  const keys=await sList('survey:');
-  const surveys=[];
-  for(const k of keys){
-    const s=await sGet(k);
-    if(s)surveys.push({key:k,...s});
-  }
-  return surveys.sort((a,b)=>new Date(b.date)-new Date(a.date));
-}
-
-// ── CSV EXPORT ────────────────────────────────────────────
-async function exportCSV(){
-  const all=await loadAllSurveys();
-  if(!all.length){showToast('No surveys to export.');return;}
-  const rows=[['Date','Center','Center#','District','Region','Completed By','EMP Card','Stations','Score','Tier','Games','Tech Notes']];
-  all.forEach(s=>{
-    rows.push([
-      s.date||'', s.centerName||'', s.centerNum||'',
-      s.opsDistrict||'', s.opsRegion||'',
-      s.by||'', s.empCard||'', s.stations||'',
-      s.score||'', s.tier||'',
-      (s.games||[]).map(g=>g.game).join(' | '),
-      s.techNotes||''
-    ]);
-  });
-  const csv=rows.map(r=>r.map(c=>'"'+(String(c).replace(/"/g,'""'))+'"').join(',')).join('\n');
-  const blob=new Blob([csv],{type:'text/csv'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url;a.download='arcade_pulse_surveys.csv';a.click();
-  URL.revokeObjectURL(url);
-  showToast('Exported '+all.length+' surveys to CSV.');
-}
-
-// ── SP STATUS (informational only) ───────────────────────
-
-// ── PAGE NAV ─────────────────────────────────────────────
-function showPage(name){
+function showPage(id, btn) {
   document.querySelectorAll('.pg').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  const pg = document.getElementById('pg-'+name);
-  if(pg) pg.classList.add('active');
-  const nb = document.getElementById('nav-'+name);
-  if(nb) nb.classList.add('active');
-  if(name==='dashboard') renderDash();
-  if(name==='history') renderHistory();
+  document.getElementById('pg-'+id).classList.add('active');
+  if(btn) btn.classList.add('active');
+  if(id==='dashboard') renderDash();
+  if(id==='history') renderHistory();
 }
 
-// ── SCORE COLOR ──────────────────────────────────────────
-function scoreColor(s){if(s>=90)return'var(--green)';if(s>=80)return'var(--amber)';if(s>=70)return'#d97706';return'var(--red)';}
-function scoreTier(s){if(s>=90)return'Excellent';if(s>=80)return'Good';if(s>=70)return'Fair';return'Needs Work';}
-function scoreBg(s){if(s>=90)return'rgba(34,211,165,.12)';if(s>=80)return'rgba(245,158,11,.12)';if(s>=70)return'rgba(245,158,11,.07)';return'rgba(245,96,96,.12)';}
+function toast(msg,type='ok'){
+  const t=document.getElementById('toast');
+  t.textContent=(type==='ok'?'\u2713 ':type==='err'?'\u2717 ':'\u26A0 ')+msg;
+  t.style.borderColor=type==='ok'?'var(--acc)':type==='err'?'var(--danger)':'var(--acc2)';
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3200);
+}
 
-// ── DATE RANGE HELPERS ───────────────────────────────────
-function getDateRange(period){
-  const now=new Date();
-  const y=now.getFullYear(),m=now.getMonth();
-  const dow=now.getDay(); // 0=Sun
-  const mondayOffset=dow===0?-6:1-dow;
-  const monday=new Date(now); monday.setDate(now.getDate()+mondayOffset); monday.setHours(0,0,0,0);
-  const sunday=new Date(monday); sunday.setDate(monday.getDate()+6); sunday.setHours(23,59,59,999);
-  const prevMonday=new Date(monday); prevMonday.setDate(monday.getDate()-7);
-  const prevSunday=new Date(monday); prevSunday.setDate(monday.getDate()-1); prevSunday.setHours(23,59,59,999);
-  const qStart=Math.floor(m/3)*3;
-  const prevQStart=qStart===0?-3:qStart-3;
+function setSync(s,msg){
+  const d=document.getElementById('syncDot');
+  const l=document.getElementById('syncLabel');
+  d.className='sync-dot'+(s==='on'?' on':s==='err'?' err':s==='sync'?' sync':'');
+  l.textContent=msg;
+}
+
+async function loadData(){
+  setSync('sync','Syncing...');
+  try{
+    const url=`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
+    const res=await fetch(url);
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const data=await res.json();
+    const rows=(data.values||[]).slice(1);
+    surveys=rows.map(r=>({
+      id:r[0]||'',date:r[1]||'',location:r[2]||'',tech:r[3]||'',
+      region:r[4]||'',stations:parseInt(r[5])||0,period:r[6]||'',
+      surveydata:r[7]?tryParse(r[7]):{},
+    }));
+    setSync('on','Connected \u00B7 '+surveys.length+' surveys');
+    populateFilters();
+    renderDash();
+    renderHistory();
+    if(surveys.length>0) toast('Loaded '+surveys.length+' surveys');
+    else setSync('on','Connected \u00B7 Ready');
+  }catch(e){
+    setSync('err','Connection error');
+    toast('Could not connect: '+e.message,'err');
+  }
+}
+
+function tryParse(s){try{return JSON.parse(s);}catch{return{};}}
+
+async function appendRow(row){
+  setSync('sync','Saving...');
+  try{
+    const url=`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}:append?valueInputOption=USER_ENTERED&key=${API_KEY}`;
+    const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({values:[row]})});
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    setSync('on','Connected \u00B7 '+surveys.length+' surveys');
+    return true;
+  }catch(e){
+    setSync('err','Save error');
+    toast('Save failed: '+e.message,'err');
+    return false;
+  }
+}
+
+function populateFilters(){
+  const regions=[...new Set(surveys.map(s=>s.region).filter(Boolean))].sort();
+  const locs=[...new Set(surveys.map(s=>s.location).filter(Boolean))].sort();
+  ['df-region','hist-region'].forEach(id=>{
+    const el=document.getElementById(id);
+    const v=el.value;
+    el.innerHTML='<option value="">All Regions</option>'+regions.map(r=>`<option value="${r}">${r}</option>`).join('');
+    el.value=v;
+  });
+  const dl=document.getElementById('df-loc');
+  const lv=dl.value;
+  dl.innerHTML='<option value="">All Locations</option>'+locs.map(l=>`<option value="${l}">${l}</option>`).join('');
+  dl.value=lv;
+}
+
+function getRange(period){
+  const now=new Date(),y=now.getFullYear(),m=now.getMonth();
+  const mon=new Date(now);mon.setDate(now.getDate()-((now.getDay()+6)%7));mon.setHours(0,0,0,0);
+  const sun=new Date(mon);sun.setDate(mon.getDate()+6);sun.setHours(23,59,59,999);
+  const pmon=new Date(mon);pmon.setDate(mon.getDate()-7);
+  const psun=new Date(mon);psun.setDate(mon.getDate()-1);psun.setHours(23,59,59,999);
+  const qs=Math.floor(m/3)*3;
   switch(period){
-    case'week':return[monday,sunday];
-    case'prev-week':return[prevMonday,prevSunday];
+    case'week':return[mon,sun];case'prev-week':return[pmon,psun];
     case'month':return[new Date(y,m,1),new Date(y,m+1,0,23,59,59,999)];
     case'prev-month':return[new Date(y,m-1,1),new Date(y,m,0,23,59,59,999)];
-    case'quarter':return[new Date(y,qStart,1),new Date(y,qStart+3,0,23,59,59,999)];
-    case'prev-quarter':return[new Date(y,prevQStart<0?prevQStart+12:prevQStart,1,0,0,0),new Date(prevQStart<0?y-1:y,prevQStart<0?prevQStart+15:prevQStart+3,0,23,59,59,999)];
+    case'quarter':return[new Date(y,qs,1),new Date(y,qs+3,0,23,59,59,999)];
     case'year':return[new Date(y,0,1),new Date(y,11,31,23,59,59,999)];
     default:return[new Date('2000-01-01'),new Date('2099-12-31')];
   }
 }
 
-function periodLabel(period){
-  const m=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-  const now=new Date();
-  switch(period){
-    case'week':return'This week';
-    case'prev-week':return'Last week';
-    case'month':return m[now.getMonth()]+' '+now.getFullYear();
-    case'prev-month':{const d=new Date(now.getFullYear(),now.getMonth()-1,1);return m[d.getMonth()]+' '+d.getFullYear();}
-    case'quarter':return'Q'+(Math.floor(now.getMonth()/3)+1)+' '+now.getFullYear();
-    case'prev-quarter':{const q=Math.floor(now.getMonth()/3);return q===0?'Q4 '+(now.getFullYear()-1):'Q'+q+' '+now.getFullYear();}
-    case'year':return'Year '+now.getFullYear();
-    default:return'All time';
-  }
-}
-
-// ── DASHBOARD FILTER CASCADE ─────────────────────────────
-function cascadeFilter(){
-  const srr='';
-  const reg=document.getElementById('df-region').value;
-  const dist=document.getElementById('df-district').value;
-
-  // Populate regions
-  const regSel=document.getElementById('df-region');
-  const curReg=regSel.value;
-  regSel.innerHTML='<option value="">All Regions</option>';
-  const regions=[...new Set(CENTERS_FULL.filter(c=>!srr||c.srRegion===srr).map(c=>c.opsRegion).filter(Boolean))].sort();
-  regions.forEach(r=>{ const o=document.createElement('option');o.value=r;o.textContent=`${r} — ${REGION_NAMES[r]||r}`;if(r===curReg)o.selected=true;regSel.appendChild(o);});
-
-  // Populate districts
-  const distSel=document.getElementById('df-district');
-  const curDist=distSel.value;
-  distSel.innerHTML='<option value="">All Districts</option>';
-  const dists=[...new Set(CENTERS_FULL.filter(c=>(!srr||c.srRegion===srr)&&(!reg||c.opsRegion===reg)).map(c=>c.opsDistrict).filter(Boolean))].sort();
-  dists.forEach(d=>{ const o=document.createElement('option');o.value=d;o.textContent=d;if(d===curDist)o.selected=true;distSel.appendChild(o);});
-
-  // Populate centers
-  const cSel=document.getElementById('df-center');
-  const curC=cSel.value;
-  cSel.innerHTML='<option value="">All Centers</option>';
-  const filtered=CENTERS_FULL.filter(c=>(!srr||c.srRegion===srr)&&(!reg||c.opsRegion===reg)&&(!dist||c.opsDistrict===dist));
-  filtered.sort((a,b)=>a.name.localeCompare(b.name)).forEach(c=>{
-    const o=document.createElement('option');o.value=c.num;o.textContent=`${c.num} — ${c.name}`;if(String(c.num)===String(curC))o.selected=true;cSel.appendChild(o);
-  });
-}
-
-// loadAllSurveys defined above in SP layer
-
-// ── DASHBOARD ────────────────────────────────────────────
-async function renderDash(){
+function filterSurveys(){
   const period=document.getElementById('df-period').value;
-  const srr='';
-  const reg=document.getElementById('df-region').value;
-  const dist=document.getElementById('df-district').value;
-  const centerF=document.getElementById('df-center').value;
-  const [from,to]=getDateRange(period);
-
-  document.getElementById('dash-tbl-wrap').innerHTML='<div style="color:var(--mu);font-size:13px;padding:1rem;">Loading surveys…</div>';
-  const all=await loadAllSurveys();
-
-  // Filter by date + region hierarchy
-  const surveys=all.filter(s=>{
-    const d=new Date(s.date+'T12:00:00');
-    if(d<from||d>to)return false;
-    const ci=CENTERS_FULL.find(c=>String(c.num)===String(s.centerNum));
-    if(srr&&(!ci||ci.srRegion!==srr))return false;
-    if(reg&&(!ci||ci.opsRegion!==reg))return false;
-    if(dist&&(!ci||ci.opsDistrict!==dist))return false;
-    if(centerF&&String(s.centerNum)!==String(centerF))return false;
+  const region=document.getElementById('df-region').value;
+  const loc=document.getElementById('df-loc').value;
+  const[s,e]=getRange(period);
+  return surveys.filter(sv=>{
+    const d=new Date(sv.date);
+    if(isNaN(d)||d<s||d>e) return false;
+    if(region&&sv.region!==region) return false;
+    if(loc&&sv.location!==loc) return false;
     return true;
   });
+}
 
-  const scored=surveys.filter(s=>!isNaN(parseInt(s.score)));
-  const scores=scored.map(s=>parseInt(s.score));
-  const avg=scores.length?Math.round(scores.reduce((a,b)=>a+b,0)/scores.length):null;
-  const high=scores.length?Math.max(...scores):null;
-  const low=scores.length?Math.min(...scores):null;
-  const passing=scores.filter(s=>s>=80).length;
-  const uniqueCenters=new Set(surveys.map(s=>s.centerNum)).size;
+function renderDash(){
+  const f=filterSurveys();
+  const mach=f.reduce((a,s)=>a+(s.stations||0),0);
+  const locs=new Set(f.map(s=>s.location)).size;
+  let issues=0;
+  f.forEach(s=>{if(s.surveydata&&s.surveydata.machines) s.surveydata.machines.forEach(m=>{if(m.status&&m.status!=='OK')issues++;});});
+  document.getElementById('kpi-total').textContent=f.length;
+  document.getElementById('kpi-machines').textContent=mach;
+  document.getElementById('kpi-locs').textContent=locs;
+  document.getElementById('kpi-issues').textContent=issues;
+  const lc={};f.forEach(s=>{lc[s.location]=(lc[s.location]||0)+1;});
+  const sorted=Object.entries(lc).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  const mx=sorted[0]?.[1]||1;
+  const ce=document.getElementById('chart-locs');
+  if(!sorted.length){ce.innerHTML='<div class="empty-state"><div class="empty-ico">&#x1F4CA;</div><div>No data yet</div></div>';}
+  else{ce.innerHTML=sorted.map(([l,c])=>`<div class="bar-item"><div class="bar-label">${l||'?'}</div><div class="bar-track"><div class="bar-fill" style="width:${(c/mx*100).toFixed(1)}%"></div></div><div class="bar-val">${c}</div></div>`).join('');}
+  const rec=[...f].sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,5);
+  const re=document.getElementById('recent-list');
+  if(!rec.length){re.innerHTML='<div class="empty-state"><div class="empty-ico">&#x1F4CB;</div><div>No surveys yet</div></div>';}
+  else{re.innerHTML=`<table style="width:100%;font-size:13px;border-collapse:collapse;"><tr style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--mu);"><th style="padding:5px 8px;text-align:left;">Date</th><th style="padding:5px 8px;text-align:left;">Location</th><th style="padding:5px 8px;text-align:left;">Name</th><th style="padding:5px 8px;text-align:left;">Units</th></tr>${rec.map(s=>`<tr><td style="padding:8px;border-bottom:1px solid var(--bdr);">${s.date}</td><td style="padding:8px;border-bottom:1px solid var(--bdr);">${s.location}</td><td style="padding:8px;border-bottom:1px solid var(--bdr);">${s.tech}</td><td style="padding:8px;border-bottom:1px solid var(--bdr);color:var(--acc);">${s.stations}</td></tr>`).join('')}</table>`;}
+}
 
-  // Stat cards
-  const setEl=(id,txt,color)=>{const e=document.getElementById(id);e.textContent=txt;if(color)e.style.color=color;};
-  setEl('ds-count',surveys.length,'var(--blue)');
-  setEl('ds-period',periodLabel(period));
-  setEl('ds-avg',avg!==null?avg:'—',avg!==null?scoreColor(avg):'var(--mu)');
-  setEl('ds-tier',avg!==null?scoreTier(avg):'no data');
-  setEl('ds-high',high!==null?high:'—',high!==null?scoreColor(high):'var(--mu)');
-  setEl('ds-high-center',high!==null?(scored.find(s=>parseInt(s.score)===high)?.centerName||'—'):'—');
-  setEl('ds-low',low!==null?low:'—',low!==null?scoreColor(low):'var(--mu)');
-  setEl('ds-low-center',low!==null?(scored.find(s=>parseInt(s.score)===low)?.centerName||'—'):'—');
-  setEl('ds-centers',uniqueCenters,'var(--acc2)');
-  setEl('ds-total-centers',`of ${CENTERS_FULL.length} total`);
-  setEl('ds-passing',scores.length?`${passing} / ${scores.length}`:'—','var(--amber)');
+function renderHistory(){
+  const q=(document.getElementById('hist-search')?document.getElementById('hist-search').value:'').toLowerCase();
+  const region=document.getElementById('hist-region')?document.getElementById('hist-region').value:'';
+  let f=surveys.filter(s=>{
+    if(region&&s.region!==region) return false;
+    if(q&&!['location','tech','region','period'].some(k=>(s[k]||'').toLowerCase().includes(q))) return false;
+    return true;
+  }).sort((a,b)=>new Date(b.date)-new Date(a.date));
+  const tb=document.getElementById('hist-tbody');
+  const em=document.getElementById('hist-empty');
+  if(!f.length){tb.innerHTML='';em.style.display='block';return;}
+  em.style.display='none';
+  const iss=s=>s.surveydata&&s.surveydata.machines?s.surveydata.machines.filter(m=>m.status&&m.status!=='OK').length:0;
+  tb.innerHTML=f.map(s=>{const i=iss(s);return`<tr><td>${s.date}</td><td>${s.location}</td><td>${s.tech}</td><td>${s.region}</td><td style="color:var(--acc)">${s.stations}</td><td style="color:var(--mu)">${s.period}</td><td>${i>0?`<span class="badge badge-r">${i} issues</span>`:'<span class="badge badge-g">Clean</span>'}</td><td style="color:var(--mu);font-size:12px;">${s.surveydata&&s.surveydata.notes?s.surveydata.notes:''}</td></tr>`;}).join('');
+}
 
-  // CAPP bars
-  const cappAvg=(field)=>{
-    const vals=[];
-    surveys.forEach(s=>{
-      if(!s.games)return;
-      const yeses=s.games.filter(g=>g[field]==='yes').length;
-      const total=s.games.filter(g=>g[field]==='yes'||g[field]==='no').length;
-      if(total>0)vals.push(yeses/total*100);
-    });
-    return vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length):null;
-  };
-  ['clean','activ','play','pres'].forEach(f=>{
-    const v=cappAvg(f);
-    const fill=document.getElementById('bar-'+f);
-    const pct=document.getElementById('bpct-'+f);
-    if(v!==null){
-      fill.style.height=v+'%';
-      pct.textContent=v+'%';
-      pct.style.color=scoreColor(v);
-    } else {
-      fill.style.height='0%';
-      pct.textContent='—';
-      pct.style.color='var(--mu)';
-    }
-  });
+function addMachine(){
+  mcCount++;
+  const id='mc-'+mcCount;
+  const div=document.createElement('div');
+  div.className='mc-row';div.id=id;
+  div.innerHTML=`<input type="text" placeholder="Machine name" class="mc-name"><select class="mc-status"><option value="OK">OK</option><option value="Issue">Issue</option><option value="Down">Down</option><option value="Needs Parts">Needs Parts</option></select><input type="number" placeholder="Tickets" min="0" class="mc-tickets"><input type="text" placeholder="Notes" class="mc-notes"><button class="del-btn" onclick="document.getElementById('${id}').remove()">&#x2715;</button>`;
+  document.getElementById('machine-list').appendChild(div);
+}
 
-  // Survey table
-  const wrap=document.getElementById('dash-tbl-wrap');
-  document.getElementById('dash-tbl-title').textContent=`${surveys.length} Survey${surveys.length!==1?'s':''} — ${periodLabel(period)}`;
-  if(surveys.length===0){
-    wrap.innerHTML='<div class="empty"><div class="empty-ico">📊</div><div style="font-size:13px;">No surveys found for this period.</div></div>';
+function clearForm(){
+  ['f-tech','f-location','f-period','f-notes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f-date').value=new Date().toISOString().slice(0,10);
+  document.getElementById('f-region').value='';
+  document.getElementById('f-stations').value='';
+  document.getElementById('machine-list').innerHTML='';
+  document.getElementById('survey-notice').innerHTML='';
+  mcCount=0;
+}
+
+async function submitSurvey(){
+  const tech=document.getElementById('f-tech').value.trim();
+  const date=document.getElementById('f-date').value;
+  const loc=document.getElementById('f-location').value.trim();
+  const region=document.getElementById('f-region').value;
+  const stations=document.getElementById('f-stations').value;
+  const period=document.getElementById('f-period').value.trim();
+  const notes=document.getElementById('f-notes').value.trim();
+  if(!tech||!date||!loc){
+    document.getElementById('survey-notice').innerHTML='<div class="notice err">Please fill in Name, Date, and Location.</div>';
     return;
   }
-  let rows='';
-  surveys.forEach(s=>{
-    const sc=parseInt(s.score);
-    const sc_valid=!isNaN(sc);
-    const ci=CENTERS_FULL.find(c=>String(c.num)===String(s.centerNum));
-    const dateStr=s.date?new Date(s.date+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'—';
-    rows+=`<tr onclick="openSurvey(${JSON.stringify(JSON.stringify(s))})" style="cursor:pointer;">
-      <td>${dateStr}</td>
-      <td><strong>${s.centerName||s.centerNum}</strong><br><span style="font-size:11px;color:var(--mu);">${ci?ci.opsDistrict+' · '+ci.opsRegion:''}</span></td>
-      <td>${s.by||'—'}</td>
-      <td>${s.games?s.games.length:0}</td>
-      <td>${sc_valid?`<span class="score-badge" style="color:${scoreColor(sc)};background:${scoreBg(sc)};">${sc}</span>`:'—'}</td>
-      <td>${sc_valid?`<span class="tier-chip" style="color:${scoreColor(sc)};background:${scoreBg(sc)};border:1px solid ${scoreColor(sc)};">${scoreTier(sc)}</span>`:'—'}</td>
-    </tr>`;
+  document.getElementById('survey-notice').innerHTML='';
+  const machines=[];
+  document.querySelectorAll('#machine-list .mc-row').forEach(row=>{
+    const name=row.querySelector('.mc-name').value.trim();
+    if(name) machines.push({name,status:row.querySelector('.mc-status').value,tickets:row.querySelector('.mc-tickets').value||'0',notes:row.querySelector('.mc-notes').value||''});
   });
-  wrap.innerHTML=`<table class="dash-tbl"><thead><tr><th>Date</th><th>Center</th><th>Completed By</th><th>Games</th><th>Score</th><th>Tier</th></tr></thead><tbody>${rows}</tbody></table>`;
-}
-
-// ── SURVEY FORM ──────────────────────────────────────────
-function buildGameOpts(sel){return'<option value="">— Select game —</option>'+GAMES.map(g=>`<option value="${g}"${g===sel?' selected':''} >${g}</option>`).join('');}
-
-function addGameRow(gd){
-  const id=rowCount++;
-  const g=gd||{};
-  const div=document.createElement('div');
-  div.className='gc';div.id=`row-${id}`;
-  div.dataset.clean=g.clean||'';div.dataset.activ=g.activ||'';div.dataset.play=g.play||'';div.dataset.pres=g.pres||'';
-  div.innerHTML=`
-    <div class="gc-hdr">
-      <select onchange="recalc()">${buildGameOpts(g.game||'')} </select>
-      <span class="gc-score" id="rs-${id}" style="color:var(--mu);">—</span>
-      <button class="del-btn" onclick="removeRow(${id})">×</button>
-    </div>
-    <div class="gc-capp">
-      <div class="cc"><span class="cc-lbl">Cleanliness</span><span class="cc-wt">15%</span><div class="yn-tog">
-        <button class="yn-btn yes-btn${g.clean==='yes'?' active':''}" onclick="setYN(${id},'clean','yes',this)">Yes</button>
-        <button class="yn-btn no-btn${g.clean==='no'?' active':''}" onclick="setYN(${id},'clean','no',this)">No</button>
-      </div></div>
-      <div class="cc"><span class="cc-lbl">Activation</span><span class="cc-wt">30%</span><div class="yn-tog">
-        <button class="yn-btn yes-btn${g.activ==='yes'?' active':''}" onclick="setYN(${id},'activ','yes',this)">Yes</button>
-        <button class="yn-btn no-btn${g.activ==='no'?' active':''}" onclick="setYN(${id},'activ','no',this)">No</button>
-      </div></div>
-      <div class="cc"><span class="cc-lbl">Playability</span><span class="cc-wt">30%</span><div class="yn-tog">
-        <button class="yn-btn yes-btn${g.play==='yes'?' active':''}" onclick="setYN(${id},'play','yes',this)">Yes</button>
-        <button class="yn-btn no-btn${g.play==='no'?' active':''}" onclick="setYN(${id},'play','no',this)">No</button>
-      </div></div>
-      <div class="cc"><span class="cc-lbl">Presentation</span><span class="cc-wt">25%</span><div class="yn-tog">
-        <button class="yn-btn yes-btn${g.pres==='yes'?' active':''}" onclick="setYN(${id},'pres','yes',this)">Yes</button>
-        <button class="yn-btn no-btn${g.pres==='no'?' active':''}" onclick="setYN(${id},'pres','no',this)">No</button>
-      </div></div>
-    </div>
-    <div class="gc-foot"><input type="text" class="notes-input" placeholder="Errors / Issues..." value="${(g.notes||'')}"></div>`;
-  document.getElementById('game-rows').appendChild(div);
-  updateRowScore(id);
-}
-
-function setYN(id,field,val,btn){
-  const row=document.getElementById(`row-${id}`);
-  btn.closest('.yn-tog').querySelectorAll('.yn-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');row.dataset[field]=val;
-  updateRowScore(id);recalc();
-}
-
-function removeRow(id){const el=document.getElementById(`row-${id}`);if(el)el.remove();recalc();}
-
-function updateRowScore(id){
-  const row=document.getElementById(`row-${id}`);if(!row)return;
-  const c=row.dataset.clean==='yes'?1:row.dataset.clean==='no'?0:null;
-  const a=row.dataset.activ==='yes'?1:row.dataset.activ==='no'?0:null;
-  const p=row.dataset.play==='yes'?1:row.dataset.play==='no'?0:null;
-  const r=row.dataset.pres==='yes'?1:row.dataset.pres==='no'?0:null;
-  const el=document.getElementById(`rs-${id}`);
-  const ans=[c,a,p,r].filter(v=>v!==null).length;
-  if(ans===4){const ws=(c*W.clean+a*W.activ+p*W.play+r*W.pres)*100;el.textContent=Math.round(ws)+'%';el.style.color=scoreColor(ws);}
-  else{el.textContent=ans>0?'…':'—';el.style.color='var(--mu)';}
-}
-
-function recalc(){
-  const cards=document.querySelectorAll('#game-rows .gc');
-  const t={clean:[],activ:[],play:[],pres:[]};
-  cards.forEach(row=>{
-    const cv=f=>row.dataset[f]==='yes'?1:row.dataset[f]==='no'?0:null;
-    const c=cv('clean'),a=cv('activ'),p=cv('play'),r=cv('pres');
-    if(c!==null)t.clean.push(c);if(a!==null)t.activ.push(a);if(p!==null)t.play.push(p);if(r!==null)t.pres.push(r);
-  });
-  const avg=arr=>arr.length?arr.reduce((a,b)=>a+b,0)/arr.length:null;
-  const aC=avg(t.clean),aA=avg(t.activ),aP=avg(t.play),aR=avg(t.pres);
-  const setSub=(id,v)=>{const el=document.getElementById(id);if(v===null){el.textContent='—';el.style.color='var(--mu)';}else{el.textContent=Math.round(v*100)+'%';el.style.color=scoreColor(v*100);}};
-  setSub('s-clean',aC);setSub('s-activ',aA);setSub('s-play',aP);setSub('s-pres',aR);
-  const fEl=document.getElementById('final-score'),tEl=document.getElementById('final-tier'),fill=document.getElementById('meter-fill');
-  const hasAny=aC!==null||aA!==null||aP!==null||aR!==null;
-  if(hasAny){
-    const parts=[],uw=(aC!==null?W.clean:0)+(aA!==null?W.activ:0)+(aP!==null?W.play:0)+(aR!==null?W.pres:0);
-    if(aC!==null)parts.push(aC*W.clean);if(aA!==null)parts.push(aA*W.activ);if(aP!==null)parts.push(aP*W.play);if(aR!==null)parts.push(aR*W.pres);
-    const ov=(parts.reduce((a,b)=>a+b,0)/uw)*100,ro=Math.round(ov);
-    fEl.textContent=ro;fEl.style.color=scoreColor(ov);
-    fill.style.width=Math.min(100,ov)+'%';fill.style.background=scoreColor(ov);
-    tEl.textContent=scoreTier(ov);tEl.style.color=scoreColor(ov);tEl.style.background=scoreBg(ov);tEl.style.border=`1px solid ${scoreColor(ov)}`;tEl.style.display='inline-block';
-  } else {
-    fEl.textContent='—';fEl.style.color='var(--green)';fill.style.width='0%';tEl.style.display='none';
+  const id='S'+Date.now();
+  const surveyData=JSON.stringify({notes,machines});
+  const row=[id,date,loc,tech,region,stations||0,period,surveyData];
+  const ok=await appendRow(row);
+  if(ok){
+    surveys.push({id,date,location:loc,tech,region,stations:parseInt(stations)||0,period,surveydata:{notes,machines}});
+    setSync('on','Connected \u00B7 '+surveys.length+' surveys');
+    toast('Survey saved!');
+    document.getElementById('survey-notice').innerHTML='<div class="notice ok">Survey saved successfully!</div>';
+    clearForm();
+    addMachine();
   }
-  return hasAny;
 }
 
-async function onCenterChange(){
-  const sel=document.getElementById('center-select');
-  currentCenterNum=sel.value||null;
-  document.getElementById('game-rows').innerHTML='';rowCount=0;
-  const notice=document.getElementById('center-games-notice');
-  if(!currentCenterNum){notice.style.display='none';return;}
-  const saved=await sGet(`center-games:${currentCenterNum}`);
-  if(saved&&saved.length>0){notice.style.display='block';saved.forEach(g=>addGameRow({game:g}));}
-  else{notice.style.display='none';for(let i=0;i<3;i++)addGameRow();}
-  recalc();
-}
-
-function collectGames(){
-  return [...document.querySelectorAll('#game-rows .gc')].map(row=>{
-    const game=row.querySelector('select').value;
-    if(!game)return null;
-    return{game,clean:row.dataset.clean||'',activ:row.dataset.activ||'',play:row.dataset.play||'',pres:row.dataset.pres||'',notes:row.querySelector('.notes-input').value||''};
-  }).filter(Boolean);
-}
-
-async function saveSurvey(){
-  const cSel=document.getElementById('center-select');
-  const cNum=cSel.value,cName=cSel.options[cSel.selectedIndex]?.text||'';
-  const date=document.getElementById('survey-date').value;
-  const by=document.getElementById('completed-by').value;
-  if(!cNum){showToast('Please select a center.');return;}
-  if(!date){showToast('Please enter a date.');return;}
-  if(!by.trim()){showToast('Please enter your name.');return;}
-  const games=collectGames();
-  if(!games.length){showToast('Add at least one game.');return;}
-  recalc();
-  const score=document.getElementById('final-score').textContent;
-  const tier=document.getElementById('final-tier').textContent;
-  const ci=CENTERS_FULL.find(c=>String(c.num)===String(cNum));
-  const survey={centerNum:cNum,centerName:cName.replace(/^\d+\s*—\s*/,''),date,by,empCard:document.getElementById('emp-card').value,stations:document.getElementById('stations-count').value,games,score,tier,techNotes:document.getElementById('tech-notes').value,savedAt:new Date().toISOString(),opsDistrict:ci?.opsDistrict||'',opsRegion:ci?.opsRegion||''};
-  const ok=await sSet(`survey:${cNum}:${date}`,survey);
-  if(!ok){showToast('Storage error.');return;}
-  await sSet(`center-games:${cNum}`,[...new Set(games.map(g=>g.game))]);
-  showToast('Survey saved! ✓');
-  setTimeout(()=>{if(confirm('Survey saved. Start a new survey?'))resetForm();},500);
-}
-
-function resetForm(){
-  ['center-select','completed-by','emp-card','stations-count','tech-notes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=id==='center-select'?'':'';});
-  document.getElementById('survey-date').value=new Date().toISOString().slice(0,10);
-  document.getElementById('game-rows').innerHTML='';
-  document.getElementById('center-games-notice').style.display='none';
-  currentCenterNum=null;rowCount=0;recalc();
-}
-
-// ── HISTORY ──────────────────────────────────────────────
-async function renderHistory(){
-  const listEl=document.getElementById('hist-list');
-  const filterC=document.getElementById('hist-filter-center').value;
-  listEl.innerHTML='<div style="color:var(--mu);font-size:13px;padding:1rem;">Loading…</div>';
-  const all=await loadAllSurveys();
-  if(!all.length){listEl.innerHTML='<div class="empty"><div class="empty-ico">📋</div><div style="font-size:13px;">No surveys saved yet.</div></div>';return;}
-  // Populate center filter
-  const cf=document.getElementById('hist-filter-center');
-  const exCenters=new Set([...cf.options].map(o=>o.value));
-  const uniq=[...new Set(all.map(s=>s.centerNum))];
-  uniq.forEach(cn=>{if(!exCenters.has(String(cn))){const s=all.find(x=>String(x.centerNum)===String(cn));const o=document.createElement('option');o.value=cn;o.textContent=s?.centerName||cn;cf.appendChild(o);}});
-  const filtered=filterC?all.filter(s=>String(s.centerNum)===String(filterC)):all;
-  if(!filtered.length){listEl.innerHTML='<div class="empty"><div class="empty-ico">🔍</div><div style="font-size:13px;">No surveys for this center.</div></div>';return;}
-  const byCenter={};filtered.forEach(s=>{if(!byCenter[s.centerNum])byCenter[s.centerNum]=[];byCenter[s.centerNum].push(s);});
-  let html='';
-  Object.entries(byCenter).forEach(([cn,list])=>{
-    html+=`<div style="margin-bottom:1.5rem;"><div style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);margin-bottom:8px;">${list[0].centerName||cn}</div><div class="hist-list">`;
-    list.forEach(s=>{
-      const sc=parseInt(s.score);const scv=!isNaN(sc);
-      const ds=s.date?new Date(s.date+'T12:00:00').toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'}):s.date;
-      html+=`<div class="hist-item" onclick='openSurvey(${JSON.stringify(JSON.stringify(s))})'>
-        <div><div class="hist-name">Tuesday, ${ds}</div><div class="hist-meta">${s.games?s.games.length:0} games · ${s.by||'—'} · ${s.opsDistrict||''} ${s.opsRegion?'('+s.opsRegion+')':'' }</div></div>
-        <div style="display:flex;align-items:center;gap:10px;">
-          ${scv?`<span class="score-badge" style="color:${scoreColor(sc)};background:${scoreBg(sc)};">${sc}</span><span style="font-size:11px;color:var(--mu);">${scoreTier(sc)}</span>`:''}
-          <button class="btn btn-danger btn-sm" onclick="event.stopPropagation();deleteSurvey('${s.key}')">Delete</button>
-        </div>
-      </div>`;
-    });
-    html+='</div></div>';
-  });
-  listEl.innerHTML=html;
-}
-
-function openSurvey(jsonStr){
-  const s=JSON.parse(jsonStr);
-  const ds=s.date?new Date(s.date+'T12:00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}):s.date;
-  const sc=parseInt(s.score);const scv=!isNaN(sc);
-  const ci=CENTERS_FULL.find(c=>String(c.num)===String(s.centerNum));
-  let gRows='';
-  (s.games||[]).forEach(g=>{
-    const yn=v=>v==='yes'?'<span style="color:var(--green);">Yes</span>':v==='no'?'<span style="color:var(--red);">No</span>':'<span style="color:var(--mu);">—</span>';
-    gRows+=`<tr><td style="padding:5px 10px;border-bottom:1px solid var(--bdr);font-size:13px;">${g.game}</td><td style="padding:5px 10px;border-bottom:1px solid var(--bdr);text-align:center;">${yn(g.clean)}</td><td style="padding:5px 10px;border-bottom:1px solid var(--bdr);text-align:center;">${yn(g.activ)}</td><td style="padding:5px 10px;border-bottom:1px solid var(--bdr);text-align:center;">${yn(g.play)}</td><td style="padding:5px 10px;border-bottom:1px solid var(--bdr);text-align:center;">${yn(g.pres)}</td><td style="padding:5px 10px;border-bottom:1px solid var(--bdr);font-size:11px;color:var(--mu);">${g.notes||''}</td></tr>`;
-  });
-  document.getElementById('modal-title').textContent=`${s.centerName} — ${ds}`;
-  document.getElementById('modal-body').innerHTML=`
-    <div style="display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:1px solid var(--bdr);">
-      <div><div style="font-size:10px;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px;">District / Region</div><div style="font-size:13px;">${ci?ci.opsDistrict+' · '+ci.opsRegion:'—'}</div></div>
-      <div><div style="font-size:10px;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px;">Completed By</div><div style="font-size:13px;">${s.by||'—'}</div></div>
-      <div><div style="font-size:10px;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px;">EMP Card</div><div style="font-size:13px;">${s.empCard||'—'}</div></div>
-      <div><div style="font-size:10px;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px;">Player Stations</div><div style="font-size:13px;">${s.stations||'—'}</div></div>
-      <div><div style="font-size:10px;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px;">Overall Score</div><div style="font-size:22px;font-weight:700;font-family:'Space Mono',monospace;color:${scv?scoreColor(sc):'var(--mu)'};">${s.score||'—'}</div></div>
-    </div>
-    <table style="width:100%;border-collapse:collapse;margin-bottom:1rem;"><thead><tr>
-      <th style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);padding:6px 10px;border-bottom:1px solid var(--bdr2);text-align:left;">Game</th>
-      <th style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);padding:6px 10px;border-bottom:1px solid var(--bdr2);text-align:center;">Clean</th>
-      <th style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);padding:6px 10px;border-bottom:1px solid var(--bdr2);text-align:center;">Activ</th>
-      <th style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);padding:6px 10px;border-bottom:1px solid var(--bdr2);text-align:center;">Play</th>
-      <th style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);padding:6px 10px;border-bottom:1px solid var(--bdr2);text-align:center;">Pres</th>
-      <th style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);padding:6px 10px;border-bottom:1px solid var(--bdr2);text-align:left;">Notes</th>
-    </tr></thead><tbody>${gRows}</tbody></table>
-    ${s.techNotes?`<div style="background:var(--surf2);border-radius:8px;padding:10px 12px;font-size:13px;"><div style="font-size:10px;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;">Tech Notes</div>${s.techNotes}</div>`:''}`;
-  document.getElementById('modal').style.display='flex';
-}
-
-async function deleteSurvey(key){
-  if(!confirm('Delete this survey? This cannot be undone.'))return;
-  await sDel(key);showToast('Survey deleted.');renderHistory();
-}
-
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600);}
-
-// ── INIT ─────────────────────────────────────────────────
-(function(){
-  // Button listeners
-  document.getElementById('btn-save').onclick = saveSurvey;
-  document.getElementById('btn-reset').onclick = resetForm;
-  document.getElementById('btn-add-game').onclick = addGameRow;
-  document.getElementById('center-select').onchange = onCenterChange;
-  document.getElementById('hist-filter-center').onchange = renderHistory;
-  document.getElementById('df-period').onchange = renderDash;
-  document.getElementById('df-region').onchange = function(){ cascadeFilter(); renderDash(); };
-  document.getElementById('df-district').onchange = function(){ cascadeFilter(); renderDash(); };
-  document.getElementById('df-center').onchange = renderDash;
-
-  const sel=document.getElementById('center-select');
-  CENTERS_FULL.sort((a,b)=>a.num-b.num).forEach(c=>{
-    const o=document.createElement('option');o.value=c.num;o.textContent=`${c.num} — ${c.name}`;sel.appendChild(o);
-  });
-  document.getElementById('survey-date').value=new Date().toISOString().slice(0,10);
-  cascadeFilter();
-
-  // Show storage status
-  (async()=>{
-    const count = (await sList('survey:')).length;
-    document.getElementById('sp-dot').style.background='var(--green)';
-    document.getElementById('sp-label').textContent = count+' survey'+(count!==1?'s':'')+' saved locally';
-    renderDash();
-  })();
-})();
+// Init
+document.getElementById('f-date').value=new Date().toISOString().slice(0,10);
+const today=new Date();
+document.getElementById('f-period').value='Week '+String(today.getMonth()+1).padStart(2,'0')+'.'+String(today.getDate()).padStart(2,'0')+'.'+String(today.getFullYear()).slice(2);
+addMachine();
+loadData();
 </script>
 </body>
 </html>
