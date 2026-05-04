@@ -19,11 +19,13 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .nav-btn{background:transparent;border:1px solid transparent;color:var(--mu);padding:6px 14px;border-radius:8px;font-family:var(--font-b);font-size:13px;cursor:pointer;transition:all .2s;}
 .nav-btn:hover{color:var(--tx);border-color:var(--bdr);}
 .nav-btn.active{background:var(--surf2);color:var(--acc);border-color:rgba(34,211,165,.3);}
-.sync-status{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--mu);}
+.sync-status{display:flex;flex-direction:column;align-items:flex-end;gap:2px;}
+.sync-row{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--mu);}
 .sync-dot{width:8px;height:8px;border-radius:50%;background:var(--mu);}
 .sync-dot.on{background:var(--acc);animation:pdot 2s infinite;}
 .sync-dot.err{background:var(--danger);}
 .sync-dot.sync{background:var(--acc2);}
+.sync-next{font-size:10px;color:var(--mu);}
 @keyframes pdot{0%,100%{opacity:1;}50%{opacity:.3;}}
 .pg{display:none;position:relative;z-index:1;padding:20px;max-width:1300px;margin:0 auto;}
 .pg.active{display:block;animation:fi .3s ease;}
@@ -52,7 +54,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 .bar-chart{display:flex;flex-direction:column;gap:7px;}
 .bar-item{display:flex;align-items:center;gap:8px;font-size:12px;}
-.bar-label{width:110px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bar-label{width:140px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .bar-track{flex:1;height:20px;background:var(--surf2);border-radius:6px;overflow:hidden;}
 .bar-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--acc),rgba(34,211,165,.4));transition:width .6s ease;}
 .bar-val{width:26px;text-align:right;color:var(--tx);font-weight:600;}
@@ -66,8 +68,8 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .machines-section{margin-top:18px;}
 .machines-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
 .mc-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:8px;align-items:center;background:var(--surf2);border:1px solid var(--bdr);border-radius:10px;padding:9px 12px;margin-bottom:7px;}
-.mc-row input,.mc-row select{background:var(--bg);border:1px solid var(--bdr);color:var(--tx);padding:6px 9px;border-radius:7px;font-size:13px;font-family:var(--font-b);}
-.mc-row input:focus,.mc-row select:focus{outline:none;border-color:rgba(34,211,165,.4);}
+.mc-row select,.mc-row input{background:var(--bg);border:1px solid var(--bdr);color:var(--tx);padding:6px 9px;border-radius:7px;font-size:13px;font-family:var(--font-b);}
+.mc-row select:focus,.mc-row input:focus{outline:none;border-color:rgba(34,211,165,.4);}
 .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:10px;font-family:var(--font-b);font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;border:none;}
 .btn-primary{background:var(--acc);color:#000;}
 .btn-primary:hover{background:#1ab892;transform:translateY(-1px);}
@@ -80,7 +82,6 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .del-btn:hover{color:var(--danger);}
 .notice{font-size:12px;padding:8px 13px;border-radius:8px;margin-bottom:12px;}
 .notice.ok{color:var(--acc);background:rgba(34,211,165,.07);border:1px solid rgba(34,211,165,.18);}
-.notice.warn{color:var(--acc2);background:rgba(240,192,64,.07);border:1px solid rgba(240,192,64,.2);}
 .notice.err{color:var(--danger);background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.2);}
 #toast{position:fixed;bottom:20px;right:20px;background:var(--surf);border:1px solid var(--acc);border-radius:10px;padding:11px 16px;font-size:13px;color:var(--tx);z-index:999;opacity:0;transform:translateY(8px);transition:all .3s;pointer-events:none;}
 #toast.show{opacity:1;transform:translateY(0);}
@@ -99,17 +100,10 @@ tr:hover td{background:rgba(255,255,255,.02);}
 .empty-ico{font-size:32px;margin-bottom:8px;opacity:.4;}
 .search-box{background:var(--surf2);border:1px solid var(--bdr);color:var(--tx);padding:8px 13px;border-radius:10px;font-family:var(--font-b);font-size:13px;}
 .search-box:focus{outline:none;border-color:rgba(34,211,165,.4);}
-@media(max-width:680px){
-  .kpi-row{grid-template-columns:1fr 1fr;}
-  .two-col,.form-grid{grid-template-columns:1fr;}
-  .mc-row{grid-template-columns:1fr 1fr;}
-  .nav-btn{padding:5px 8px;font-size:11px;}
-  .hdr{padding:10px 14px;}
-}
+@media(max-width:680px){.kpi-row{grid-template-columns:1fr 1fr;}.two-col,.form-grid{grid-template-columns:1fr;}.mc-row{grid-template-columns:1fr 1fr;}.nav-btn{padding:5px 8px;font-size:11px;}}
 </style>
 </head>
 <body>
-
 <div class="hdr">
   <div class="logo">
     <div class="logo-box">AP</div>
@@ -121,11 +115,14 @@ tr:hover td{background:rgba(255,255,255,.02);}
     <button class="nav-btn" onclick="showPage('history',this)">History</button>
   </div>
   <div class="sync-status">
-    <div class="sync-dot" id="syncDot"></div>
-    <span id="syncLabel">Connecting...</span>
+    <div class="sync-row">
+      <div class="sync-dot" id="syncDot"></div>
+      <span id="syncLabel">Connecting...</span>
+      <button class="btn btn-secondary btn-sm" onclick="loadData()" style="padding:3px 9px;font-size:11px;">&#8635;</button>
+    </div>
+    <div class="sync-next" id="syncNext"></div>
   </div>
 </div>
-
 <div id="toast"></div>
 
 <!-- DASHBOARD -->
@@ -133,12 +130,9 @@ tr:hover td{background:rgba(255,255,255,.02);}
   <div class="dash-filters">
     <div class="frow"><label>Period</label>
       <select id="df-period" onchange="renderDash()">
-        <option value="week">This Week</option>
-        <option value="prev-week">Last Week</option>
-        <option value="month" selected>This Month</option>
-        <option value="prev-month">Last Month</option>
-        <option value="quarter">This Quarter</option>
-        <option value="year">This Year</option>
+        <option value="week">This Week</option><option value="prev-week">Last Week</option>
+        <option value="month" selected>This Month</option><option value="prev-month">Last Month</option>
+        <option value="quarter">This Quarter</option><option value="year">This Year</option>
         <option value="all">All Time</option>
       </select>
     </div>
@@ -148,7 +142,6 @@ tr:hover td{background:rgba(255,255,255,.02);}
     <div class="frow"><label>Location</label>
       <select id="df-loc" onchange="renderDash()"><option value="">All Locations</option></select>
     </div>
-    <button class="btn btn-secondary btn-sm" onclick="loadData()">&#8635; Refresh</button>
   </div>
   <div class="kpi-row">
     <div class="kpi g"><div class="kpi-label">Total Surveys</div><div class="kpi-val" id="kpi-total">&#8212;</div><div class="kpi-sub">in period</div></div>
@@ -157,26 +150,324 @@ tr:hover td{background:rgba(255,255,255,.02);}
     <div class="kpi r"><div class="kpi-label">Issues</div><div class="kpi-val" id="kpi-issues">&#8212;</div><div class="kpi-sub">flagged</div></div>
   </div>
   <div class="two-col">
-    <div class="card">
-      <div class="card-title">Surveys by Location</div>
-      <div class="bar-chart" id="chart-locs"><div class="loading"><div class="spinner"></div>Loading...</div></div>
-    </div>
-    <div class="card">
-      <div class="card-title">Recent Surveys</div>
-      <div id="recent-list"><div class="loading"><div class="spinner"></div>Loading...</div></div>
-    </div>
+    <div class="card"><div class="card-title">Surveys by Location</div><div class="bar-chart" id="chart-locs"><div class="loading"><div class="spinner"></div>Loading...</div></div></div>
+    <div class="card"><div class="card-title">Recent Surveys</div><div id="recent-list"><div class="loading"><div class="spinner"></div>Loading...</div></div></div>
   </div>
 </div>
 
 <!-- SURVEY -->
 <div class="pg" id="pg-survey">
-  <div class="card" style="max-width:780px;margin:0 auto;">
+  <div class="card" style="max-width:820px;margin:0 auto;">
     <div class="card-title">New Survey</div>
     <div id="survey-notice"></div>
     <div class="form-grid">
       <div class="form-group"><label>Name</label><input type="text" id="f-tech" placeholder="Your name"></div>
       <div class="form-group"><label>Survey Date</label><input type="date" id="f-date"></div>
-      <div class="form-group"><label>Location</label><input type="text" id="f-location" placeholder="e.g. Boca Raton"></div>
+      <div class="form-group full"><label>Location</label>
+        <select id="f-location">
+          <option value="">-- Select Location --</option>
+          <option value="13 - Lucky Strike Cayce">13 - Lucky Strike Cayce</option>
+          <option value="20 - AMF Pin Palace Lanes">20 - AMF Pin Palace Lanes</option>
+          <option value="21 - Lucky Strike Auburn">21 - Lucky Strike Auburn</option>
+          <option value="23 - Bowlero Greenville">23 - Bowlero Greenville</option>
+          <option value="24 - AMF Star Lanes - Asheville">24 - AMF Star Lanes - Asheville</option>
+          <option value="33 - Bowlero Columbus">33 - Bowlero Columbus</option>
+          <option value="34 - AMF All Star Lanes-Greensboro">34 - AMF All Star Lanes-Greensboro</option>
+          <option value="35 - AMF River City Lanes">35 - AMF River City Lanes</option>
+          <option value="44 - Lucky Strike Overland Park">44 - Lucky Strike Overland Park</option>
+          <option value="58 - AMF Town & Country Lanes - MO">58 - AMF Town &amp; Country Lanes - MO</option>
+          <option value="61 - AMF Arc Lanes">61 - AMF Arc Lanes</option>
+          <option value="64 - Bowlero Durham">64 - Bowlero Durham</option>
+          <option value="65 - Bowlero Raleigh">65 - Bowlero Raleigh</option>
+          <option value="66 - Bowlero Cary">66 - Bowlero Cary</option>
+          <option value="70 - AMF American Lanes">70 - AMF American Lanes</option>
+          <option value="76 - Lucky Strike Chelsea Piers">76 - Lucky Strike Chelsea Piers</option>
+          <option value="77 - Bowlero South Boulevard">77 - Bowlero South Boulevard</option>
+          <option value="78 - AMF Garden City Lanes">78 - AMF Garden City Lanes</option>
+          <option value="89 - AMF Spare Time Lanes">89 - AMF Spare Time Lanes</option>
+          <option value="90 - AMF Diamond Lanes">90 - AMF Diamond Lanes</option>
+          <option value="91 - Bowlero Edmond">91 - Bowlero Edmond</option>
+          <option value="95 - Bowlero Highland Hills">95 - Bowlero Highland Hills</option>
+          <option value="102 - Bowlero Williamsburg">102 - Bowlero Williamsburg</option>
+          <option value="104 - AMF Boulevard Lanes">104 - AMF Boulevard Lanes</option>
+          <option value="108 - Bowlero Mechanicsville">108 - Bowlero Mechanicsville</option>
+          <option value="113 - Bowlero Savannah">113 - Bowlero Savannah</option>
+          <option value="115 - Bowlero Richmond">115 - Bowlero Richmond</option>
+          <option value="123 - Bowlero Winston-Salem">123 - Bowlero Winston-Salem</option>
+          <option value="124 - Bowlero Tampa Bay">124 - Bowlero Tampa Bay</option>
+          <option value="126 - AMF Seven Oaks Lanes">126 - AMF Seven Oaks Lanes</option>
+          <option value="128 - Bowlero West End">128 - Bowlero West End</option>
+          <option value="142 - Bowlero Fredericksburg">142 - Bowlero Fredericksburg</option>
+          <option value="143 - Lucky Strike Corpus Christi">143 - Lucky Strike Corpus Christi</option>
+          <option value="144 - AMF Lynchburg Lanes">144 - AMF Lynchburg Lanes</option>
+          <option value="145 - Bowlero East Carolina">145 - Bowlero East Carolina</option>
+          <option value="148 - Lucky Strike San Marcos">148 - Lucky Strike San Marcos</option>
+          <option value="154 - Bowlero Bristol">154 - Bowlero Bristol</option>
+          <option value="155 - Lucky Strike San Antonio">155 - Lucky Strike San Antonio</option>
+          <option value="163 - Bowlero East Meadow">163 - Bowlero East Meadow</option>
+          <option value="164 - AMF Firebird Lanes">164 - AMF Firebird Lanes</option>
+          <option value="165 - Bowlero Lyons">165 - Bowlero Lyons</option>
+          <option value="173 - Bowlero Norwalk">173 - Bowlero Norwalk</option>
+          <option value="189 - Lucky Strike Wallington">189 - Lucky Strike Wallington</option>
+          <option value="202 - Lucky Strike Mineola">202 - Lucky Strike Mineola</option>
+          <option value="203 - Bowlero Bradenton">203 - Bowlero Bradenton</option>
+          <option value="204 - Bowlero Gulf Gate">204 - Bowlero Gulf Gate</option>
+          <option value="206 - Bowlero East Ocala">206 - Bowlero East Ocala</option>
+          <option value="207 - Bowlero West Ocala">207 - Bowlero West Ocala</option>
+          <option value="208 - AMF Babylon Lanes">208 - AMF Babylon Lanes</option>
+          <option value="210 - Lucky Strike Queens">210 - Lucky Strike Queens</option>
+          <option value="211 - AMF Mt. Lebanon Lanes">211 - AMF Mt. Lebanon Lanes</option>
+          <option value="212 - Bowlero Pittsburgh">212 - Bowlero Pittsburgh</option>
+          <option value="213 - Lucky Strike Annandale">213 - Lucky Strike Annandale</option>
+          <option value="215 - Lucky Strike Manteca">215 - Lucky Strike Manteca</option>
+          <option value="218 - Lucky Strike Fresno">218 - Lucky Strike Fresno</option>
+          <option value="220 - AMF Airport Lanes">220 - AMF Airport Lanes</option>
+          <option value="223 - AMF Brookgate Lanes">223 - AMF Brookgate Lanes</option>
+          <option value="226 - AMF Somerset Lanes">226 - AMF Somerset Lanes</option>
+          <option value="227 - AMF Lancaster Lanes">227 - AMF Lancaster Lanes</option>
+          <option value="229 - Bowlero Cherry Creek">229 - Bowlero Cherry Creek</option>
+          <option value="230 - Bowlero Wilmington">230 - Bowlero Wilmington</option>
+          <option value="231 - AMF Rose Bowl Lanes - MI">231 - AMF Rose Bowl Lanes - MI</option>
+          <option value="238 - AMF Centereach Lanes">238 - AMF Centereach Lanes</option>
+          <option value="239 - Lucky Strike Melville">239 - Lucky Strike Melville</option>
+          <option value="240 - Lucky Strike Sayville">240 - Lucky Strike Sayville</option>
+          <option value="242 - AMF Syosset Lanes">242 - AMF Syosset Lanes</option>
+          <option value="243 - AMF Indian River Lanes">243 - AMF Indian River Lanes</option>
+          <option value="244 - AMF Norfolk Lanes">244 - AMF Norfolk Lanes</option>
+          <option value="245 - Bowlero Lynnhaven">245 - Bowlero Lynnhaven</option>
+          <option value="248 - Lucky Strike Chesapeake">248 - Lucky Strike Chesapeake</option>
+          <option value="249 - Lucky Strike Western Branch">249 - Lucky Strike Western Branch</option>
+          <option value="250 - Bowlero Yorktown">250 - Bowlero Yorktown</option>
+          <option value="256 - Bowlero San Bernardino">256 - Bowlero San Bernardino</option>
+          <option value="257 - Lucky Strike Pasadena">257 - Lucky Strike Pasadena</option>
+          <option value="259 - Lucky Strike Montebello">259 - Lucky Strike Montebello</option>
+          <option value="261 - Lucky Strike Torrance">261 - Lucky Strike Torrance</option>
+          <option value="262 - Lucky Strike Fullerton">262 - Lucky Strike Fullerton</option>
+          <option value="263 - Lucky Strike Los Angeles">263 - Lucky Strike Los Angeles</option>
+          <option value="264 - Lucky Strike Mar Vista">264 - Lucky Strike Mar Vista</option>
+          <option value="267 - Lucky Strike Riverside">267 - Lucky Strike Riverside</option>
+          <option value="270 - Lucky Strike Woodland Hills">270 - Lucky Strike Woodland Hills</option>
+          <option value="276 - AMF Sheridan Lanes - OK">276 - AMF Sheridan Lanes - OK</option>
+          <option value="277 - Bowlero Boothwyn">277 - Bowlero Boothwyn</option>
+          <option value="280 - Lucky Strike Hemet">280 - Lucky Strike Hemet</option>
+          <option value="282 - Bowlero Chico">282 - Bowlero Chico</option>
+          <option value="287 - AMF Fairview Lanes">287 - AMF Fairview Lanes</option>
+          <option value="291 - AMF Southtown Lanes">291 - AMF Southtown Lanes</option>
+          <option value="292 - AMF Saxon Lanes">292 - AMF Saxon Lanes</option>
+          <option value="295 - AMF Sonesta Lanes">295 - AMF Sonesta Lanes</option>
+          <option value="297 - Bowlero Charlottesville">297 - Bowlero Charlottesville</option>
+          <option value="304 - Bowlero Englewood">304 - Bowlero Englewood</option>
+          <option value="305 - AMF Bolera Paradise Lanes">305 - AMF Bolera Paradise Lanes</option>
+          <option value="306 - AMF Sky Lanes">306 - AMF Sky Lanes</option>
+          <option value="307 - Lucky Strike Davie">307 - Lucky Strike Davie</option>
+          <option value="311 - AMF Pembroke Pines Lanes">311 - AMF Pembroke Pines Lanes</option>
+          <option value="312 - AMF Boynton Beach Lanes">312 - AMF Boynton Beach Lanes</option>
+          <option value="314 - Bowlero Chicopee">314 - Bowlero Chicopee</option>
+          <option value="319 - Lucky Strike Chamblee">319 - Lucky Strike Chamblee</option>
+          <option value="322 - Lucky Strike Atlantic Station">322 - Lucky Strike Atlantic Station</option>
+          <option value="326 - Lucky Strike Milford">326 - Lucky Strike Milford</option>
+          <option value="328 - Lucky Strike North Scottsdale">328 - Lucky Strike North Scottsdale</option>
+          <option value="330 - Bowlero Aurora">330 - Bowlero Aurora</option>
+          <option value="336 - Lucky Strike Timonium">336 - Lucky Strike Timonium</option>
+          <option value="339 - AMF Southwest Lanes - MD">339 - AMF Southwest Lanes - MD</option>
+          <option value="340 - Bowlero Pikesville">340 - Bowlero Pikesville</option>
+          <option value="341 - AMF Dundalk Lanes">341 - AMF Dundalk Lanes</option>
+          <option value="342 - AMF Towson Lanes">342 - AMF Towson Lanes</option>
+          <option value="343 - AMF Woodlawn Lanes">343 - AMF Woodlawn Lanes</option>
+          <option value="349 - AMF Southdale Lanes">349 - AMF Southdale Lanes</option>
+          <option value="353 - AMF Tempe Village Lanes">353 - AMF Tempe Village Lanes</option>
+          <option value="354 - AMF Chandler Lanes">354 - AMF Chandler Lanes</option>
+          <option value="357 - AMF Marlow Heights Lanes">357 - AMF Marlow Heights Lanes</option>
+          <option value="358 - AMF Northglenn Lanes">358 - AMF Northglenn Lanes</option>
+          <option value="361 - Lucky Strike College Park">361 - Lucky Strike College Park</option>
+          <option value="362 - AMF Capital Plaza Lanes">362 - AMF Capital Plaza Lanes</option>
+          <option value="368 - Lucky Strike Rockville">368 - Lucky Strike Rockville</option>
+          <option value="370 - Lucky Strike Tuscaloosa">370 - Lucky Strike Tuscaloosa</option>
+          <option value="372 - Bowlero Dale City">372 - Bowlero Dale City</option>
+          <option value="373 - AMF Waldorf Lanes">373 - AMF Waldorf Lanes</option>
+          <option value="374 - Bowlero Union Hills">374 - Bowlero Union Hills</option>
+          <option value="375 - Lucky Strike Leesburg">375 - Lucky Strike Leesburg</option>
+          <option value="384 - AMF Mesa Lanes">384 - AMF Mesa Lanes</option>
+          <option value="388 - Lucky Strike Centreville">388 - Lucky Strike Centreville</option>
+          <option value="391 - Lucky Strike Houston">391 - Lucky Strike Houston</option>
+          <option value="394 - Lucky Strike Willowbrook">394 - Lucky Strike Willowbrook</option>
+          <option value="397 - AMF Windfern Lanes">397 - AMF Windfern Lanes</option>
+          <option value="398 - Bowlero Stafford">398 - Bowlero Stafford</option>
+          <option value="400 - Bowlero Altamonte">400 - Bowlero Altamonte</option>
+          <option value="401 - AMF Leesburg Lanes">401 - AMF Leesburg Lanes</option>
+          <option value="402 - AMF Deltona Lanes">402 - AMF Deltona Lanes</option>
+          <option value="403 - Bowlero Lakeland">403 - Bowlero Lakeland</option>
+          <option value="407 - AMF Kissimmee Lanes">407 - AMF Kissimmee Lanes</option>
+          <option value="408 - AMF Woodstock Lanes">408 - AMF Woodstock Lanes</option>
+          <option value="410 - Lucky Strike Dania Beach">410 - Lucky Strike Dania Beach</option>
+          <option value="412 - Bowlero Waco">412 - Bowlero Waco</option>
+          <option value="413 - Lucky Strike Woodlands">413 - Lucky Strike Woodlands</option>
+          <option value="414 - Bowlero Texas City">414 - Bowlero Texas City</option>
+          <option value="415 - Lucky Strike Webster">415 - Lucky Strike Webster</option>
+          <option value="423 - Bowlero Christown">423 - Bowlero Christown</option>
+          <option value="425 - AMF Desert Hills Lanes">425 - AMF Desert Hills Lanes</option>
+          <option value="426 - Lucky Strike Old Town">426 - Lucky Strike Old Town</option>
+          <option value="427 - AMF Peoria Lanes">427 - AMF Peoria Lanes</option>
+          <option value="428 - AMF McRay Plaza Lanes">428 - AMF McRay Plaza Lanes</option>
+          <option value="430 - Bowlero Littleton">430 - Bowlero Littleton</option>
+          <option value="447 - Bowlero Shrewsbury">447 - Bowlero Shrewsbury</option>
+          <option value="504 - Bowlero Worcester">504 - Bowlero Worcester</option>
+          <option value="508 - Lucky Strike Matthews">508 - Lucky Strike Matthews</option>
+          <option value="509 - AMF Circle Lanes - East Haven">509 - AMF Circle Lanes - East Haven</option>
+          <option value="512 - Lucky Strike Commack">512 - Lucky Strike Commack</option>
+          <option value="513 - Bowlero Cranston">513 - Bowlero Cranston</option>
+          <option value="514 - AMF Dewey Garden Lanes">514 - AMF Dewey Garden Lanes</option>
+          <option value="515 - AMF Eastbrook Lanes">515 - AMF Eastbrook Lanes</option>
+          <option value="516 - Bowlero Rochester">516 - Bowlero Rochester</option>
+          <option value="517 - AMF Hall of Fame Lanes">517 - AMF Hall of Fame Lanes</option>
+          <option value="519 - AMF Hilltop Lanes">519 - AMF Hilltop Lanes</option>
+          <option value="523 - AMF Medina Lanes">523 - AMF Medina Lanes</option>
+          <option value="529 - AMF Riviera Lanes">529 - AMF Riviera Lanes</option>
+          <option value="530 - Bowlero Sawmill">530 - Bowlero Sawmill</option>
+          <option value="533 - AMF Sportsman Lanes">533 - AMF Sportsman Lanes</option>
+          <option value="534 - AMF Stardust Lanes">534 - AMF Stardust Lanes</option>
+          <option value="535 - AMF Strathmore Lanes">535 - AMF Strathmore Lanes</option>
+          <option value="536 - Lucky Strike Green Brook">536 - Lucky Strike Green Brook</option>
+          <option value="538 - AMF Springfield Lanes">538 - AMF Springfield Lanes</option>
+          <option value="540 - AMF Syracuse Lanes">540 - AMF Syracuse Lanes</option>
+          <option value="546 - AMF University Lanes - NC">546 - AMF University Lanes - NC</option>
+          <option value="548 - AMF Wantagh Lanes">548 - AMF Wantagh Lanes</option>
+          <option value="551 - Bowlero White Plains">551 - Bowlero White Plains</option>
+          <option value="557 - Bowlero Euless">557 - Bowlero Euless</option>
+          <option value="559 - Lucky Strike Garland">559 - Lucky Strike Garland</option>
+          <option value="564 - Bowlero Wauwatosa">564 - Bowlero Wauwatosa</option>
+          <option value="567 - Lucky Strike Cerritos">567 - Lucky Strike Cerritos</option>
+          <option value="571 - Bowlero Dallas">571 - Bowlero Dallas</option>
+          <option value="573 - Bowlero North Sacramento">573 - Bowlero North Sacramento</option>
+          <option value="575 - Lucky Strike Alameda">575 - Lucky Strike Alameda</option>
+          <option value="576 - Lucky Strike Midland">576 - Lucky Strike Midland</option>
+          <option value="577 - Lucky Strike Milpitas">577 - Lucky Strike Milpitas</option>
+          <option value="580 - Lucky Strike San Jose">580 - Lucky Strike San Jose</option>
+          <option value="581 - AMF Pinole Valley Lanes">581 - AMF Pinole Valley Lanes</option>
+          <option value="583 - AMF Rocklin Lanes">583 - AMF Rocklin Lanes</option>
+          <option value="584 - Lucky Strike Clovis">584 - Lucky Strike Clovis</option>
+          <option value="585 - Bowlero Charlotte">585 - Bowlero Charlotte</option>
+          <option value="590 - Lucky Strike Arcadia">590 - Lucky Strike Arcadia</option>
+          <option value="595 - AMF Lewisville Lanes">595 - AMF Lewisville Lanes</option>
+          <option value="596 - AMF Richardson Lanes">596 - AMF Richardson Lanes</option>
+          <option value="598 - Lucky Strike Visalia">598 - Lucky Strike Visalia</option>
+          <option value="601 - AMF West Lanes">601 - AMF West Lanes</option>
+          <option value="602 - AMF Windsor Lanes">602 - AMF Windsor Lanes</option>
+          <option value="603 - AMF DeSoto Lanes">603 - AMF DeSoto Lanes</option>
+          <option value="605 - Bowlero South Seattle">605 - Bowlero South Seattle</option>
+          <option value="606 - Bowlero Wallingford">606 - Bowlero Wallingford</option>
+          <option value="608 - Bowlero Bakersfield">608 - Bowlero Bakersfield</option>
+          <option value="610 - AMF Petaluma Lanes">610 - AMF Petaluma Lanes</option>
+          <option value="615 - Bowlero Mobile">615 - Bowlero Mobile</option>
+          <option value="621 - Bowlero Kenner">621 - Bowlero Kenner</option>
+          <option value="638 - Bowlero Anaheim">638 - Bowlero Anaheim</option>
+          <option value="639 - Lucky Strike Jupiter">639 - Lucky Strike Jupiter</option>
+          <option value="682 - Raging Waves Yorkville">682 - Raging Waves Yorkville</option>
+          <option value="683 - Raging Waters LA">683 - Raging Waters LA</option>
+          <option value="684 - Wet 'n Wild Emerald Pointe">684 - Wet 'n Wild Emerald Pointe</option>
+          <option value="685 - Castle Park">685 - Castle Park</option>
+          <option value="686 - Boomers Vista">686 - Boomers Vista</option>
+          <option value="687 - Boomers Palm Springs">687 - Boomers Palm Springs</option>
+          <option value="688 - Shipwreck Island">688 - Shipwreck Island</option>
+          <option value="689 - Boomers Visalia">689 - Boomers Visalia</option>
+          <option value="691 - Big Kahuna's Destin">691 - Big Kahuna's Destin</option>
+          <option value="692 - Boomers Boca Raton">692 - Boomers Boca Raton</option>
+          <option value="693 - Boomers Irvine">693 - Boomers Irvine</option>
+          <option value="694 - Boomers Livermore">694 - Boomers Livermore</option>
+          <option value="696 - Boomers Modesto">696 - Boomers Modesto</option>
+          <option value="697 - Boomers Santa Maria">697 - Boomers Santa Maria</option>
+          <option value="699 - Ten Pin Alley">699 - Ten Pin Alley</option>
+          <option value="700 - Lucky Strike Grand Rapids">700 - Lucky Strike Grand Rapids</option>
+          <option value="702 - Lucky Strike Bethesda">702 - Lucky Strike Bethesda</option>
+          <option value="704 - Bowlero Doral">704 - Bowlero Doral</option>
+          <option value="705 - Bowlmor Cupertino">705 - Bowlmor Cupertino</option>
+          <option value="706 - Bowlero Orange County">706 - Bowlero Orange County</option>
+          <option value="707 - Lucky Strike Times Square">707 - Lucky Strike Times Square</option>
+          <option value="708 - Lucky Strike Arlington">708 - Lucky Strike Arlington</option>
+          <option value="709 - Bowlero Tamarac">709 - Bowlero Tamarac</option>
+          <option value="710 - Bowlero Spring Hill">710 - Bowlero Spring Hill</option>
+          <option value="711 - Hall of Fame - Silver Lanes">711 - Hall of Fame - Silver Lanes</option>
+          <option value="712 - Garage">712 - Garage</option>
+          <option value="713 - Lucky Strike Tysons Corner">713 - Lucky Strike Tysons Corner</option>
+          <option value="714 - Lucky Strike Ann Arbor">714 - Lucky Strike Ann Arbor</option>
+          <option value="715 - Bowlero Oxnard">715 - Bowlero Oxnard</option>
+          <option value="716 - Lucky Strike Boca Raton">716 - Lucky Strike Boca Raton</option>
+          <option value="717 - Bowlero Santa Barbara">717 - Bowlero Santa Barbara</option>
+          <option value="718 - Lucky Strike Brentwood">718 - Lucky Strike Brentwood</option>
+          <option value="719 - Berks Lanes">719 - Berks Lanes</option>
+          <option value="720 - Bowlero Limerick">720 - Bowlero Limerick</option>
+          <option value="721 - Hiester Lanes">721 - Hiester Lanes</option>
+          <option value="722 - Bowlero Port St. Lucie">722 - Bowlero Port St. Lucie</option>
+          <option value="723 - Lucky Strike Cherry Hill">723 - Lucky Strike Cherry Hill</option>
+          <option value="724 - Lucky Strike South Charlotte">724 - Lucky Strike South Charlotte</option>
+          <option value="725 - Lucky Strike Vacaville">725 - Lucky Strike Vacaville</option>
+          <option value="727 - Bowl America Shirley">727 - Bowl America Shirley</option>
+          <option value="728 - Bowl America Falls Church">728 - Bowl America Falls Church</option>
+          <option value="729 - Bowl America Fairfax">729 - Bowl America Fairfax</option>
+          <option value="731 - Bowl America Woodbridge">731 - Bowl America Woodbridge</option>
+          <option value="732 - Lucky Strike Sterling">732 - Lucky Strike Sterling</option>
+          <option value="733 - Bowl America Short Pump">733 - Bowl America Short Pump</option>
+          <option value="734 - Bowl America Burke">734 - Bowl America Burke</option>
+          <option value="735 - Bowl America Southwest">735 - Bowl America Southwest</option>
+          <option value="736 - Lucky Strike Gaithersburg">736 - Lucky Strike Gaithersburg</option>
+          <option value="737 - Bowl America Bull Run">737 - Bowl America Bull Run</option>
+          <option value="738 - Bowlero Mandarin">738 - Bowlero Mandarin</option>
+          <option value="739 - Bowlero Southside">739 - Bowlero Southside</option>
+          <option value="744 - Bowlero Valley Fair">744 - Bowlero Valley Fair</option>
+          <option value="745 - Lucky Strike Miami">745 - Lucky Strike Miami</option>
+          <option value="746 - Bowlero Promenade">746 - Bowlero Promenade</option>
+          <option value="748 - Bowlero Crystal River">748 - Bowlero Crystal River</option>
+          <option value="750 - Bowlero Northrock">750 - Bowlero Northrock</option>
+          <option value="751 - Bowlero Northridge">751 - Bowlero Northridge</option>
+          <option value="752 - Lucky Strike Wichita">752 - Lucky Strike Wichita</option>
+          <option value="754 - Super Bowl Family Entmt Center">754 - Super Bowl Family Entmt Center</option>
+          <option value="755 - JB'S ON 41">755 - JB'S ON 41</option>
+          <option value="756 - Fiesta Bowl">756 - Fiesta Bowl</option>
+          <option value="757 - Spanish Springs Lanes">757 - Spanish Springs Lanes</option>
+          <option value="758 - Lucky Strike Moorpark">758 - Lucky Strike Moorpark</option>
+          <option value="759 - Lucky Strike Georgetown">759 - Lucky Strike Georgetown</option>
+          <option value="760 - Lucky Strike Northfield">760 - Lucky Strike Northfield</option>
+          <option value="761 - Lucky Strike Beverly Hills">761 - Lucky Strike Beverly Hills</option>
+          <option value="762 - Sabre Lanes">762 - Sabre Lanes</option>
+          <option value="763 - Bowlero Council Bluffs">763 - Bowlero Council Bluffs</option>
+          <option value="764 - Lucky Strike Rocklin">764 - Lucky Strike Rocklin</option>
+          <option value="765 - Lucky Strike Elkhorn">765 - Lucky Strike Elkhorn</option>
+          <option value="766 - Double Decker Lanes">766 - Double Decker Lanes</option>
+          <option value="767 - Great Escape">767 - Great Escape</option>
+          <option value="768 - Paradise Lanes Entertainment">768 - Paradise Lanes Entertainment</option>
+          <option value="769 - Lucky Strike Ladera Ranch">769 - Lucky Strike Ladera Ranch</option>
+          <option value="770 - Lucky Strike Southlands">770 - Lucky Strike Southlands</option>
+          <option value="771 - Bowlero Coral">771 - Bowlero Coral</option>
+          <option value="772 - Bowlero Midpoint">772 - Bowlero Midpoint</option>
+          <option value="773 - Lucky Strike Bartlett">773 - Lucky Strike Bartlett</option>
+          <option value="774 - Lucky Strike Aliso Viejo">774 - Lucky Strike Aliso Viejo</option>
+          <option value="776 - Lucky Strike Hollywood">776 - Lucky Strike Hollywood</option>
+          <option value="777 - Lucky Strike Orange">777 - Lucky Strike Orange</option>
+          <option value="778 - Lucky Strike at L.A. Live">778 - Lucky Strike at L.A. Live</option>
+          <option value="779 - Lucky Strike San Francisco">779 - Lucky Strike San Francisco</option>
+          <option value="780 - Lucky Strike Bellevue">780 - Lucky Strike Bellevue</option>
+          <option value="781 - Lucky Strike Denver">781 - Lucky Strike Denver</option>
+          <option value="782 - Lucky Strike Chicago">782 - Lucky Strike Chicago</option>
+          <option value="783 - Lucky Strike Philadelphia">783 - Lucky Strike Philadelphia</option>
+          <option value="785 - Lucky Strike Fenway">785 - Lucky Strike Fenway</option>
+          <option value="786 - Cheeky Monkey Brewing Company">786 - Cheeky Monkey Brewing Company</option>
+          <option value="788 - Lucky Strike Honolulu">788 - Lucky Strike Honolulu</option>
+          <option value="789 - Lucky Strike Somerville">789 - Lucky Strike Somerville</option>
+          <option value="790 - Lucky Strike Wrigleyville">790 - Lucky Strike Wrigleyville</option>
+          <option value="791 - Mavrix">791 - Mavrix</option>
+          <option value="792 - Octane Raceway">792 - Octane Raceway</option>
+          <option value="793 - Merri Bowl">793 - Merri Bowl</option>
+          <option value="794 - Lucky Strike Holland">794 - Lucky Strike Holland</option>
+          <option value="795 - Thunderbowl Lanes">795 - Thunderbowl Lanes</option>
+          <option value="801 - Lucky Strike Marietta">801 - Lucky Strike Marietta</option>
+          <option value="802 - Bowlero Buffalo Grove">802 - Bowlero Buffalo Grove</option>
+          <option value="803 - Bowlero Norcross">803 - Bowlero Norcross</option>
+          <option value="806 - Lucky Strike Gilbert">806 - Lucky Strike Gilbert</option>
+          <option value="809 - Lucky Strike Lone Tree">809 - Lucky Strike Lone Tree</option>
+          <option value="810 - Lucky Strike Kennesaw">810 - Lucky Strike Kennesaw</option>
+          <option value="811 - Lucky Strike Naperville">811 - Lucky Strike Naperville</option>
+        </select>
+      </div>
       <div class="form-group"><label>Sr. Region</label>
         <select id="f-region">
           <option value="">Select Region</option>
@@ -194,7 +485,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
         <button class="btn btn-secondary btn-sm" onclick="addMachine()">+ Add Machine</button>
       </div>
       <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:8px;padding:0 12px 6px;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--mu);">
-        <span>Machine</span><span>Status</span><span>Tickets</span><span>Notes</span><span></span>
+        <span>Game Title</span><span>Status</span><span>Tickets</span><span>Notes</span><span></span>
       </div>
       <div id="machine-list"></div>
       <button class="add-btn" onclick="addMachine()">+ Add Machine</button>
@@ -225,11 +516,20 @@ tr:hover td{background:rgba(255,255,255,.02);}
 </div>
 
 <script>
-const SHEET_ID = '170WtK41dYuLevbLOJfBGibb2qfOmmXOVcTU_V8DNmKA';
-const API_KEY  = 'AIzaSyD5-qDsDD6WN9J7mWQPDPYzU61osY9Y91s';
+const SHEET_ID   = '170WtK41dYuLevbLOJfBGibb2qfOmmXOVcTU_V8DNmKA';
+const API_KEY    = 'AIzaSyD5-qDsDD6WN9J7mWQPDPYzU61osY9Y91s';
 const SHEET_NAME = 'Sheet1';
+const AUTO_REFRESH_MS = 12 * 60 * 60 * 1000;
+
+// Full game titles list from PDF
+const GAME_TITLES = ["2 Minute Drill","3 Across","60-in-1","After Burner","Air Hockey","Air Slide","Air Strike (Left)","Air Strike (Right)","AirFX","Aliens Armageddon","All Aboard","All In","All Star VR (Left)","All Star VR (Right)","Angry Birds","Angry Birds: Boom!","Angry Birds: Coin Crash","Arcade Classics","Arctic Thunder","Area 51","Asphalt 9: Legends DX","Asphalt 9: Legends VR","Asphalt Moto Blitz DX","Asteroids Recharged","ATV Slam","Avengers","Axe Master","Back to the Future!","Balance Reader","Ball Madness!","Ball Runner","Balloon Buster","Balloon Carnival","Barber Cut","Barney","Barrel of Monkeys","Baseball Pro Challenge","Basketball Pro","Batman","Bean Bag Toss","Beer Pong","Big Bass Wheel","Big Bass Wheel Pro","Big Buck HD","Big Choice Crane","Big Sea Fishing","Big Ticket Drop","Bigfoot Crush","Bigfoot Smash","Black Hole","Black Out","Blackbeard's Bounty","Blackbeard's Treasure","Bling King","Blox Breaker","Bobblehead Baseball","Bop It","Bowl-O-Rama","Bowlero Strike Zone","Boxer","Break the Plate","Breakout","Bug Blaster","Bull Shooter","Bust-a-Move Frenzy","Candy Bar Craze","Candy Crane","Candy Factory","Candy Forge","Candy House","Capto Crane","Card Redemption Station","Carnival Crane","Carnival Wheel","Casino Lights","Centipede Chaos","Chocolate Factory","Circus Ball Drop","Claw Frenzy","Color Match","Color Match Club","Colour Star","Combo Boxer","Commando Sniper","Connect 4 Hoops","Connect 4 Hoops HD","Connect Four","Connect Four Deluxe","Cosmic Tower","Crank It","Crank It Revolution","Crater Raiders","Crazy Curves","Crazy Prize","Crazy Tower","Crazy Toy","Crossy Roads","Crossy Roads Mini","Cruis'n Blast","Cube Factory","Cut 2 Win","Cut 2 Win Mini","Cut One","Cyclone","Dance Dance Revolution Extreme","Dark Escape 4D","Dart Board","Daytona Championship USA","DC Comics","Dead Heat","Dead Heat Riders","Dead Heat Unleashed","Dead Storm Pirates","Deal or No Deal","Derby Day","Dirty Drivin'","Disney Crossy Roads","Dodgeball","Doodle Jump","Double Dribble","Double E-Claw","Down the Clown","Dragon's Bane","Drakons: Realm Keepers","Dream Raiders","Drop It Drop It","Drop the Beat","Duck Catcher","Duck Crane","Duck Derby","Dunk Tank","Dynamo Air Hockey","E-Claw","Elevator Action DLX","Emoji Frenzy","Emoji Roller","Explosive","Face Place Photo Booth","Family Guy Bowling","Fantastic Prize","Fast & Furious Arcade","Fast & Furious Motion","Fast 'n Furious","Ferris Fantasy","Find-a-Key","Fire Ball Fury","Fire Truck Crane","Firestorm Air Hockey","Fish Bowl Frenzy","Fish Farm","Flamethrower","Flappy Birds","Flappy Birds Merchandiser","Flintstones Quarry","Flying Tickets","Foosball World Tour","Frog Around","Frogger","Fruit Ninja","Full Tilt","Fun Stop Photos","Fun Zone","Fun Zone II","Funko Funcade","Galaga Assault","Galaxy Rangers","Gear It Up","Ghost Squad","Goal Line Rush","Goatz 'n Ropes","Godzilla Kaiju Wars","Godzilla Kaiju Wars VR","Godzilla vs. Kong","Gold Fishin'","Golden Tee: PGA Tour","GoldStorm Pirates","Grab 'n Go","Grab 'n Win","Grand Piano Keys","Grand Prize XL Crane","Gridiron Blitz","Guardians of the Galaxy","Guitar Hero","H2Overdrive","Halo Arcade","Halo Arcade Upright","Happy Mania","Harpoon Lagoon","High Five Crane","Highway 66","Hologate VR","Hoop It Up","Hoopla","Hot Shot","Hot Wheels: Arcade Racer","Hot Wheels: King of Road","Hot Wheels: Ultimate Speedway","House of the Dead: Scarlet Dawn","Hungry Hungry Hippos","Hydro Thunder","Hyper Pitch","HyperNova","Hypershoot","ICE Ball FX","ICE Box","Ice Cube","ICEE Slush Rush","Injustice Arcade","Jackpot Racer","Jackpot Xtreme","Jack's Hi","Jersey Wheels","Jet Pong","Jewel Mine","Jewelry Box","Jumbo Jumpin'","Jumpin' Jackpot","Jumpin' Jupiter","Jurassic Park","Jurassic World","Kahuna's Big Wave","KC Cobra","Key Master","Key Master Mini","King Kong: Skull Island","King of Rings","Knock 'Em Blocks","Kung Fu Panda","Lane Master","Laser Tag","Launch Code","Let's Bounce","Let's Go Island","Lets Go Jungle","Lil Thunder Rookie Go Karts","Lil Ticket Monsters","Looney Tunes Pusher","Lost Pirate","Lucky Duck","Luigi's Mansion Arcade","Mad Wave Motion Theater","Magic Coin","Magic Drop","Magic Key","Magic Tea Cups","MaiMai DX","Mario Kart GP DX","Marksman","Marvel: Contest of Champions","Maximum Tune 5","Maze Escape","Mega Stacker","Mega Stacker Lite","MIB: Men In Black","Mighty Mini","Milk Jug Toss","Minecraft Dungeons","Miniature Golf","Mission: Impossible Arcade","Monopoly","Monopoly Roll-n-Go","Monster Crane","Monster Drop","Monster Drop Extreme","Monster Kart","MotoGP DX","MotoGP VR","Movie Stop","Ms PacMan/Galaga","Nailed It!","NBA Baller","NBA Hoop Troop","NBA Hoops","NBA Superstars","Need for Speed Carbon","Need for Speed Underground","Neon FM","NERF Arcade","NFS Heat Takedown","Nitro Trucks","Nothin' But Net","One Shot Wonder","Operation Ghost","Over the Edge","PacMan Air Hockey","PacMan Arcade Party","PacMan Baller","PacMan Battle Royale","PacMan Chompmania","PacMan Panic","PacMan Pixel Bash","PacMan Power Pellets","PacMan Roller","PacMan Smash","PacMan Smash Mini","Panda Cut","Paw Patrol","Pearl Fishery","Perfect Pump","Perfection","Phone Booth Crane","Photo Motion","Photo Studio Deluxe","Photo Studio Prism","Piano Keys","Pink Panther","Pinnacle","Pirate's Chest","Pirate's Hook","Pixel Chase","Pixel Pix","Plants vs. Zombies","Plinko!","Plucky Ducky","Plush Palace","Police Crane","Polycade","Pong","Pop the Lock","Power Drop Xtreme","Power Roll","Price is Right Pusher","Prize Aquarium","Prize Box","Prize Cube","Prize Factory","Prize Hub","Prize Hub XL","Prize Locker","Prize Party","Prize Quest","Prize Time","Pull My Finger","Pump It Up","Pump It Up LX","Pump It Up NX","Pump It Up Phoenix","Pump It Up Prime","Pump It Up Prime 2","Pushing Points","Quad Air Hockey","Quarterback Pro","Quick Shot","Quik Drop","Rabbids & Ladders","Rabbids: Hollywood","Raptor Captor","Razing Storm","Red Cup Challenge","Red Hot","Red Zone Rush","Rick and Morty","Rilix VR Coaster","Ring Toss","Road Trip","Rock the Rim","Rooster N' Bro 2 DX","Safe Cracker","Sailor's Quest VR","SB Bikini Bottom","SB Ticket Coaster","Scooby-Doo","Screwball","Sea Wolf","Shell Game","Ship Wreck","Showtime Console","Showtime Crane","Showtime Stacked","Sink It","Sink It Shootout","Skee-Ball Classic","Skee-Ball Glow","Skill Fall Revolution","Skull of Shadow","Slam-a-Winner","Slam-a-Winner Extreme","Slugger's Alley","Smart Cube","Smart Ticket Ring Crane","Smash DX","Smash 'n Win","Snaky Tickets","SnoCross","Snowball Toss","Snowboarder","Sonic Blast Ball","Sonic Dash","Space Ballz","Space Invaders Frenzy","Space Raider","Speed Demon","Speed of Light","Speed Rider 3DX","Speed Rider 4DX","Spider-Man","Spin 'n Win","Spin 'n Win Deluxe","Spin Zone Bumper Cars","Spinner Frenzy","Splash Island Bumper Boats","SpongeBob BikiniBottom","SpongeBob Dynamic Duo VR","SpongeBob Pineapple","SpongeBob Soccer Stars","SpongeBob VR Coaster","SpongeBob Wacky Racer","Stack 'n Grab","Stacker","Star Wars Battle Pod","Star Wars Pusher","Starship Ride","Stop the Drop","Strike Hook","Subway Surfer","Super Air Blaster","Super Alpine Racer","Super Bikes 2","Super Bikes 3","Super Blaster!","Super Cars","Super Chexx","Super Drill","Super Kixx","Super Rider","Super Shot","Sweet Shoppe","Sweet Stuff","Swing & Smash","Taj Mahal Giant Crane","Taj Mahal Ticket Ring Crane","Target Bravo","Temple Run","Terminator Salvation","The Big One Crane","The Big One X-Treme","The Giant Crane","The Really Big Crane","The Vault","The Wizard of Oz","Thunder Road Go Karts","Tic Shaq Toe","Ticket Champ","Ticket Dome","Ticket Monster","Ticket Time","Ticket World","Tight Rope","Tilt 'n Shout","Timberman","Time 4 Tickets","Time Crisis 4","Time Crisis 5","Time Out","TMNT Arcade","To Tha Net","To The Net Jr.","Tomb Raider","Tons of Tickets","Top Gun: Maverick","Tornado","Tower Island","Tower of Tickets","Toy Box","Toy Soldier","Transformers Arcade","Transformers DLX","Treasure Quest","Trolls Tower of Tickets","Tundra Toss","Tutti Fruitti","Twister","Typhoon","UFO Catcher","Ultimate Shot","Virtual Rabbids","VR Agent","VW Bus Crane","Walking Dead","Whack 'n Win","Whack-a-Clown","Wheel of Fortune","Wicked Tuna","Wild West Shootout","Willy Crash","Willy Wonka","Winner's Cube","Wizard of Oz","Wizard of Oz: Emerald City","Wonder Claw 31\"","Wonder Claw 49\"","Wonder Claw Mini","World Football Pro","World's Largest PacMan/Galaga","X-Prize","Yahtzee","Ye Rockin' Tug","Yeti Go!","Zany Zoo","Zoltar","Zombie Land VR","Zombie Snatcher","Zoo Catcher"];
+
 let surveys = [];
 let mcCount = 0;
+let lastSynced = null;
+let nextRefreshTime = null;
+let countdownInterval = null;
+let autoRefreshTimeout = null;
 
 function showPage(id, btn) {
   document.querySelectorAll('.pg').forEach(p=>p.classList.remove('active'));
@@ -255,6 +555,24 @@ function setSync(s,msg){
   l.textContent=msg;
 }
 
+function updateCountdown(){
+  if(!nextRefreshTime) return;
+  const remaining=nextRefreshTime-Date.now();
+  if(remaining<=0){loadData();return;}
+  const h=Math.floor(remaining/3600000);
+  const m=Math.floor((remaining%3600000)/60000);
+  document.getElementById('syncNext').textContent=lastSynced?'Synced '+lastSynced+' \u00B7 next in '+h+'h '+m+'m':'Next in '+h+'h '+m+'m';
+}
+
+function scheduleAutoRefresh(){
+  if(countdownInterval) clearInterval(countdownInterval);
+  if(autoRefreshTimeout) clearTimeout(autoRefreshTimeout);
+  nextRefreshTime=Date.now()+AUTO_REFRESH_MS;
+  countdownInterval=setInterval(updateCountdown,60000);
+  autoRefreshTimeout=setTimeout(()=>{loadData();},AUTO_REFRESH_MS);
+  updateCountdown();
+}
+
 async function loadData(){
   setSync('sync','Syncing...');
   try{
@@ -263,21 +581,12 @@ async function loadData(){
     if(!res.ok) throw new Error('HTTP '+res.status);
     const data=await res.json();
     const rows=(data.values||[]).slice(1);
-    surveys=rows.map(r=>({
-      id:r[0]||'',date:r[1]||'',location:r[2]||'',tech:r[3]||'',
-      region:r[4]||'',stations:parseInt(r[5])||0,period:r[6]||'',
-      surveydata:r[7]?tryParse(r[7]):{},
-    }));
+    surveys=rows.map(r=>({id:r[0]||'',date:r[1]||'',location:r[2]||'',tech:r[3]||'',region:r[4]||'',stations:parseInt(r[5])||0,period:r[6]||'',surveydata:r[7]?tryParse(r[7]):{}}));
+    lastSynced=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
     setSync('on','Connected \u00B7 '+surveys.length+' surveys');
-    populateFilters();
-    renderDash();
-    renderHistory();
-    if(surveys.length>0) toast('Loaded '+surveys.length+' surveys');
-    else setSync('on','Connected \u00B7 Ready');
-  }catch(e){
-    setSync('err','Connection error');
-    toast('Could not connect: '+e.message,'err');
-  }
+    populateFilters();renderDash();renderHistory();scheduleAutoRefresh();
+    toast(surveys.length>0?'Loaded '+surveys.length+' surveys':'Connected \u2014 ready');
+  }catch(e){setSync('err','Connection error');toast('Could not connect: '+e.message,'err');}
 }
 
 function tryParse(s){try{return JSON.parse(s);}catch{return{};}}
@@ -290,26 +599,18 @@ async function appendRow(row){
     if(!res.ok) throw new Error('HTTP '+res.status);
     setSync('on','Connected \u00B7 '+surveys.length+' surveys');
     return true;
-  }catch(e){
-    setSync('err','Save error');
-    toast('Save failed: '+e.message,'err');
-    return false;
-  }
+  }catch(e){setSync('err','Save error');toast('Save failed: '+e.message,'err');return false;}
 }
 
 function populateFilters(){
   const regions=[...new Set(surveys.map(s=>s.region).filter(Boolean))].sort();
   const locs=[...new Set(surveys.map(s=>s.location).filter(Boolean))].sort();
   ['df-region','hist-region'].forEach(id=>{
-    const el=document.getElementById(id);
-    const v=el.value;
-    el.innerHTML='<option value="">All Regions</option>'+regions.map(r=>`<option value="${r}">${r}</option>`).join('');
-    el.value=v;
+    const el=document.getElementById(id);const v=el.value;
+    el.innerHTML='<option value="">All Regions</option>'+regions.map(r=>`<option value="${r}">${r}</option>`).join('');el.value=v;
   });
-  const dl=document.getElementById('df-loc');
-  const lv=dl.value;
-  dl.innerHTML='<option value="">All Locations</option>'+locs.map(l=>`<option value="${l}">${l}</option>`).join('');
-  dl.value=lv;
+  const dl=document.getElementById('df-loc');const lv=dl.value;
+  dl.innerHTML='<option value="">All Locations</option>'+locs.map(l=>`<option value="${l}">${l}</option>`).join('');dl.value=lv;
 }
 
 function getRange(period){
@@ -362,7 +663,7 @@ function renderDash(){
   const rec=[...f].sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,5);
   const re=document.getElementById('recent-list');
   if(!rec.length){re.innerHTML='<div class="empty-state"><div class="empty-ico">&#x1F4CB;</div><div>No surveys yet</div></div>';}
-  else{re.innerHTML=`<table style="width:100%;font-size:13px;border-collapse:collapse;"><tr style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--mu);"><th style="padding:5px 8px;text-align:left;">Date</th><th style="padding:5px 8px;text-align:left;">Location</th><th style="padding:5px 8px;text-align:left;">Name</th><th style="padding:5px 8px;text-align:left;">Units</th></tr>${rec.map(s=>`<tr><td style="padding:8px;border-bottom:1px solid var(--bdr);">${s.date}</td><td style="padding:8px;border-bottom:1px solid var(--bdr);">${s.location}</td><td style="padding:8px;border-bottom:1px solid var(--bdr);">${s.tech}</td><td style="padding:8px;border-bottom:1px solid var(--bdr);color:var(--acc);">${s.stations}</td></tr>`).join('')}</table>`;}
+  else{re.innerHTML=`<table style="width:100%;font-size:13px;border-collapse:collapse;"><tr style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--mu);"><th style="padding:5px 8px;text-align:left;">Date</th><th style="padding:5px 8px;text-align:left;">Location</th><th style="padding:5px 8px;text-align:left;">Name</th><th style="padding:5px 8px;text-align:left;">Units</th></tr>${rec.map(s=>`<tr><td style="padding:8px;border-bottom:1px solid var(--bdr);">${s.date}</td><td style="padding:8px;border-bottom:1px solid var(--bdr);font-size:11px;">${s.location}</td><td style="padding:8px;border-bottom:1px solid var(--bdr);">${s.tech}</td><td style="padding:8px;border-bottom:1px solid var(--bdr);color:var(--acc);">${s.stations}</td></tr>`).join('')}</table>`;}
 }
 
 function renderHistory(){
@@ -378,7 +679,11 @@ function renderHistory(){
   if(!f.length){tb.innerHTML='';em.style.display='block';return;}
   em.style.display='none';
   const iss=s=>s.surveydata&&s.surveydata.machines?s.surveydata.machines.filter(m=>m.status&&m.status!=='OK').length:0;
-  tb.innerHTML=f.map(s=>{const i=iss(s);return`<tr><td>${s.date}</td><td>${s.location}</td><td>${s.tech}</td><td>${s.region}</td><td style="color:var(--acc)">${s.stations}</td><td style="color:var(--mu)">${s.period}</td><td>${i>0?`<span class="badge badge-r">${i} issues</span>`:'<span class="badge badge-g">Clean</span>'}</td><td style="color:var(--mu);font-size:12px;">${s.surveydata&&s.surveydata.notes?s.surveydata.notes:''}</td></tr>`;}).join('');
+  tb.innerHTML=f.map(s=>{const i=iss(s);return`<tr><td>${s.date}</td><td style="font-size:12px;">${s.location}</td><td>${s.tech}</td><td>${s.region}</td><td style="color:var(--acc)">${s.stations}</td><td style="color:var(--mu)">${s.period}</td><td>${i>0?`<span class="badge badge-r">${i} issues</span>`:'<span class="badge badge-g">Clean</span>'}</td><td style="color:var(--mu);font-size:12px;">${s.surveydata&&s.surveydata.notes?s.surveydata.notes:''}</td></tr>`;}).join('');
+}
+
+function buildGameSelect(){
+  return '<select class="mc-game"><option value="">-- Select Game --</option>'+GAME_TITLES.map(g=>`<option value="${g}">${g}</option>`).join('')+'</select>';
 }
 
 function addMachine(){
@@ -386,13 +691,14 @@ function addMachine(){
   const id='mc-'+mcCount;
   const div=document.createElement('div');
   div.className='mc-row';div.id=id;
-  div.innerHTML=`<input type="text" placeholder="Machine name" class="mc-name"><select class="mc-status"><option value="OK">OK</option><option value="Issue">Issue</option><option value="Down">Down</option><option value="Needs Parts">Needs Parts</option></select><input type="number" placeholder="Tickets" min="0" class="mc-tickets"><input type="text" placeholder="Notes" class="mc-notes"><button class="del-btn" onclick="document.getElementById('${id}').remove()">&#x2715;</button>`;
+  div.innerHTML=`${buildGameSelect()}<select class="mc-status"><option value="OK">OK</option><option value="Issue">Issue</option><option value="Down">Down</option><option value="Needs Parts">Needs Parts</option></select><input type="number" placeholder="Tickets" min="0" class="mc-tickets"><input type="text" placeholder="Notes" class="mc-notes"><button class="del-btn" onclick="document.getElementById('${id}').remove()">&#x2715;</button>`;
   document.getElementById('machine-list').appendChild(div);
 }
 
 function clearForm(){
-  ['f-tech','f-location','f-period','f-notes'].forEach(id=>document.getElementById(id).value='');
+  ['f-tech','f-period','f-notes'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('f-date').value=new Date().toISOString().slice(0,10);
+  document.getElementById('f-location').value='';
   document.getElementById('f-region').value='';
   document.getElementById('f-stations').value='';
   document.getElementById('machine-list').innerHTML='';
@@ -403,7 +709,7 @@ function clearForm(){
 async function submitSurvey(){
   const tech=document.getElementById('f-tech').value.trim();
   const date=document.getElementById('f-date').value;
-  const loc=document.getElementById('f-location').value.trim();
+  const loc=document.getElementById('f-location').value;
   const region=document.getElementById('f-region').value;
   const stations=document.getElementById('f-stations').value;
   const period=document.getElementById('f-period').value.trim();
@@ -415,7 +721,7 @@ async function submitSurvey(){
   document.getElementById('survey-notice').innerHTML='';
   const machines=[];
   document.querySelectorAll('#machine-list .mc-row').forEach(row=>{
-    const name=row.querySelector('.mc-name').value.trim();
+    const name=row.querySelector('.mc-game').value;
     if(name) machines.push({name,status:row.querySelector('.mc-status').value,tickets:row.querySelector('.mc-tickets').value||'0',notes:row.querySelector('.mc-notes').value||''});
   });
   const id='S'+Date.now();
@@ -426,9 +732,8 @@ async function submitSurvey(){
     surveys.push({id,date,location:loc,tech,region,stations:parseInt(stations)||0,period,surveydata:{notes,machines}});
     setSync('on','Connected \u00B7 '+surveys.length+' surveys');
     toast('Survey saved!');
-    document.getElementById('survey-notice').innerHTML='<div class="notice ok">Survey saved successfully!</div>';
-    clearForm();
-    addMachine();
+    document.getElementById('survey-notice').innerHTML='<div class="notice ok">&#x2713; Survey saved successfully!</div>';
+    clearForm();addMachine();
   }
 }
 
