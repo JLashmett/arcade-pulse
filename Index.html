@@ -119,6 +119,28 @@ tr:hover td{background:rgba(255,255,255,.02);}
 .search-box{background:var(--surf2);border:1px solid var(--bdr);color:var(--tx);padding:8px 13px;border-radius:10px;font-family:var(--font-b);font-size:13px;}
 .search-box:focus{outline:none;border-color:rgba(34,211,165,.4);}
 @media(max-width:680px){.kpi-row{grid-template-columns:1fr 1fr;}.two-col,.form-grid{grid-template-columns:1fr;}.capp-row{grid-template-columns:1fr 1fr;}.nav-btn{padding:5px 8px;font-size:11px;}}
+
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;backdrop-filter:blur(4px);overflow-y:auto;padding:20px;}
+.modal-overlay.open{display:flex;align-items:flex-start;justify-content:center;}
+.modal{background:var(--surf);border:1px solid var(--bdr);border-radius:16px;width:100%;max-width:780px;margin:auto;padding:24px;position:relative;}
+.modal-close{position:absolute;top:14px;right:16px;background:none;border:none;color:var(--mu);font-size:20px;cursor:pointer;padding:4px 8px;border-radius:6px;transition:all .2s;}
+.modal-close:hover{color:var(--danger);background:rgba(239,68,68,.1);}
+.modal-title{font-family:var(--font-d);font-size:22px;letter-spacing:2px;margin-bottom:4px;}
+.modal-meta{font-size:12px;color:var(--mu);margin-bottom:18px;}
+.modal-score{display:flex;align-items:center;gap:14px;background:var(--surf2);border-radius:12px;padding:14px 18px;margin-bottom:18px;}
+.modal-score-big{font-family:var(--font-d);font-size:44px;letter-spacing:2px;}
+.modal-machines{display:flex;flex-direction:column;gap:10px;}
+.modal-machine{background:var(--surf2);border:1px solid var(--bdr);border-radius:10px;padding:12px 14px;}
+.modal-machine-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.modal-machine-name{font-weight:600;font-size:14px;}
+.modal-machine-score{font-family:var(--font-d);font-size:18px;}
+.modal-capp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+.modal-capp-item{display:flex;flex-direction:column;gap:2px;}
+.modal-capp-lbl{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--mu);}
+.modal-capp-val{font-size:12px;font-weight:600;}
+.modal-machine-notes{margin-top:8px;font-size:12px;color:var(--mu);font-style:italic;}
+.hist-row-link{cursor:pointer;}
+.hist-row-link:hover td{background:rgba(34,211,165,.05) !important;}
 </style>
 </head>
 <body>
@@ -193,11 +215,11 @@ tr:hover td{background:rgba(255,255,255,.02);}
         <div class="form-group full"><label>Location</label>
           <select id="f-location"><option value="">-- Select Location --</option></select>
         </div>
-        <div class="form-group"><label>Sr. Region</label>
+        <div class="form-group"><label>Region</label>
           <select id="f-region"><option value="">Select Region</option><option>Northeast</option><option>Southeast</option><option>Midwest</option><option>Southwest</option><option>West</option><option>Northwest</option></select>
         </div>
         <div class="form-group"><label>Total Stations</label><input type="number" id="f-stations" placeholder="0" min="0"></div>
-        <div class="form-group"><label>Period</label><input type="text" id="f-period"></div>
+
         <div class="form-group full"><label>General Notes</label><textarea id="f-notes" placeholder="General observations..."></textarea></div>
       </div>
       <div class="machines-section">
@@ -399,7 +421,7 @@ function renderHistory(){
   if(!f.length){tb.innerHTML='';em.style.display='block';return;}
   em.style.display='none';
   const mc=s=>s.surveydata&&s.surveydata.machines?s.surveydata.machines.length:0;
-  tb.innerHTML=f.map(s=>{const ti=tierInfo(s.cappScore);return'<tr><td>'+s.date+'</td><td style="font-size:12px;">'+s.location+'</td><td>'+s.tech+'</td><td>'+s.region+'</td><td style="color:var(--acc)">'+mc(s)+'</td><td style="color:'+ti.color+';font-family:var(--font-d);font-size:18px;">'+(s.cappScore!==null?s.cappScore+'%':'--')+'</td><td>'+(ti.bc?'<span class="badge '+ti.bc+'">'+ti.tier+'</span>':'')+'</td><td style="color:var(--mu);font-size:12px;">'+(s.surveydata&&s.surveydata.notes?s.surveydata.notes:'')+'</td></tr>';}).join('');
+  tb.innerHTML=f.map((s,i)=>{const ti=tierInfo(s.cappScore);const idx=surveys.indexOf(s);return'<tr class="hist-row-link" onclick="openSurveyModal('+idx+')"><td>'+s.date+'</td><td style="font-size:12px;">'+s.location+'</td><td>'+s.tech+'</td><td>'+s.region+'</td><td style="color:var(--acc)">'+mc(s)+'</td><td style="color:'+ti.color+';font-family:var(--font-d);font-size:18px;">'+(s.cappScore!==null?s.cappScore+'%':'--')+'</td><td>'+(ti.bc?'<span class="badge '+ti.bc+'">'+ti.tier+'</span>':'')+'</td><td style="color:var(--mu);font-size:12px;">'+(s.surveydata&&s.surveydata.notes?s.surveydata.notes:'')+'</td></tr>';}).join('');
 }
 function updateLiveScore(){
   const machines=gatherMachines();
@@ -449,7 +471,7 @@ function updateMachineScore(card,cardId){
   else{badge.textContent='--';badge.style.color='var(--acc)';badge.style.background='rgba(34,211,165,.08)';badge.style.borderColor='rgba(34,211,165,.2)';}
 }
 function clearForm(){
-  ['f-tech','f-period','f-notes'].forEach(id=>document.getElementById(id).value='');
+  ['f-tech','f-notes'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('f-date').value=new Date().toISOString().slice(0,10);
   document.getElementById('f-location').value='';
   document.getElementById('f-region').value='';
@@ -464,7 +486,7 @@ async function submitSurvey(){
   const loc=document.getElementById('f-location').value;
   const region=document.getElementById('f-region').value;
   const stations=document.getElementById('f-stations').value;
-  const period=document.getElementById('f-period').value.trim();
+  const period='';
   const notes=document.getElementById('f-notes').value.trim();
   if(!tech||!date||!loc){document.getElementById('survey-notice').innerHTML='<div class="notice err">Please fill in Name, Date, and Location.</div>';return;}
   document.getElementById('survey-notice').innerHTML='<div class="notice ok">Saving...</div>';
@@ -485,9 +507,45 @@ async function submitSurvey(){
 }
 document.getElementById('f-date').value=new Date().toISOString().slice(0,10);
 const _t=new Date();
-document.getElementById('f-period').value='Week '+String(_t.getMonth()+1).padStart(2,'0')+'.'+String(_t.getDate()).padStart(2,'0')+'.'+String(_t.getFullYear()).slice(2);
+
 addMachine();
 loadData();
+
+function closeModal(e){if(e.target===document.getElementById('survey-modal')) document.getElementById('survey-modal').classList.remove('open');}
+
+function openSurveyModal(idx){
+  const s=surveys[idx];
+  if(!s) return;
+  const ti=tierInfo(s.cappScore);
+  document.getElementById('modal-title').textContent=s.location;
+  document.getElementById('modal-meta').textContent=s.date+' · '+s.tech+(s.region?' · '+s.region:'')+(s.stations?' · '+s.stations+' stations':'');
+  document.getElementById('modal-score-bar').innerHTML='<div class="modal-score-big" style="color:'+ti.color+'">'+(s.cappScore!==null?s.cappScore+'%':'--')+'</div><div><div class="score-tier" style="color:'+ti.color+';background:'+ti.bg+';border:1px solid '+ti.color+';display:inline-block;margin-bottom:6px;">'+(s.cappScore!==null?ti.tier:'No score')+'</div><div class="score-meter-track" style="width:220px;"><div class="score-meter-fill" style="width:'+(s.cappScore||0)+'%;background:'+ti.color+';height:8px;border-radius:6px;"></div></div></div>';
+  const machines=(s.surveydata&&s.surveydata.machines)||[];
+  const CAPP_W={C:.15,A:.30,P1:.30,P2:.25};
+  const cappLabel={C:'Cleanliness',A:'Activation',P1:'Playability',P2:'Presentation'};
+  document.getElementById('modal-machines').innerHTML=machines.length?machines.map(m=>{
+    let ms=0,mw=0;
+    ['C','A','P1','P2'].forEach(k=>{if(m[k]!==null&&m[k]!==undefined){ms+=m[k]*CAPP_W[k];mw+=CAPP_W[k];}});
+    const mscore=mw>0?Math.round((ms/mw)*100):null;
+    const mti=tierInfo(mscore);
+    return '<div class="modal-machine"><div class="modal-machine-top"><div class="modal-machine-name">'+m.name+'</div><div class="modal-machine-score" style="color:'+mti.color+'">'+(mscore!==null?mscore+'%':'--')+'</div></div><div class="modal-capp-grid">'+['C','A','P1','P2'].map(k=>{const v=m[k];const col=v===1?'var(--acc)':v===0?'var(--danger)':'var(--mu)';return '<div class="modal-capp-item"><div class="modal-capp-lbl">'+cappLabel[k]+'</div><div class="modal-capp-val" style="color:'+col+'">'+(v===1?'Yes':v===0?'No':'--')+'</div></div>';}).join('')+'</div>'+(m.notes?'<div class="modal-machine-notes">'+m.notes+'</div>':'')+'</div>';
+  }).join(''):'<div style="color:var(--mu);font-size:13px;">No machines recorded</div>';
+  document.getElementById('modal-notes').innerHTML=s.surveydata&&s.surveydata.notes?'<strong>Notes:</strong> '+s.surveydata.notes:'';
+  document.getElementById('survey-modal').classList.add('open');
+}
+
 </script>
+
+<div class="modal-overlay" id="survey-modal" onclick="closeModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('survey-modal').classList.remove('open')">&times;</button>
+    <div class="modal-title" id="modal-title"></div>
+    <div class="modal-meta" id="modal-meta"></div>
+    <div class="modal-score" id="modal-score-bar"></div>
+    <div class="card-title" style="font-size:15px;margin-bottom:10px;">Machine CAPP Results</div>
+    <div class="modal-machines" id="modal-machines"></div>
+    <div id="modal-notes" style="margin-top:14px;font-size:13px;color:var(--mu);"></div>
+  </div>
+</div>
 </body>
 </html>
