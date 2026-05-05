@@ -309,16 +309,24 @@ function scheduleAutoRefresh(){
 async function loadData(){
   setSync('sync','Syncing...');
   try{
-    const res=await fetch(SCRIPT_URL);
+    const res=await fetch(SCRIPT_URL+'?t='+Date.now());
+    const raw=await res.text();
+    console.log('Raw response:',raw.substring(0,200));
+    let data;
+    try{data=JSON.parse(raw);}catch(pe){throw new Error('Bad JSON: '+raw.substring(0,100));}
     if(!res.ok) throw new Error('HTTP '+res.status);
-    const data=await res.json();
     const rows=(data.values||[]).slice(1);
     surveys=rows.map(r=>({id:r[0]||'',date:r[1]||'',location:r[2]||'',tech:r[3]||'',region:r[4]||'',stations:parseInt(r[5])||0,period:r[6]||'',surveydata:r[7]?tryParse(r[7]):{},cappScore:r[8]!==undefined&&r[8]!==''?parseFloat(r[8]):null}));
     lastSynced=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
     setSync('on','Connected \u00B7 '+surveys.length+' surveys');
     populateFilters();renderDash();renderHistory();scheduleAutoRefresh();
     toast(surveys.length>0?'Loaded '+surveys.length+' surveys':'Connected \u2014 ready');
-  }catch(e){setSync('err','Connection error');toast('Could not connect: '+e.message,'err');}
+  }catch(e){
+    console.error('loadData error:',e);
+    setSync('err',e.message.substring(0,40));
+    document.getElementById('syncNext').textContent='Open browser console for details';
+    toast('Error: '+e.message.substring(0,60),'err');
+  }
 }
 async function appendRow(row){
   setSync('sync','Saving...');
@@ -498,14 +506,14 @@ async function submitSurvey(){
   document.querySelectorAll('#machine-list .mc-card').forEach(card=>{
     const name=card.querySelector('.mc-game').value;
     if(!name) return;
-    const notes=card.querySelector('.mc-notes-inp').value.trim();
+    const machineNotes=card.querySelector('.mc-notes-inp').value.trim();
     const noAnswers=[];
     const lblMap={C:'Cleanliness',A:'Activation',P1:'Playability',P2:'Presentation'};
     ['C','A','P1','P2'].forEach(key=>{
       const active=card.querySelector('.yn-btn[data-key="'+key+'"].active');
       if(active&&active.classList.contains('no')) noAnswers.push(lblMap[key]);
     });
-    if(noAnswers.length>0&&!notes){
+    if(noAnswers.length>0&&!machineNotes){
       card.querySelector('.mc-notes-inp').classList.add('notes-required');
       violations.push({name,fields:noAnswers});
     } else {
