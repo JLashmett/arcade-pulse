@@ -141,6 +141,10 @@ tr:hover td{background:rgba(255,255,255,.02);}
 .modal-machine-notes{margin-top:8px;font-size:12px;color:var(--mu);font-style:italic;}
 .hist-row-link{cursor:pointer;}
 .hist-row-link:hover td{background:rgba(34,211,165,.05) !important;}
+
+.mc-notes-inp.notes-required{border-color:var(--danger)!important;box-shadow:0 0 0 3px rgba(239,68,68,.15)!important;}
+.notes-warn{font-size:11px;color:var(--danger);margin-top:3px;display:none;}
+.notes-warn.show{display:block;}
 </style>
 </head>
 <body>
@@ -447,7 +451,7 @@ function addMachine(){
   const div=document.createElement('div');
   div.className='mc-card';div.id=id;
   const opts='<option value="">-- Select Game --</option>'+GAMES.map(g=>'<option value="'+g+'">'+g+'</option>').join('');
-  div.innerHTML='<div class="mc-top"><select class="mc-game" onchange="updateLiveScore()">'+opts+'</select><div class="mc-score-badge" id="mcs-'+id+'">--</div><button class="mc-del" onclick="document.getElementById(\''+id+'\').remove();updateLiveScore()">\u2715</button></div><div class="capp-row"><div class="capp-item"><div class="capp-label">Cleanliness<span class="capp-weight"> 15%</span></div><div class="yn-btns"><button class="yn-btn yes" data-key="C" onclick="toggleYN(this,\''+id+'\')">Yes</button><button class="yn-btn no" data-key="C" onclick="toggleYN(this,\''+id+'\')">No</button></div></div><div class="capp-item"><div class="capp-label">Activation<span class="capp-weight"> 30%</span></div><div class="yn-btns"><button class="yn-btn yes" data-key="A" onclick="toggleYN(this,\''+id+'\')">Yes</button><button class="yn-btn no" data-key="A" onclick="toggleYN(this,\''+id+'\')">No</button></div></div><div class="capp-item"><div class="capp-label">Playability<span class="capp-weight"> 30%</span></div><div class="yn-btns"><button class="yn-btn yes" data-key="P1" onclick="toggleYN(this,\''+id+'\')">Yes</button><button class="yn-btn no" data-key="P1" onclick="toggleYN(this,\''+id+'\')">No</button></div></div><div class="capp-item"><div class="capp-label">Presentation<span class="capp-weight"> 25%</span></div><div class="yn-btns"><button class="yn-btn yes" data-key="P2" onclick="toggleYN(this,\''+id+'\')">Yes</button><button class="yn-btn no" data-key="P2" onclick="toggleYN(this,\''+id+'\')">No</button></div></div></div><div class="mc-notes-row"><input type="text" class="mc-notes-inp" placeholder="Notes for this machine..."></div>';
+  div.innerHTML='<div class="mc-top"><select class="mc-game" onchange="updateLiveScore()">'+opts+'</select><div class="mc-score-badge" id="mcs-'+id+'">--</div><button class="mc-del" onclick="document.getElementById(\''+id+'\').remove();updateLiveScore()">\u2715</button></div><div class="capp-row"><div class="capp-item"><div class="capp-label">Cleanliness<span class="capp-weight"> 15%</span></div><div class="yn-btns"><button class="yn-btn yes" data-key="C" onclick="toggleYN(this,\''+id+'\')">Yes</button><button class="yn-btn no" data-key="C" onclick="toggleYN(this,\''+id+'\')">No</button></div></div><div class="capp-item"><div class="capp-label">Activation<span class="capp-weight"> 30%</span></div><div class="yn-btns"><button class="yn-btn yes" data-key="A" onclick="toggleYN(this,\''+id+'\')">Yes</button><button class="yn-btn no" data-key="A" onclick="toggleYN(this,\''+id+'\')">No</button></div></div><div class="capp-item"><div class="capp-label">Playability<span class="capp-weight"> 30%</span></div><div class="yn-btns"><button class="yn-btn yes" data-key="P1" onclick="toggleYN(this,\''+id+'\')">Yes</button><button class="yn-btn no" data-key="P1" onclick="toggleYN(this,\''+id+'\')">No</button></div></div><div class="capp-item"><div class="capp-label">Presentation<span class="capp-weight"> 25%</span></div><div class="yn-btns"><button class="yn-btn yes" data-key="P2" onclick="toggleYN(this,\''+id+'\')">Yes</button><button class="yn-btn no" data-key="P2" onclick="toggleYN(this,\''+id+'\')">No</button></div></div></div><div class="mc-notes-row"><input type="text" class="mc-notes-inp" oninput="this.classList.remove('notes-required')" placeholder="Notes for this machine..."></div>';
   document.getElementById('machine-list').appendChild(div);
 }
 function toggleYN(btn,cardId){
@@ -489,6 +493,31 @@ async function submitSurvey(){
   const period='';
   const notes=document.getElementById('f-notes').value.trim();
   if(!tech||!date||!loc){document.getElementById('survey-notice').innerHTML='<div class="notice err">Please fill in Name, Date, and Location.</div>';return;}
+  // Validate: if any CAPP answer is No, notes must be present
+  const violations=[];
+  document.querySelectorAll('#machine-list .mc-card').forEach(card=>{
+    const name=card.querySelector('.mc-game').value;
+    if(!name) return;
+    const notes=card.querySelector('.mc-notes-inp').value.trim();
+    const noAnswers=[];
+    const lblMap={C:'Cleanliness',A:'Activation',P1:'Playability',P2:'Presentation'};
+    ['C','A','P1','P2'].forEach(key=>{
+      const active=card.querySelector('.yn-btn[data-key="'+key+'"].active');
+      if(active&&active.classList.contains('no')) noAnswers.push(lblMap[key]);
+    });
+    if(noAnswers.length>0&&!notes){
+      card.querySelector('.mc-notes-inp').classList.add('notes-required');
+      violations.push({name,fields:noAnswers});
+    } else {
+      card.querySelector('.mc-notes-inp').classList.remove('notes-required');
+    }
+  });
+  if(violations.length>0){
+    const list=document.getElementById('validation-list');
+    list.innerHTML=violations.map(v=>'<div style="background:var(--surf2);border:1px solid rgba(239,68,68,.3);border-radius:8px;padding:10px 14px;"><div style="font-weight:600;margin-bottom:3px;">'+v.name+'</div><div style="font-size:12px;color:var(--danger);">No answer for: '+v.fields.join(', ')+'</div></div>').join('');
+    document.getElementById('validation-modal').classList.add('open');
+    return;
+  }
   document.getElementById('survey-notice').innerHTML='<div class="notice ok">Saving...</div>';
   const machines=gatherMachines();
   const cappScore=calcCappScore(machines);
@@ -511,6 +540,8 @@ const _t=new Date();
 addMachine();
 loadData();
 
+
+function closeValidationModal(e){if(e.target===document.getElementById('validation-modal')) document.getElementById('validation-modal').classList.remove('open');}
 function closeModal(e){if(e.target===document.getElementById('survey-modal')) document.getElementById('survey-modal').classList.remove('open');}
 
 function openSurveyModal(idx){
@@ -545,6 +576,17 @@ function openSurveyModal(idx){
     <div class="card-title" style="font-size:15px;margin-bottom:10px;">Machine CAPP Results</div>
     <div class="modal-machines" id="modal-machines"></div>
     <div id="modal-notes" style="margin-top:14px;font-size:13px;color:var(--mu);"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="validation-modal" onclick="closeValidationModal(event)">
+  <div class="modal" style="max-width:480px;text-align:center;">
+    <button class="modal-close" onclick="document.getElementById('validation-modal').classList.remove('open')">&times;</button>
+    <div style="font-size:36px;margin-bottom:12px;">&#9888;&#65039;</div>
+    <div class="modal-title" style="margin-bottom:8px;">Notes Required</div>
+    <div style="font-size:14px;color:var(--mu);margin-bottom:18px;">The following machines have a <strong style="color:var(--danger);">No</strong> answer but are missing notes. Please explain the issue before saving.</div>
+    <div id="validation-list" style="text-align:left;margin-bottom:18px;display:flex;flex-direction:column;gap:8px;"></div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="document.getElementById('validation-modal').classList.remove('open')">Go Back &amp; Add Notes</button>
   </div>
 </div>
 </body>
